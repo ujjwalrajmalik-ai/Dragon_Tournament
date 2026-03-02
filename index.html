@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon Tournaments | Hall of Fame</title>
+    <!-- External Assets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Basic reset for the 404 state only */
+        body { margin: 0; padding: 0; background: #000; color: #fff; font-family: sans-serif; }
+    </style>
+</head>
+<body>
+    <!-- 
+       SECURITY NOTICE: 
+       The Content of this website is encrypted and domain-locked.
+       It will only decrypt and render if hosted at the authorized URL.
+    -->
+    <script>
+        (function(){
+            /* --- CONFIGURATION --- */
+            // The specific URL required to decrypt the site
+            const _authorizedRoot = "https://ujjwalrajmalik-ai.github.io/Dragon_Tournament/";
+
+            /* --- PAYLOADS (ENCRYPTED HTML & CSS) --- */
+            // Encrypted CSS Data
+            const _0xCSS = "%2F*%20Base%20%26%20Resets%20%2B%20Security%20CSS%20*%2F%0A%20%20%20%20%20%20%20%20*%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin%3A%200%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%200%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-sizing%3A%20border-box%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-family%3A%20'Segoe%20UI'%2C%20Tahoma%2C%20Geneva%2C%20Verdana%2C%20sans-serif%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20-webkit-tap-highlight-color%3A%20transparent%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20-webkit-touch-callout%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20-webkit-user-select%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20-khtml-user-select%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20-moz-user-select%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20-ms-user-select%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20user-select%3A%20none%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Re-enable%20text%20selection%20ONLY%20for%20inputs%20*%2F%0A%20%20%20%20%20%20%20%20input%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20-webkit-user-select%3A%20text%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20-khtml-user-select%3A%20text%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20-moz-user-select%3A%20text%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20-ms-user-select%3A%20text%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20user-select%3A%20text%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20body%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20background-color%3A%20%23000000%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23ffffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20min-height%3A%20100vh%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20overflow-x%3A%20hidden%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2F*%20Padding%20top%20to%20account%20for%20fixed%20header%20*%2F%0A%20%20%20%20%20%20%20%20%20%20%20%20padding-top%3A%2070px%3B%20%0A%20%20%20%20%20%20%20%20%20%20%20%20padding-bottom%3A%2050px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Global%20Fixed%20App%20Header%20*%2F%0A%20%20%20%20%20%20%20%20.app-header%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20fixed%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20top%3A%200%3B%20left%3A%200%3B%20width%3A%20100%25%3B%20height%3A%2070px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20rgba(10%2C%2010%2C%2010%2C%200.85)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20backdrop-filter%3A%20blur(15px)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-bottom%3A%201px%20solid%20rgba(255%2C%20255%2C%20255%2C%200.1)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20justify-content%3A%20space-between%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%200%2020px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20z-index%3A%20900%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%202px%2015px%20rgba(0%2C%200%2C%200%2C%200.8)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.header-title-img%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20height%3A%2040px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20auto%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%205px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%200%2010px%20rgba(255%2C%200%2C%200%2C%200.3)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.header-action-btn%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23fff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2022px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20transition%3A%20all%200.3s%20ease%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-shadow%3A%200%200%2010px%20rgba(255%2C%20255%2C%20255%2C%200.5)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20gap%3A%208px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20.header-action-btn%3Ahover%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%2300ffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-shadow%3A%200%200%2015px%20%2300ffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20transform%3A%20scale(1.1)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.header-action-text%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2014px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-transform%3A%20uppercase%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20none%3B%20%2F*%20Hidden%20on%20very%20small%20screens%2C%20shown%20on%20%3E400px%20*%2F%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%40media(min-width%3A%20400px)%20%7B%20.header-action-text%20%7B%20display%3A%20block%3B%20%7D%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Home%20View%20Container%20*%2F%0A%20%20%20%20%20%20%20%20%23home-view%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20animation%3A%20fadeIn%200.4s%20ease%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.main-logo%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20120px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20height%3A%20auto%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-top%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-bottom%3A%2030px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20filter%3A%20drop-shadow(0%200%2015px%20rgba(255%2C%20255%2C%20255%2C%200.2))%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20animation%3A%20float%204s%20ease-in-out%20infinite%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%40keyframes%20float%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%200%25%20%7B%20transform%3A%20translateY(0px)%3B%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%2050%25%20%7B%20transform%3A%20translateY(-10px)%3B%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20100%25%20%7B%20transform%3A%20translateY(0px)%3B%20%7D%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Search%20View%20Container%20(Black%20Overlay)%20*%2F%0A%20%20%20%20%20%20%20%20%23search-view%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20min-height%3A%20calc(100vh%20-%2070px)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background-color%3A%20%23000000%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding-top%3A%2030px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20animation%3A%20fadeIn%200.3s%20ease%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.search-input-wrapper%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%2090%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20max-width%3A%20500px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-bottom%3A%2030px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.live-search-bar%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%2018px%2025px%2018px%2050px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2018px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23fff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20rgba(25%2C%2025%2C%2025%2C%200.9)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%202px%20solid%20rgba(0%2C%20255%2C%20255%2C%200.3)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%2030px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%200%2020px%20rgba(0%2C%20255%2C%20255%2C%200.1)%20inset%2C%200%200%2015px%20rgba(0%2C%20255%2C%20255%2C%200.2)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20transition%3A%20all%200.3s%20ease%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.live-search-bar%3Afocus%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-color%3A%20%2300ffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%200%2025px%20rgba(0%2C%20255%2C%20255%2C%200.3)%20inset%2C%200%200%2020px%20rgba(0%2C%20255%2C%20255%2C%200.4)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.search-icon-inside%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20absolute%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20left%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20top%3A%2050%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20transform%3A%20translateY(-50%25)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%2300ffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2018px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.search-status%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23aaaaaa%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2014px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-bottom%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20height%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%40keyframes%20fadeIn%20%7B%20from%20%7B%20opacity%3A%200%3B%20%7D%20to%20%7B%20opacity%3A%201%3B%20%7D%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Loading%20%26%20Error%20Messages%20*%2F%0A%20%20%20%20%20%20%20%20%23status-message%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%2300ffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-shadow%3A%200%200%2010px%20%2300ffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2016px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-bottom%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-align%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20min-height%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.error%20%7B%20color%3A%20%23ff3333%20!important%3B%20text-shadow%3A%200%200%2010px%20%23ff3333%20!important%3B%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Section%20Containers%20*%2F%0A%20%20%20%20%20%20%20%20.section-container%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%2090%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20max-width%3A%20600px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-bottom%3A%2040px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20gap%3A%2015px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.section-title%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-transform%3A%20uppercase%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20letter-spacing%3A%202px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-bottom%3A%2010px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23ffffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-bottom%3A%201px%20solid%20rgba(255%2C%20255%2C%20255%2C%200.2)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding-bottom%3A%205px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-shadow%3A%200%200%2010px%20rgba(255%2C%20255%2C%20255%2C%200.5)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-align%3A%20center%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Filter%20Styles%20*%2F%0A%20%20%20%20%20%20%20%20.filter-container%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20justify-content%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-bottom%3A%2015px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20gap%3A%2010px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.filter-select%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20rgba(25%2C%2025%2C%2025%2C%200.9)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%2300ffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%201px%20solid%20rgba(0%2C%20255%2C%20255%2C%200.3)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%208px%2015px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2014px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20outline%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%200%2010px%20rgba(0%2C%20255%2C%20255%2C%200.1)%20inset%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20transition%3A%20all%200.3s%20ease%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.filter-select%3Afocus%2C%20.filter-select%3Ahover%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-color%3A%20%2300ffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%200%2015px%20rgba(0%2C%20255%2C%20255%2C%200.3)%20inset%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.filter-select%20option%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20%23000%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23fff%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Short%20Summary%20Card%20Base%20*%2F%0A%20%20%20%20%20%20%20%20.player-card%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20rgba(15%2C%2015%2C%2015%2C%200.6)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20backdrop-filter%3A%20blur(10px)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%2015px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-decoration%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23fff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20transition%3A%20all%200.3s%20ease%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.player-card-photo-wrapper%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20relative%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%2070px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20height%3A%2070px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-right%3A%2015px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20flex-shrink%3A%200%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20justify-content%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%2050%25%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.player-card-photo%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20height%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20object-fit%3A%20cover%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%2050%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20z-index%3A%202%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.player-card-info%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20flex-grow%3A%201%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20justify-content%3A%20center%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.player-card-name%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2018px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-transform%3A%20uppercase%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.player-card-uid%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2012px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%2300ffff%3B%20%2F*%20Highlighted%20UID%20in%20suggestions%20*%2F%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-bottom%3A%205px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20letter-spacing%3A%201px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.badge-container%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20gap%3A%2010px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-top%3A%205px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20flex-wrap%3A%20wrap%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.win-badge%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20rgba(255%2C%20255%2C%20255%2C%200.1)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%204px%208px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%205px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2012px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.reel-btn%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20inline-block%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%204px%2010px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20linear-gradient(45deg%2C%20%23e1306c%2C%20%23833ab4)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20white%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2011px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%2015px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-align%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%200%2010px%20rgba(225%2C%2048%2C%20108%2C%200.5)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20transition%3A%20transform%200.2s%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.reel-btn%3Ahover%20%7B%20transform%3A%20scale(1.05)%3B%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20---%20TIER%20STRUCTURAL%20DESIGNS%20(Cards)%20---%20*%2F%0A%20%20%20%20%20%20%20%20.tier-bronze%20%7B%20border%3A%201px%20solid%20%23cd7f32%3B%20border-radius%3A%208px%3B%20%7D%0A%20%20%20%20%20%20%20%20.tier-silver%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20clip-path%3A%20polygon(15px%200%2C%20100%25%200%2C%20100%25%20calc(100%25%20-%2015px)%2C%20calc(100%25%20-%2015px)%20100%25%2C%200%20100%25%2C%200%2015px)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20linear-gradient(135deg%2C%20rgba(192%2C%20192%2C%20192%2C%200.1)%200%25%2C%20rgba(30%2C%2030%2C%2030%2C%200.8)%2050%25%2C%20rgba(192%2C%20192%2C%20192%2C%200.1)%20100%25)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-left%3A%202px%20solid%20%23c0c0c0%3B%20border-bottom%3A%202px%20solid%20%23c0c0c0%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.tier-silver%3Ahover%20%7B%20background%3A%20linear-gradient(135deg%2C%20rgba(192%2C%20192%2C%20192%2C%200.2)%200%25%2C%20rgba(40%2C%2040%2C%2040%2C%200.9)%2050%25%2C%20rgba(192%2C%20192%2C%20192%2C%200.2)%20100%25)%3B%20%7D%0A%20%20%20%20%20%20%20%20.tier-gold%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%2010px%3B%20border%3A%201px%20solid%20%23ffd700%3B%20box-shadow%3A%200%200%2015px%20rgba(255%2C%20215%2C%200%2C%200.2)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20transform-style%3A%20preserve-3d%3B%20perspective%3A%201000px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.tier-gold%3Ahover%20%7B%20transform%3A%20translateY(-5px)%20rotateX(5deg)%20rotateY(-5deg)%3B%20box-shadow%3A%200%2010px%2025px%20rgba(255%2C%20215%2C%200%2C%200.4)%3B%20%7D%0A%20%20%20%20%20%20%20%20.tier-gold%20.player-card-name%20%7B%20color%3A%20%23ffd700%3B%20text-shadow%3A%200%200%205px%20rgba(255%2C%20215%2C%200%2C%200.5)%3B%20%7D%0A%20%20%20%20%20%20%20%20.tier-gold%20.player-card-photo-wrapper%3A%3Abefore%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20content%3A%20''%3B%20position%3A%20absolute%3B%20top%3A%20-5px%3B%20left%3A%20-5px%3B%20right%3A%20-5px%3B%20bottom%3A%20-5px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%202px%20dashed%20%23ffd700%3B%20border-radius%3A%2050%25%3B%20animation%3A%20spin-gold%204s%20linear%20infinite%3B%20z-index%3A%201%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.tier-gold%20.player-card-photo%20%7B%20border-radius%3A%2050%25%3B%20%7D%0A%20%20%20%20%20%20%20%20%40keyframes%20spin-gold%20%7B%20100%25%20%7B%20transform%3A%20rotate(360deg)%3B%20%7D%20%7D%0A%0A%20%20%20%20%20%20%20%20.tier-diamond%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20clip-path%3A%20polygon(20px%200%2C%20100%25%200%2C%20100%25%20calc(100%25%20-%2030px)%2C%20calc(100%25%20-%2020px)%20100%25%2C%200%20100%25%2C%200%2020px)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20linear-gradient(45deg%2C%20rgba(15%2C15%2C15%2C0.9)%2C%20rgba(0%2C255%2C255%2C0.1)%2C%20rgba(15%2C15%2C15%2C0.9))%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background-size%3A%20200%25%20200%25%3B%20animation%3A%20holo-bg%203s%20ease%20infinite%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-top%3A%202px%20solid%20%2300ffff%3B%20border-right%3A%202px%20solid%20%2300ffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%200%2020px%20%2300ffff%20inset%3B%20overflow%3A%20hidden%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.tier-diamond%20.player-card-name%20%7B%20color%3A%20%2300ffff%3B%20text-shadow%3A%200%200%2010px%20%2300ffff%3B%20letter-spacing%3A%202px%3B%20%7D%0A%20%20%20%20%20%20%20%20.tier-diamond%3A%3Aafter%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20content%3A%20''%3B%20position%3A%20absolute%3B%20top%3A%200%3B%20left%3A%200%3B%20width%3A%20100%25%3B%20height%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background-image%3A%20radial-gradient(circle%2C%20%2300ffff%201px%2C%20transparent%201px)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background-size%3A%2020px%2020px%3B%20opacity%3A%200.3%3B%20animation%3A%20particle-move%2010s%20linear%20infinite%3B%20pointer-events%3A%20none%3B%20z-index%3A%200%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%40keyframes%20holo-bg%20%7B%200%25%20%7B%20background-position%3A%200%25%2050%25%3B%20%7D%2050%25%20%7B%20background-position%3A%20100%25%2050%25%3B%20%7D%20100%25%20%7B%20background-position%3A%200%25%2050%25%3B%20%7D%20%7D%0A%20%20%20%20%20%20%20%20%40keyframes%20particle-move%20%7B%200%25%20%7B%20background-position%3A%200%200%3B%20%7D%20100%25%20%7B%20background-position%3A%20100px%20100px%3B%20%7D%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Full%20Profile%20Modal%20*%2F%0A%20%20%20%20%20%20%20%20%23profile-modal%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20none%3B%20position%3A%20fixed%3B%20top%3A%200%3B%20left%3A%200%3B%20width%3A%20100%25%3B%20height%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20z-index%3A%201000%3B%20background-color%3A%20%23000%3B%20background-size%3A%20cover%3B%20background-position%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background-attachment%3A%20fixed%3B%20overflow-y%3A%20auto%3B%20padding-top%3A%2070px%3B%20%2F*%20Push%20below%20header%20*%2F%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Modal%20specific%20header%20-%20copies%20app-header%20style%20but%20fixed%20inside%20modal%20*%2F%0A%20%20%20%20%20%20%20%20.modal-header%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20fixed%3B%20top%3A%200%3B%20left%3A%200%3B%20width%3A%20100%25%3B%20height%3A%2070px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20rgba(10%2C%2010%2C%2010%2C%200.85)%3B%20backdrop-filter%3A%20blur(15px)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-bottom%3A%201px%20solid%20rgba(255%2C%20255%2C%20255%2C%200.1)%3B%20display%3A%20flex%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20justify-content%3A%20space-between%3B%20align-items%3A%20center%3B%20padding%3A%200%2020px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20z-index%3A%201001%3B%20box-shadow%3A%200%202px%2015px%20rgba(0%2C%200%2C%200%2C%200.8)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.modal-overlay%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20relative%3B%20width%3A%20100%25%3B%20min-height%3A%20calc(100%25%20-%2070px)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20rgba(0%2C%200%2C%200%2C%200.85)%3B%20display%3A%20flex%3B%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%20padding%3A%2040px%2020px%2040px%2020px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Modal%20Inner%20Content%20Base%20*%2F%0A%20%20%20%20%20%20%20%20.modal-content%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20100%25%3B%20max-width%3A%20600px%3B%20padding%3A%2030px%3B%20display%3A%20flex%3B%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%20position%3A%20relative%3B%20background%3A%20rgba(15%2C%2015%2C%2015%2C%200.5)%3B%20backdrop-filter%3A%20blur(10px)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Dynamic%20Interactive%20Tier%20Box%20(Top%20Right)%20*%2F%0A%20%20%20%20%20%20%20%20.modal-tier-box%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20absolute%3B%20top%3A%2015px%3B%20right%3A%2015px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20rgba(0%2C%200%2C%200%2C%200.7)%3B%20border%3A%201px%20solid%20rgba(255%2C%20255%2C%20255%2C%200.3)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%206px%2012px%3B%20border-radius%3A%205px%3B%20font-size%3A%2012px%3B%20font-weight%3A%20bold%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-transform%3A%20uppercase%3B%20cursor%3A%20pointer%3B%20z-index%3A%2010%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20transition%3A%20all%200.3s%20ease%3B%20text-align%3A%20center%3B%20min-width%3A%2080px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%200%2010px%20rgba(0%2C0%2C0%2C0.5)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Modal%20Photo%2C%20Circular%20Borders%20%26%20Rings%20*%2F%0A%20%20%20%20%20%20%20%20.modal-photo-wrapper%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20150px%3B%20height%3A%20150px%3B%20margin-bottom%3A%2020px%3B%20position%3A%20relative%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%20justify-content%3A%20center%3B%20align-items%3A%20center%3B%20border-radius%3A%2050%25%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.modal-photo%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20100%25%3B%20height%3A%20100%25%3B%20object-fit%3A%20cover%3B%20border-radius%3A%2050%25%3B%20z-index%3A%202%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Modal%20Specific%20Rings%20based%20on%20tier%20*%2F%0A%20%20%20%20%20%20%20%20.tier-bronze.modal-content%20.modal-photo-wrapper%3A%3Abefore%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20content%3A%20''%3B%20position%3A%20absolute%3B%20top%3A%20-8px%3B%20left%3A%20-8px%3B%20right%3A%20-8px%3B%20bottom%3A%20-8px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%204px%20solid%20%23cd7f32%3B%20border-radius%3A%2050%25%3B%20box-shadow%3A%200%200%2015px%20rgba(205%2C%20127%2C%2050%2C%200.5)%3B%20z-index%3A%201%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.tier-silver.modal-content%20.modal-photo-wrapper%3A%3Abefore%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20content%3A%20''%3B%20position%3A%20absolute%3B%20top%3A%20-8px%3B%20left%3A%20-8px%3B%20right%3A%20-8px%3B%20bottom%3A%20-8px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%206px%20double%20%23c0c0c0%3B%20border-radius%3A%2050%25%3B%20box-shadow%3A%200%200%2015px%20rgba(192%2C%20192%2C%20192%2C%200.6)%3B%20z-index%3A%201%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.tier-gold.modal-content%20.modal-photo-wrapper%3A%3Abefore%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20content%3A%20''%3B%20position%3A%20absolute%3B%20top%3A%20-10px%3B%20left%3A%20-10px%3B%20right%3A%20-10px%3B%20bottom%3A%20-10px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%204px%20dashed%20%23ffd700%3B%20border-radius%3A%2050%25%3B%20animation%3A%20spin-gold%206s%20linear%20infinite%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20z-index%3A%201%3B%20box-shadow%3A%200%200%2020px%20rgba(255%2C%20215%2C%200%2C%200.4)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.tier-diamond.modal-content%20.modal-photo-wrapper%3A%3Abefore%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20content%3A%20''%3B%20position%3A%20absolute%3B%20top%3A%20-8px%3B%20left%3A%20-8px%3B%20right%3A%20-8px%3B%20bottom%3A%20-8px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%204px%20solid%20%2300ffff%3B%20border-radius%3A%2050%25%3B%20box-shadow%3A%200%200%2020px%20%2300ffff%2C%20inset%200%200%2010px%20%2300ffff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20z-index%3A%201%3B%20animation%3A%20pulse-glow%202s%20infinite%20alternate%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%40keyframes%20pulse-glow%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%200%25%20%7B%20box-shadow%3A%200%200%2010px%20%2300ffff%2C%20inset%200%200%205px%20%2300ffff%3B%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20100%25%20%7B%20box-shadow%3A%200%200%2030px%20%2300ffff%2C%20inset%200%200%2020px%20%2300ffff%3B%20%7D%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Bottom%20Right%20Tier%20Icon%20Badge%20*%2F%0A%20%20%20%20%20%20%20%20.tier-icon-badge%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20absolute%3B%20bottom%3A%200%3B%20right%3A%200%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20rgba(15%2C%2015%2C%2015%2C%200.9)%3B%20border-radius%3A%2050%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%2040px%3B%20height%3A%2040px%3B%20display%3A%20flex%3B%20align-items%3A%20center%3B%20justify-content%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20z-index%3A%2010%3B%20font-size%3A%2020px%3B%20box-shadow%3A%200%200%2010px%20rgba(0%2C0%2C0%2C0.8)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.modal-name%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2032px%3B%20font-weight%3A%20900%3B%20text-transform%3A%20uppercase%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-bottom%3A%205px%3B%20text-align%3A%20center%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%2F*%20UID%20%26%20Copy%20Logic%20*%2F%0A%20%20%20%20%20%20%20%20.uid-copy-container%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20flex%3B%20align-items%3A%20center%3B%20gap%3A%2010px%3B%20margin-top%3A%20-5px%3B%20margin-bottom%3A%2015px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23aaaaaa%3B%20font-size%3A%2014px%3B%20background%3A%20rgba(0%2C0%2C0%2C0.4)%3B%20padding%3A%204px%2010px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%2020px%3B%20border%3A%201px%20solid%20rgba(255%2C255%2C255%2C0.1)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.copy-btn%20%7B%20cursor%3A%20pointer%3B%20transition%3A%20color%200.3s%3B%20font-size%3A%2016px%3B%20%7D%0A%0A%20%20%20%20%20%20%20%20.modal-talent%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20linear-gradient(90deg%2C%20%23ff0055%2C%20%23ff0000)%3B%20padding%3A%205px%2015px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%2020px%3B%20font-size%3A%2014px%3B%20font-weight%3A%20bold%3B%20text-transform%3A%20uppercase%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%200%2010px%20rgba(255%2C%200%2C%200%2C%200.5)%3B%20margin-bottom%3A%2015px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Next%20Tier%20Info%20*%2F%0A%20%20%20%20%20%20%20%20.next-tier-info%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2014px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23dddddd%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20margin-bottom%3A%2025px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-transform%3A%20uppercase%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20letter-spacing%3A%201px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-align%3A%20center%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20.modal-bio%20%7B%20text-align%3A%20center%3B%20font-size%3A%2015px%3B%20color%3A%20%23dddddd%3B%20margin-bottom%3A%2025px%3B%20line-height%3A%201.6%3B%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Social%20Icons%20*%2F%0A%20%20%20%20%20%20%20%20.social-container%20%7B%20display%3A%20flex%3B%20gap%3A%2020px%3B%20margin-bottom%3A%2030px%3B%20%7D%0A%20%20%20%20%20%20%20%20.social-icon%20%7B%20color%3A%20%23ffffff%3B%20font-size%3A%2028px%3B%20cursor%3A%20pointer%3B%20transition%3A%20transform%200.3s%2C%20color%200.3s%3B%20%7D%0A%20%20%20%20%20%20%20%20.social-icon%3Ahover%20%7B%20transform%3A%20translateY(-5px)%20scale(1.1)%3B%20%7D%0A%20%20%20%20%20%20%20%20.social-icon.insta%3Ahover%20%7B%20color%3A%20%23e1306c%3B%20text-shadow%3A%200%200%2010px%20%23e1306c%3B%20%7D%0A%20%20%20%20%20%20%20%20.social-icon.yt%3Ahover%20%7B%20color%3A%20%23ff0000%3B%20text-shadow%3A%200%200%2010px%20%23ff0000%3B%20%7D%0A%20%20%20%20%20%20%20%20.social-icon.mail%3Ahover%20%7B%20color%3A%20%23ea4335%3B%20text-shadow%3A%200%200%2010px%20%23ea4335%3B%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Masonry%20Gallery%20Grid%20*%2F%0A%20%20%20%20%20%20%20%20.gallery-container%20%7B%20width%3A%20100%25%3B%20column-count%3A%202%3B%20column-gap%3A%2015px%3B%20%7D%0A%20%20%20%20%20%20%20%20.gallery-img%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20width%3A%20100%25%3B%20margin-bottom%3A%2015px%3B%20border-radius%3A%2010px%3B%20break-inside%3A%20avoid%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border%3A%201px%20solid%20rgba(255%2C%20255%2C%20255%2C%200.1)%3B%20transition%3A%20transform%200.3s%2C%20box-shadow%200.3s%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%40media%20(max-width%3A%20500px)%20%7B%20.gallery-container%20%7B%20column-count%3A%201%3B%20%7D%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F*%20Lightbox%20Modal%20*%2F%0A%20%20%20%20%20%20%20%20%23lightbox-modal%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20display%3A%20none%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20fixed%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20top%3A%200%3B%20left%3A%200%3B%20width%3A%20100%25%3B%20height%3A%20100%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20z-index%3A%202000%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20background%3A%20rgba(0%2C%200%2C%200%2C%200.5)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20backdrop-filter%3A%20blur(15px)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20-webkit-backdrop-filter%3A%20blur(15px)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20justify-content%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20align-items%3A%20center%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20flex-direction%3A%20column%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.lightbox-img%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20max-width%3A%2090%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20max-height%3A%2080vh%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20border-radius%3A%2010px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20box-shadow%3A%200%200%2020px%20rgba(0%2C0%2C0%2C0.8)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20object-fit%3A%20contain%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.lightbox-close%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20absolute%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20top%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20right%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23fff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2030px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20z-index%3A%202001%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-shadow%3A%200%200%2010px%20rgba(255%2C255%2C255%2C0.5)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.lightbox-nav%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20position%3A%20absolute%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20top%3A%2050%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20transform%3A%20translateY(-50%25)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23fff%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2040px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20z-index%3A%202001%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20text-shadow%3A%200%200%2010px%20rgba(0%2C0%2C0%2C0.8)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20padding%3A%2020px%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20.lightbox-prev%20%7B%20left%3A%2010px%3B%20%7D%0A%20%20%20%20%20%20%20%20.lightbox-next%20%7B%20right%3A%2010px%3B%20%7D";
+            
+            // Encrypted HTML Data
+            const _0xHTML = "%3C!--%20GLOBAL%20FIXED%20HEADER%20--%3E%0A%20%20%20%20%3Cdiv%20class%3D%22app-header%22%20id%3D%22main-header%22%3E%0A%20%20%20%20%20%20%20%20%3Cimg%20src%3D%22https%3A%2F%2Fik.imagekit.io%2F5lz94dan6e%2FPicsart_26-02-26_14-55-12-390.jpg%3FupdatedAt%3D1772097933162%22%20alt%3D%22Title%20Image%22%20class%3D%22header-title-img%22%20onclick%3D%22toggleView('home')%22%3E%0A%20%20%20%20%20%20%20%20%3Cbutton%20class%3D%22header-action-btn%22%20onclick%3D%22toggleView('search')%22%20id%3D%22header-toggle-btn%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%20class%3D%22header-action-text%22%3ESearch%3C%2Fspan%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-search%22%3E%3C%2Fi%3E%0A%20%20%20%20%20%20%20%20%3C%2Fbutton%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%0A%20%20%20%20%3C!--%20HOME%20VIEW%20--%3E%0A%20%20%20%20%3Cdiv%20id%3D%22home-view%22%3E%0A%20%20%20%20%20%20%20%20%3Cimg%20src%3D%22https%3A%2F%2Fik.imagekit.io%2F5lz94dan6e%2FPicsart_26-02-26_14-18-51-931.png%3FupdatedAt%3D1772095781110%22%20alt%3D%22Website%20Logo%22%20class%3D%22main-logo%22%3E%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%3Cdiv%20id%3D%22status-message%22%3EFetching%20Server%20Data...%3C%2Fdiv%3E%0A%0A%20%20%20%20%20%20%20%20%3Cdiv%20id%3D%22section-b%22%20class%3D%22section-container%22%20style%3D%22display%3A%20none%3B%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22section-title%22%3EHall%20of%20Fame%3C%2Fdiv%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22filter-container%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-filter%22%20style%3D%22color%3A%20%2300ffff%3B%22%3E%3C%2Fi%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cselect%20id%3D%22win-filter%22%20class%3D%22filter-select%22%20onchange%3D%22renderLeaderboard()%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Coption%20value%3D%22most%22%3EMost%20Win%3C%2Foption%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Coption%20value%3D%22min%22%3EMinimum%20Win%3C%2Foption%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fselect%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fdiv%3E%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20id%3D%22leaderboard-container%22%20style%3D%22display%3A%20flex%3B%20flex-direction%3A%20column%3B%20gap%3A%2015px%3B%22%3E%3C%2Fdiv%3E%0A%20%20%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%0A%20%20%20%20%3C!--%20SEARCH%20VIEW%20--%3E%0A%20%20%20%20%3Cdiv%20id%3D%22search-view%22%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22search-input-wrapper%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-search%20search-icon-inside%22%3E%3C%2Fi%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cinput%20type%3D%22text%22%20id%3D%22live-uid-input%22%20class%3D%22live-search-bar%22%20placeholder%3D%22Enter%20UID%20(e.g.%2C%20279...)%22%20autocomplete%3D%22off%22%3E%0A%20%20%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20id%3D%22search-status%22%20class%3D%22search-status%22%3EStart%20typing%20a%20UID...%3C%2Fdiv%3E%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22section-container%22%20style%3D%22margin-top%3A%200%3B%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20id%3D%22suggestions-container%22%20style%3D%22display%3A%20flex%3B%20flex-direction%3A%20column%3B%20gap%3A%2015px%3B%22%3E%3C%2Fdiv%3E%0A%20%20%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%0A%20%20%20%20%3C!--%20FULL%20PROFILE%20MODAL%20--%3E%0A%20%20%20%20%3Cdiv%20id%3D%22profile-modal%22%3E%0A%20%20%20%20%20%20%20%20%3C!--%20Exact%20same%20header%20inside%20modal%2C%20but%20with%20Back%20button%20--%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22modal-header%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cimg%20src%3D%22https%3A%2F%2Fik.imagekit.io%2F5lz94dan6e%2FPicsart_26-02-26_14-55-12-390.jpg%3FupdatedAt%3D1772097933162%22%20alt%3D%22Title%20Image%22%20class%3D%22header-title-img%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cbutton%20class%3D%22header-action-btn%22%20onclick%3D%22closeModal()%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%20class%3D%22header-action-text%22%3EBack%3C%2Fspan%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-times%22%3E%3C%2Fi%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fbutton%3E%0A%20%20%20%20%20%20%20%20%3C%2Fdiv%3E%0A%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22modal-overlay%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdiv%20id%3D%22modal-inner-content%22%20class%3D%22modal-content%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C!--%20Injected%20dynamically%20--%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%20%20%20%20%3C%2Fdiv%3E%0A%20%20%20%20%3C%2Fdiv%3E%0A%0A%20%20%20%20%3C!--%20LIGHTBOX%20MODAL%20--%3E%0A%20%20%20%20%3Cdiv%20id%3D%22lightbox-modal%22%3E%0A%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-times%20lightbox-close%22%20onclick%3D%22closeLightbox()%22%3E%3C%2Fi%3E%0A%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-chevron-left%20lightbox-nav%20lightbox-prev%22%20onclick%3D%22navigateLightbox(-1)%22%3E%3C%2Fi%3E%0A%20%20%20%20%20%20%20%20%3Cimg%20id%3D%22lightbox-img-element%22%20class%3D%22lightbox-img%22%20src%3D%22%22%20alt%3D%22Gallery%20Image%22%3E%0A%20%20%20%20%20%20%20%20%3Ci%20class%3D%22fas%20fa-chevron-right%20lightbox-nav%20lightbox-next%22%20onclick%3D%22navigateLightbox(1)%22%3E%3C%2Fi%3E%0A%20%20%20%20%3C%2Fdiv%3E";
+
+            // Security Check
+            if (window.location.href.indexOf(_authorizedRoot) === 0) {
+                // AUTHORIZED: Initialize the Bridge
+                _initBridge();
+            } else {
+                // UNAUTHORIZED: Destroy Page
+                document.body.innerHTML = "<div style='display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;'><h1 style='color:red;font-size:50px;'>404 Error</h1><p style='color:white;'>Unauthorized Access. Domain Verification Failed.</p></div>";
+            }
+
+            function _initBridge() {
+                // 1. Inject CSS
+                const style = document.createElement('style');
+                style.innerHTML = decodeURIComponent(_0xCSS);
+                document.head.appendChild(style);
+
+                // 2. Inject HTML
+                document.body.innerHTML = decodeURIComponent(_0xHTML);
+
+                // 3. Start App Logic (The original JS)
+                _startAppLogic();
+            }
+
+            function _startAppLogic() {
+                /* --- SECURITY SCRIPT: Disable Inspect Element, Right Click, & Shortcuts --- */
+                document.addEventListener('contextmenu', event => event.preventDefault());
+                document.addEventListener('keydown', function(event) {
+                    if (event.keyCode === 123) event.preventDefault();
+                    if (event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67)) event.preventDefault();
+                    if (event.ctrlKey && event.keyCode === 85) event.preventDefault();
+                });
+
+                // Exact App Script URL Applied
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbwKxTpF_0GCXfKdYVHeYKrpymJWqwdOdfU4ycBdBs2FDUwkXVYlYeAakOg6oW9neWmn/exec';
+
+                window.globalPlayerData = [];
+                window.autoOpenTriggeredFor = "";
+                window.currentGalleryImages = [];
+                window.currentLightboxIndex = 0;
+
+                // Make functions global so HTML onclicks work
+                window.toggleView = function(view) {
+                    const home = document.getElementById('home-view');
+                    const search = document.getElementById('search-view');
+                    const mainHeaderBtn = document.getElementById('header-toggle-btn');
+                    
+                    if (view === 'search') {
+                        home.style.display = 'none';
+                        search.style.display = 'flex';
+                        mainHeaderBtn.innerHTML = '<span class="header-action-text">Home</span><i class="fas fa-home"></i>';
+                        mainHeaderBtn.onclick = () => window.toggleView('home');
+                        document.getElementById('live-uid-input').focus();
+                    } else {
+                        search.style.display = 'none';
+                        home.style.display = 'flex';
+                        mainHeaderBtn.innerHTML = '<span class="header-action-text">Search</span><i class="fas fa-search"></i>';
+                        mainHeaderBtn.onclick = () => window.toggleView('search');
+                        document.getElementById('live-uid-input').value = '';
+                        document.getElementById('suggestions-container').innerHTML = '';
+                        document.getElementById('search-status').innerText = 'Start typing a UID...';
+                        window.autoOpenTriggeredFor = "";
+                    }
+                };
+
+                // Live Search Logic
+                document.getElementById('live-uid-input').addEventListener('input', (e) => {
+                    const query = e.target.value.trim().toLowerCase();
+                    const suggestionsContainer = document.getElementById('suggestions-container');
+                    const statusText = document.getElementById('search-status');
+
+                    if (!query) {
+                        suggestionsContainer.innerHTML = '';
+                        statusText.innerText = 'Start typing a UID...';
+                        window.autoOpenTriggeredFor = "";
+                        return;
+                    }
+
+                    if (window.globalPlayerData.length === 0) {
+                        statusText.innerText = "Data still loading...";
+                        return;
+                    }
+
+                    const matches = window.globalPlayerData.filter(p => p.Uid.toString().toLowerCase().startsWith(query));
+
+                    if (matches.length === 0) {
+                        suggestionsContainer.innerHTML = '';
+                        statusText.innerText = 'No players found with that UID prefix.';
+                        return;
+                    }
+
+                    statusText.innerText = `Found ${matches.length} player(s)`;
+
+                    suggestionsContainer.innerHTML = '';
+                    matches.forEach(player => {
+                        const tierClass = window.getTierClass(player.Win);
+                        const wins = parseInt(player.Win) || 0;
+
+                        const originalUid = player.Uid.toString();
+                        const matchedPart = originalUid.substring(0, query.length);
+                        const restPart = originalUid.substring(query.length);
+                        const highlightedUID = `<span style="color:#ffffff;">${matchedPart}</span>${restPart}`;
+
+                        let reelBtnHTML = '';
+                        if (player.InstagramReel && player.InstagramReel.trim() !== '') {
+                            reelBtnHTML = `<div class="reel-btn" onclick="event.stopPropagation(); openLink('${player.InstagramReel}', false);">Watch Winning Reel</div>`;
+                        }
+
+                        suggestionsContainer.innerHTML += `
+                            <div class="player-card ${tierClass}" onclick="openModal('${player.Uid}')">
+                                <div class="player-card-photo-wrapper">
+                                    <img src="${player.Photo || 'https://via.placeholder.css/70'}" alt="Photo" class="player-card-photo">
+                                </div>
+                                <div class="player-card-info">
+                                    <div class="player-card-name">${player.GameName || 'Unknown'}</div>
+                                    <div class="player-card-uid">UID: ${highlightedUID}</div>
+                                    <div class="badge-container">
+                                        <div class="win-badge">WINS: ${wins}</div>
+                                        ${reelBtnHTML}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    if (matches.length === 1 && matches[0].Uid.toString().toLowerCase() === query) {
+                        if (window.autoOpenTriggeredFor !== query) {
+                            window.autoOpenTriggeredFor = query; 
+                            setTimeout(() => window.openModal(matches[0].Uid), 300);
+                        }
+                    } else {
+                        window.autoOpenTriggeredFor = "";
+                    }
+                });
+
+                window.getTierClass = function(wins) {
+                    const w = parseInt(wins) || 0;
+                    if (w >= 1 && w <= 10) return "tier-bronze";
+                    if (w >= 11 && w <= 30) return "tier-silver";
+                    if (w >= 31 && w <= 50) return "tier-gold";
+                    if (w >= 51) return "tier-diamond";
+                    return "tier-bronze"; 
+                };
+
+                window.copyUID = function(uid, el) {
+                    navigator.clipboard.writeText(uid).then(() => {
+                        el.className = 'fas fa-check copy-btn';
+                        el.style.color = '#00ff00';
+                        setTimeout(() => {
+                            el.className = 'fas fa-copy copy-btn';
+                            el.style.color = '';
+                        }, 2000);
+                    }).catch(err => console.error('Failed to copy', err));
+                };
+
+                window.showNextTier = function(el, wins) {
+                    const originalText = el.getAttribute('data-original');
+                    if (el.innerText !== originalText) return; 
+
+                    let w = parseInt(wins) || 0;
+                    let msg = "";
+                    if (w < 11) msg = `Need ${11 - w} for Silver`;
+                    else if (w < 31) msg = `Need ${31 - w} for Gold`;
+                    else if (w < 51) msg = `Need ${51 - w} for Elite`;
+                    else msg = "Max Tier Reached!";
+
+                    el.innerText = msg;
+                    el.style.color = "#00ffff";
+                    el.style.borderColor = "#00ffff";
+
+                    setTimeout(() => {
+                        el.innerText = originalText;
+                        el.style.color = "";
+                        el.style.borderColor = "rgba(255, 255, 255, 0.3)";
+                    }, 3000);
+                };
+
+                window.openLink = function(url, isMail) {
+                    if (!url) return;
+                    if (isMail) { window.location.href = `mailto:${url}`; } 
+                    else { window.open(url, '_blank'); }
+                };
+
+                window.renderLeaderboard = function() {
+                    const filterValue = document.getElementById('win-filter').value;
+                    const sortedData = [...window.globalPlayerData].sort((a, b) => {
+                        if (filterValue === 'min') {
+                            return (parseInt(a.Win) || 0) - (parseInt(b.Win) || 0);
+                        }
+                        return (parseInt(b.Win) || 0) - (parseInt(a.Win) || 0);
+                    });
+                    const container = document.getElementById('leaderboard-container');
+                    document.getElementById('section-b').style.display = 'flex';
+                    container.innerHTML = '';
+
+                    sortedData.forEach(player => {
+                        const tierClass = window.getTierClass(player.Win);
+                        const wins = parseInt(player.Win) || 0;
+
+                        let reelBtnHTML = '';
+                        if (player.InstagramReel && player.InstagramReel.trim() !== '') {
+                            reelBtnHTML = `<div class="reel-btn" onclick="event.stopPropagation(); openLink('${player.InstagramReel}', false);">Watch Winning Reel</div>`;
+                        }
+
+                        container.innerHTML += `
+                            <div class="player-card ${tierClass}" onclick="openModal('${player.Uid}')">
+                                <div class="player-card-photo-wrapper">
+                                    <img src="${player.Photo || 'https://via.placeholder.css/70'}" alt="Photo" class="player-card-photo">
+                                </div>
+                                <div class="player-card-info">
+                                    <div class="player-card-name">${player.GameName || 'Unknown'}</div>
+                                    <div class="player-card-uid">UID: ${player.Uid}</div>
+                                    <div class="badge-container">
+                                        <div class="win-badge">WINS: ${wins}</div>
+                                        ${reelBtnHTML}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                };
+
+                window.openModal = function(uid) {
+                    const player = window.globalPlayerData.find(p => p.Uid.toString() === uid.toString());
+                    if(!player) return;
+
+                    const modal = document.getElementById('profile-modal');
+                    const innerContent = document.getElementById('modal-inner-content');
+                    
+                    if (player.Background && player.Background.trim() !== '') {
+                        modal.style.backgroundImage = `url('${player.Background}')`;
+                    } else {
+                        modal.style.backgroundImage = 'none';
+                        modal.style.backgroundColor = '#000';
+                    }
+
+                    const tierClass = window.getTierClass(player.Win);
+                    innerContent.className = `modal-content ${tierClass}`;
+
+                    const wins = parseInt(player.Win) || 0;
+                    
+                    let tierName = ""; let tierIcon = ""; let tierColor = "";
+                    if (wins >= 1 && wins <= 10) { tierName = "BRONZE"; tierIcon = "fa-medal"; tierColor = "#cd7f32"; }
+                    else if (wins >= 11 && wins <= 30) { tierName = "SILVER"; tierIcon = "fa-shield-alt"; tierColor = "#c0c0c0"; }
+                    else if (wins >= 31 && wins <= 50) { tierName = "GOLD"; tierIcon = "fa-crown"; tierColor = "#ffd700"; }
+                    else if (wins >= 51) { tierName = "ELITE"; tierIcon = "fa-gem"; tierColor = "#00ffff"; }
+                    else { tierName = "UNRANKED"; tierIcon = "fa-circle-notch"; tierColor = "#ffffff"; }
+
+                    let nextTierHTML = "";
+                    if (wins < 11) {
+                        nextTierHTML = `<div class="next-tier-info">Need <span style="color: #00ffff; font-weight: bold;">${11 - wins}</span> more for <span style="color: #c0c0c0; font-weight: bold;">SILVER</span></div>`;
+                    } else if (wins < 31) {
+                        nextTierHTML = `<div class="next-tier-info">Need <span style="color: #00ffff; font-weight: bold;">${31 - wins}</span> more for <span style="color: #ffd700; font-weight: bold;">GOLD</span></div>`;
+                    } else if (wins < 51) {
+                        nextTierHTML = `<div class="next-tier-info">Need <span style="color: #00ffff; font-weight: bold;">${51 - wins}</span> more for <span style="color: #00ffff; font-weight: bold; text-shadow: 0 0 5px #00ffff;">ELITE</span></div>`;
+                    } else {
+                        nextTierHTML = `<div class="next-tier-info" style="color: #00ffff; font-weight: bold; text-shadow: 0 0 5px #00ffff;">MAX TIER REACHED!</div>`;
+                    }
+
+                    let galleryHTML = '';
+                    window.currentGalleryImages = [];
+                    const pics = [player.AlbumPic1, player.AlbumPic2, player.AlbumPic3, player.AlbumPic4, player.AlbumPic5];
+                    
+                    pics.forEach(pic => {
+                        if(pic && pic.trim() !== "") { 
+                            window.currentGalleryImages.push(pic);
+                        }
+                    });
+
+                    window.currentGalleryImages.forEach((pic, index) => {
+                        galleryHTML += `<img src="${pic}" alt="Album Pic" class="gallery-img" onclick="openLightbox(${index})">`;
+                    });
+
+                    innerContent.innerHTML = `
+                        <div class="modal-tier-box" data-original="${tierName}" onclick="showNextTier(this, ${wins})" style="color: ${tierColor};">${tierName}</div>
+                        
+                        <div class="modal-photo-wrapper">
+                            <img src="${player.Photo || 'https://via.placeholder.css/150'}" alt="Photo" class="modal-photo">
+                            <div class="tier-icon-badge" style="color: ${tierColor}; border: 1px solid ${tierColor};">
+                                <i class="fas ${tierIcon}"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-name">${player.GameName || 'Unknown'}</div>
+                        
+                        <div class="uid-copy-container">
+                            <span>UID: ${player.Uid}</span>
+                            <i class="fas fa-copy copy-btn" title="Copy UID" onclick="copyUID('${player.Uid}', this)"></i>
+                        </div>
+                        
+                        ${player.Talent ? `<div class="modal-talent">${player.Talent}</div>` : ''}
+                        
+                        <div class="win-badge" style="margin-bottom: 8px; font-size: 16px;">TOTAL WINS: ${wins}</div>
+                        ${nextTierHTML}
+
+                        ${player.Bio ? `<div class="modal-bio">"${player.Bio}"</div>` : ''}
+
+                        <div class="social-container">
+                            ${player.HisInstagram ? `<div class="social-icon insta" onclick="openLink('${player.HisInstagram}', false)"><i class="fab fa-instagram"></i></div>` : ''}
+                            ${player.HisYoutube ? `<div class="social-icon yt" onclick="openLink('${player.HisYoutube}', false)"><i class="fab fa-youtube"></i></div>` : ''}
+                            ${player.HisGmail ? `<div class="social-icon mail" onclick="openLink('${player.HisGmail}', true)"><i class="fas fa-envelope"></i></div>` : ''}
+                        </div>
+
+                        ${galleryHTML ? `<div class="gallery-container">${galleryHTML}</div>` : ''}
+                    `;
+
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden'; 
+                };
+
+                window.closeModal = function() {
+                    document.getElementById('profile-modal').style.display = 'none';
+                    document.body.style.overflow = 'auto'; 
+                };
+
+                window.openLightbox = function(index) {
+                    window.currentLightboxIndex = index;
+                    document.getElementById('lightbox-img-element').src = window.currentGalleryImages[window.currentLightboxIndex];
+                    document.getElementById('lightbox-modal').style.display = 'flex';
+                };
+
+                window.closeLightbox = function() {
+                    document.getElementById('lightbox-modal').style.display = 'none';
+                };
+
+                window.navigateLightbox = function(direction) {
+                    window.currentLightboxIndex += direction;
+                    if (window.currentLightboxIndex < 0) {
+                        window.currentLightboxIndex = window.currentGalleryImages.length - 1;
+                    } else if (window.currentLightboxIndex >= window.currentGalleryImages.length) {
+                        window.currentLightboxIndex = 0;
+                    }
+                    document.getElementById('lightbox-img-element').src = window.currentGalleryImages[window.currentLightboxIndex];
+                };
+
+                window.onclick = function(event) {
+                    const modalOverlay = document.querySelector('.modal-overlay');
+                    const lightboxModal = document.getElementById('lightbox-modal');
+                    if (event.target === modalOverlay) {
+                        window.closeModal();
+                    }
+                    if (event.target === lightboxModal) {
+                        window.closeLightbox();
+                    }
+                };
+
+                // Fetch Data on Load
+                const statusMsg = document.getElementById('status-message');
+                fetch(scriptUrl)
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.error) {
+                            statusMsg.innerText = "Error: " + data.error;
+                            statusMsg.classList.add('error');
+                            return;
+                        }
+                        if(data.length === 0) {
+                            statusMsg.innerText = "Database is empty.";
+                            statusMsg.classList.add('error');
+                            return;
+                        }
+                        
+                        statusMsg.style.display = 'none';
+                        window.globalPlayerData = data;
+                        window.renderLeaderboard();
+                    })
+                    .catch(err => {
+                        statusMsg.innerText = "Failed to connect to server.";
+                        statusMsg.classList.add('error');
+                        console.error(err);
+                    });
+            }
+        })();
+    </script>
+</body>
+</html>
