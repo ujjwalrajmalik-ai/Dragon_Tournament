@@ -149,9 +149,7 @@
             border-top: 2px solid #00ffff; border-right: 2px solid #00ffff; box-shadow: 0 0 20px #00ffff inset; overflow: hidden;
         }
         .tier-diamond .player-card-name { color: #00ffff; text-shadow: 0 0 10px #00ffff; letter-spacing: 2px; }
-        
         .tier-diamond .mini-tier-icon { color: #00ffff; text-shadow: 0 0 20px #00ffff; animation: text-pulse-glow 2s infinite alternate; }
-        
         .tier-diamond::after {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: radial-gradient(circle, #00ffff 1px, transparent 1px); background-size: 20px 20px; opacity: 0.3; animation: particle-move 10s linear infinite; pointer-events: none; z-index: 0;
@@ -412,14 +410,27 @@
         handleRoute();
 
         // ---------------------------------------------------------
-        // DEEP LINK LOGIC (FLUTTER WEBVIEW OPTIMIZED)
+        // DEEP LINK LOGIC (AGGRESSIVE INTENTS FOR FLUTTER WEBVIEW)
         // ---------------------------------------------------------
         function openDeepLink(url) {
             if(!url) return;
-            // Since this runs in a Flutter WebView, and the AndroidManifest.xml 
-            // already handles <data android:scheme="https" />, we simply set href.
-            // The OS/Flutter url_launcher will natively intercept it.
-            window.location.href = url;
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            
+            // Force Android Intents to bypass the WebView entirely
+            if (isAndroid) {
+                if (url.includes('instagram.com')) {
+                    const cleanUrl = url.replace(/^https?:\/\//, '');
+                    window.location.href = `intent://${cleanUrl}#Intent;package=com.instagram.android;scheme=https;end`;
+                    return;
+                } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                    const cleanUrl = url.replace(/^https?:\/\//, '');
+                    window.location.href = `intent://${cleanUrl}#Intent;package=com.google.android.youtube;scheme=https;end`;
+                    return;
+                }
+            }
+            
+            // Fallback for iOS or non-matching URLs
+            window.open(url, '_blank');
         }
 
         // Copy Text Logic
