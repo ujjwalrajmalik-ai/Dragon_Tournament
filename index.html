@@ -234,7 +234,7 @@
         .social-icon.yt:hover { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
         .social-icon.mail:hover { color: #ea4335; text-shadow: 0 0 10px #ea4335; }
 
-        /* Masonry Gallery Grid */
+        /* Masonry Gallery Grid (CLEAN BORDERS ONLY) */
         .gallery-container { width: 100%; column-count: 2; column-gap: 15px; }
         .gallery-img { width: 100%; margin-bottom: 15px; border-radius: 10px; break-inside: avoid; cursor: pointer; transition: transform 0.2s; }
         .gallery-img:hover { transform: scale(1.02); }
@@ -411,22 +411,15 @@
         }
         handleRoute();
 
-        // Deep Link logic
+        // ---------------------------------------------------------
+        // DEEP LINK LOGIC (FLUTTER WEBVIEW OPTIMIZED)
+        // ---------------------------------------------------------
         function openDeepLink(url) {
             if(!url) return;
-            const isAndroid = /Android/i.test(navigator.userAgent);
-            if (isAndroid) {
-                if (url.includes('instagram.com')) {
-                    const cleanUrl = url.replace(/https?:\/\//, '');
-                    window.location.href = `intent://${cleanUrl}#Intent;package=com.instagram.android;scheme=https;end`;
-                    return;
-                } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                    const cleanUrl = url.replace(/https?:\/\//, '');
-                    window.location.href = `intent://${cleanUrl}#Intent;package=com.google.android.youtube;scheme=https;end`;
-                    return;
-                }
-            }
-            window.open(url, '_blank');
+            // Since this runs in a Flutter WebView, and the AndroidManifest.xml 
+            // already handles <data android:scheme="https" />, we simply set href.
+            // The OS/Flutter url_launcher will natively intercept it.
+            window.location.href = url;
         }
 
         // Copy Text Logic
@@ -604,7 +597,7 @@
             const innerContent = document.getElementById('modal-inner-content');
             const introOverlay = document.getElementById('elite-intro-overlay');
             
-            // FIXED: Using Player Photo as the Background Wallpaper
+            // Background uses Player Photo
             if (player.Photo && player.Photo.trim() !== '') {
                 modal.style.backgroundImage = `url('${player.Photo}')`;
             } else {
