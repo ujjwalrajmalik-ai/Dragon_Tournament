@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- STRICTLY UNZOOMABLE VIEWPORT -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dragon Tournaments | Home</title>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base & Resets + Security CSS */
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none; -khtml-user-select: none;
+            -moz-user-select: none; -ms-user-select: none; user-select: none;
+        }
+
+        /* Prevent image dragging and hold menus */
+        img {
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+        }
+
+        body {
+            background-color: #000000; color: #ffffff;
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; overflow-x: hidden;
+            padding-top: 105px; /* Space for header + status bar */
+            padding-bottom: 50px;
+            position: relative;
+        }
+
+        /* Ambient Esports Background Glow */
+        body::before {
+            content: ''; position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); width: 80vw; height: 80vw;
+            background: radial-gradient(circle, rgba(30, 30, 30, 0.6) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1; animation: ambientPulse 4s infinite alternate; pointer-events: none;
+        }
+        @keyframes ambientPulse { 0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } }
+
+        /* Global Fixed App Header - WITH STATUS BAR SPACING */
+        .app-header {
+            position: fixed; top: 0; left: 0; width: 100%; 
+            height: 105px; padding: 35px 20px 0 20px; 
+            background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex;
+            justify-content: center; align-items: center; 
+            z-index: 900; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .header-title-img { height: 45px; width: auto; border-radius: 5px; cursor: pointer; }
+
+        /* Main Content Container */
+        .menu-container {
+            width: 100%; display: flex; flex-direction: column; align-items: center;
+            padding: 20px; z-index: 1;
+        }
+
+        /* Hero Logo */
+        .main-logo {
+            width: 140px; height: auto; margin-top: 20px; margin-bottom: 40px;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2)); 
+            animation: float 4s ease-in-out infinite, fadeInDown 1s ease-out;
+        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+
+        /* Premium Menu Cards */
+        .menu-card {
+            width: 100%; max-width: 400px; background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(10px); border-radius: 15px; padding: 20px;
+            margin-bottom: 20px; display: flex; align-items: center; cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+            position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
+            opacity: 0; animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        /* Staggered entrance animation delays */
+        .menu-card:nth-child(2) { animation-delay: 0.1s; }
+        .menu-card:nth-child(3) { animation-delay: 0.2s; }
+        .menu-card:nth-child(4) { animation-delay: 0.3s; }
+
+        /* Touch Feedback for Mobile */
+        .menu-card:active { transform: scale(0.95); }
+
+        /* Specific Card Accents */
+        .card-free { border-left: 4px solid #00ff88; }
+        .card-free:hover, .card-free:active { box-shadow: 0 0 20px rgba(0, 255, 136, 0.2), inset 0 0 10px rgba(0, 255, 136, 0.1); }
+        .card-free .card-icon { color: #00ff88; text-shadow: 0 0 15px #00ff88; }
+
+        .card-paid { border-left: 4px solid #ffd700; }
+        .card-paid:hover, .card-paid:active { box-shadow: 0 0 20px rgba(255, 215, 0, 0.2), inset 0 0 10px rgba(255, 215, 0, 0.1); }
+        .card-paid .card-icon { color: #ffd700; text-shadow: 0 0 15px #ffd700; }
+
+        .card-hall { border-left: 4px solid #00ffff; }
+        .card-hall:hover, .card-hall:active { box-shadow: 0 0 20px rgba(0, 255, 255, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.1); }
+        .card-hall .card-icon { color: #00ffff; text-shadow: 0 0 15px #00ffff; }
+
+        .card-icon {
+            font-size: 30px; width: 50px; display: flex; justify-content: center; margin-right: 15px; transition: transform 0.3s;
+        }
+        .menu-card:hover .card-icon { transform: scale(1.1) rotate(5deg); }
+
+        .card-content { flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .card-subtitle { font-size: 12px; color: #aaaaaa; }
+
+        .card-arrow { color: rgba(255, 255, 255, 0.3); font-size: 20px; transition: transform 0.3s, color 0.3s; }
+        .menu-card:hover .card-arrow { color: #ffffff; transform: translateX(5px); }
+
+        /* Animations */
+        @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { 0% { opacity: 0; transform: translateY(-30px); } 100% { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <!-- GLOBAL HEADER -->
+    <div class="app-header">
+        <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Dragon Tournaments" class="header-title-img" draggable="false">
+    </div>
+
+    <!-- MAIN MENU -->
+    <div class="menu-container">
+        <!-- Floating Logo -->
+        <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110" alt="Website Logo" class="main-logo" draggable="false">
+
+        <!-- Menu Option 1: Free Tournaments -->
+        <div class="menu-card card-free" onclick="window.location.href='free.html'">
+            <div class="card-icon"><i class="fas fa-trophy"></i></div>
+            <div class="card-content">
+                <div class="card-title">Free Tournaments</div>
+                <div class="card-subtitle">Play and win for free</div>
+            </div>
+            <i class="fas fa-chevron-right card-arrow"></i>
+        </div>
+
+        <!-- Menu Option 2: Paid Tournaments -->
+        <div class="menu-card card-paid" onclick="window.location.href='paid.html'">
+            <div class="card-icon"><i class="fas fa-crown"></i></div>
+            <div class="card-content">
+                <div class="card-title">Paid Tournaments</div>
+                <div class="card-subtitle">High stakes, premium rewards</div>
+            </div>
+            <i class="fas fa-chevron-right card-arrow"></i>
+        </div>
+
+        <!-- Menu Option 3: Hall of Fame -->
+        <div class="menu-card card-hall" onclick="window.location.href='hall.html'">
+            <div class="card-icon"><i class="fas fa-gem"></i></div>
+            <div class="card-content">
+                <div class="card-title">Hall of Fame</div>
+                <div class="card-subtitle">Legendary player leaderboards</div>
+            </div>
+            <i class="fas fa-chevron-right card-arrow"></i>
+        </div>
+    </div>
+
+    <script>
+        /* --- SECURITY SCRIPT: Disable Inspect Element, Right Click, & Shortcuts --- */
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('keydown', function(event) {
+            // Prevent F12
+            if (event.keyCode === 123) { event.preventDefault(); }
+            // Prevent Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
+            if (event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67)) { event.preventDefault(); }
+            if (event.ctrlKey && event.keyCode === 85) { event.preventDefault(); }
+        });
+    </script>
+</body>
+</html>
