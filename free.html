@@ -171,7 +171,21 @@
         });
 
         // ---------------------------------------------------------
-        // BACKEND FETCH LOGIC - USING YOUR EXACT DEPLOYED APP URL
+        // FLUTTER BRIDGE (SAFE COMMUNICATION TO APP)
+        // ---------------------------------------------------------
+        function sendToApp(command, data) {
+            if (window.FlutterChannel) {
+                window.FlutterChannel.postMessage(JSON.stringify({
+                    "command": command,
+                    "payload": data
+                }));
+                return true;
+            }
+            return false;
+        }
+
+        // ---------------------------------------------------------
+        // BACKEND FETCH LOGIC
         // ---------------------------------------------------------
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbxpQe60NQKeXM91_eEs480nhHFlKP4psm9nnvfeRXo2YzHgLOw5nTUkeXz63eS77OJQ/exec';
         
@@ -179,7 +193,6 @@
         const roomsWrapper = document.getElementById('rooms-wrapper');
         const statusMsg = document.getElementById('status-msg');
 
-        // Assets to Preload before showing the UI
         const logoUrl = 'https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110';
         const titleUrl = 'https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png';
 
@@ -199,7 +212,6 @@
                     if(data.error) { throw new Error(data.error); }
                     if(data.length === 0) { throw new Error("No Free Tournaments available right now."); }
 
-                    // Preload critical images, then render
                     Promise.all([preloadImage(logoUrl), preloadImage(titleUrl)]).then(() => {
                         skeleton.style.display = 'none';
                         renderRooms(data);
@@ -213,10 +225,9 @@
         });
 
         // ---------------------------------------------------------
-        // RENDER LOGIC (WITH STRICT STRING CONVERSION TO PREVENT CRASHES)
+        // RENDER LOGIC
         // ---------------------------------------------------------
         function renderRooms(data) {
-            // Reverse so newest rooms added to bottom of sheet appear at top of app
             const reversedData = [...data].reverse();
 
             reversedData.forEach(room => {
@@ -231,7 +242,6 @@
                 const uidParams = room.Uid !== undefined && room.Uid !== null ? String(room.Uid) : "";
 
                 if (isDone) {
-                    // DONE STATE CARD
                     roomsWrapper.innerHTML += `
                         <div class="room-card done" onclick="openWinner('${uidParams}')">
                             <div class="blur-wrapper">
@@ -256,8 +266,6 @@
                         </div>
                     `;
                 } else {
-                    // ACTIVE STATE CARD
-                    // Escaping quotes for JS inline functions using safely converted strings
                     const safeTime = time.replace(/'/g, "\\'");
                     const safeId = roomId.replace(/'/g, "\\'");
                     const safePass = roomPass.replace(/'/g, "\\'");
@@ -294,8 +302,6 @@
         // ---------------------------------------------------------
         // ACTIONS & INTENTS
         // ---------------------------------------------------------
-
-        // 1. Copy Function
         window.copyText = function(text, el) {
             if(text === "Hidden" || text === "") return;
             navigator.clipboard.writeText(text).then(() => {
@@ -308,23 +314,19 @@
             });
         };
 
-        // 2. Open Winner in Hall of Fame
         window.openWinner = function(uid) {
             if(!uid) return;
-            // Instantly directs to Hall of Fame, passing the Uid hash to auto-trigger the modal
             window.location.href = `hall.html#profile-${uid}`;
         };
 
-        // 3. Smart Android Alarm Intent Parser
         window.setAlarm = function(timeStr) {
             if(!timeStr || timeStr === "TBA") return alert("Time not scheduled yet!");
 
-            // Regex to smartly extract "8:30 PM", "14:00", etc.
             const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM|am|pm)?/i);
             
             if(!match) {
-                // Fallback if parsing fails - just open normal clock app
-                window.location.href = "intent://#Intent;action=android.intent.action.SET_ALARM;b.android.intent.extra.alarm.SKIP_UI=true;end";
+                // FIXED: Removed // after intent:
+                window.location.href = "intent:#Intent;action=android.intent.action.SET_ALARM;b.android.intent.extra.alarm.SKIP_UI=true;end";
                 return;
             }
 
@@ -332,19 +334,21 @@
             let m = parseInt(match[2]);
             let ampm = match[3];
 
-            // Convert to 24 Hour format for Intent
             if(ampm) {
                 ampm = ampm.toUpperCase();
                 if(ampm === 'PM' && h < 12) h += 12;
                 if(ampm === 'AM' && h === 12) h = 0;
             }
 
-            // Fire pure Android Intent for Setting Alarm
-            const intentUrl = `intent://#Intent;action=android.intent.action.SET_ALARM;i.android.intent.extra.alarm.HOUR=${h};i.android.intent.extra.alarm.MINUTES=${m};S.android.intent.extra.alarm.MESSAGE=Dragon%20Match;b.android.intent.extra.alarm.SKIP_UI=false;end`;
+            // OPTION 1: Send to Flutter App via JS Channel
+            const sentToFlutter = sendToApp("SET_ALARM", { hour: h, minute: m, message: "Dragon Match" });
             
-            window.location.href = intentUrl;
+            // OPTION 2: Fallback to Native Android Intent URL (FIXED: No slashes)
+            if (!sentToFlutter) {
+                const intentUrl = `intent:#Intent;action=android.intent.action.SET_ALARM;i.android.intent.extra.alarm.HOUR=${h};i.android.intent.extra.alarm.MINUTES=${m};S.android.intent.extra.alarm.MESSAGE=Dragon%20Match;b.android.intent.extra.alarm.SKIP_UI=false;end`;
+                window.location.href = intentUrl;
+            }
         };
-
     </script>
 </body>
 </html>
