@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- STRICTLY UNZOOMABLE VIEWPORT -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dragon Tournaments | Free Rooms</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base & Resets + Security CSS */
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none; -khtml-user-select: none;
+            -moz-user-select: none; -ms-user-select: none; user-select: none;
+        }
+
+        img { -webkit-touch-callout: none; -webkit-user-drag: none; }
+
+        body {
+            background-color: #000000; color: #ffffff;
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; overflow-x: hidden;
+            padding-top: 120px; /* Space for Header */
+            padding-bottom: 50px;
+        }
+
+        /* Global Fixed App Header */
+        .app-header {
+            position: fixed; top: 0; left: 0; width: 100%; 
+            height: 105px; padding: 35px 20px 0 20px; 
+            background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex;
+            justify-content: space-between; align-items: center; 
+            z-index: 900; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .header-title-img { height: 40px; width: auto; border-radius: 5px; cursor: pointer; }
+
+        .header-action-btn {
+            color: #fff; font-size: 22px; cursor: pointer; transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); display: flex;
+            align-items: center; gap: 8px; background: none; border: none; outline: none;
+        }
+        .header-action-btn:hover { color: #00ffff; text-shadow: 0 0 15px #00ffff; transform: scale(1.1); }
+
+        /* Content Container */
+        #content-container {
+            width: 95%; max-width: 500px; display: flex; flex-direction: column; gap: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* System Messages */
+        .status-msg {
+            color: #00ffff; text-shadow: 0 0 10px #00ffff; font-weight: bold; font-size: 16px;
+            text-align: center; margin-bottom: 20px;
+        }
+        .error { color: #ff3333 !important; text-shadow: 0 0 10px #ff3333 !important; }
+
+        /* Skeleton Loader for Room Cards */
+        .skeleton-card {
+            background: rgba(25, 25, 25, 0.6); border-radius: 15px; padding: 15px;
+            position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); height: 160px;
+        }
+        .skeleton-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-20deg); animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
+
+        /* --- ESPORTS ROOM CARD --- */
+        .room-card {
+            background: rgba(15, 15, 15, 0.8); backdrop-filter: blur(10px);
+            border: 1px solid #00ff88; border-radius: 15px; padding: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), inset 0 0 10px rgba(0, 255, 136, 0.05);
+            position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 15px;
+            transition: transform 0.2s;
+        }
+
+        /* Top Row: Logo, Title, Prize */
+        .room-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;
+        }
+        .room-logo { height: 35px; width: auto; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+        .room-title-img { height: 25px; width: auto; opacity: 0.9; }
+        .room-prize {
+            background: linear-gradient(45deg, #ffd700, #ffaa00); padding: 4px 10px;
+            border-radius: 5px; color: #000; font-weight: 900; font-size: 13px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); display: flex; align-items: center; gap: 5px;
+        }
+
+        /* Middle Row: Time & Alarm Button */
+        .room-mid { display: flex; justify-content: space-between; align-items: center; }
+        .room-time {
+            font-size: 18px; font-weight: 900; color: #00ffff; text-shadow: 0 0 10px rgba(0,255,255,0.5);
+            display: flex; align-items: center; gap: 8px; letter-spacing: 1px;
+        }
+        .book-btn {
+            background: linear-gradient(45deg, #00ff88, #00aa55); color: #000;
+            border: none; padding: 8px 15px; border-radius: 20px; font-weight: 900;
+            font-size: 12px; text-transform: uppercase; cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4); transition: transform 0.2s;
+            display: flex; align-items: center; gap: 6px; outline: none;
+        }
+        .book-btn:active { transform: scale(0.95); }
+
+        /* Bottom Row: ID & PASS Copy Sections */
+        .room-footer { display: flex; gap: 10px; }
+        .copy-box {
+            flex: 1; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 10px; border-radius: 8px; display: flex; justify-content: space-between;
+            align-items: center; font-size: 14px; font-weight: bold; color: #ddd;
+        }
+        .copy-box span { letter-spacing: 1px; }
+        .copy-icon { color: #00ffff; font-size: 16px; cursor: pointer; transition: color 0.3s; }
+
+        /* --- DONE STATE (Completed Room) --- */
+        .room-card.done {
+            border-color: #555; box-shadow: none; cursor: pointer;
+        }
+        .room-card.done .blur-wrapper {
+            filter: grayscale(100%) blur(5px); opacity: 0.4; pointer-events: none;
+        }
+        .done-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 10; color: #ffd700; font-size: 24px; font-weight: 900; text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 5px #000; gap: 10px;
+        }
+        .done-overlay i { font-size: 35px; animation: float 2s infinite alternate; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="app-header">
+        <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Title" class="header-title-img" draggable="false" onclick="window.location.href='index.html'">
+        <button class="header-action-btn" onclick="window.location.href='index.html'">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="content-container">
+        <div id="status-msg" class="status-msg"></div>
+
+        <!-- SKELETON LOADER -->
+        <div id="skeleton-container">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        </div>
+
+        <!-- ROOM CARDS INJECTED HERE -->
+        <div id="rooms-wrapper" style="display: flex; flex-direction: column; gap: 20px;"></div>
+    </div>
+
+    <script>
+        /* --- SECURITY SCRIPT --- */
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 123) e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) e.preventDefault();
+            if (e.ctrlKey && e.keyCode === 85) e.preventDefault();
+        });
+
+        // ---------------------------------------------------------
+        // BACKEND FETCH LOGIC - USING YOUR EXACT DEPLOYED APP URL
+        // ---------------------------------------------------------
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbxpQe60NQKeXM91_eEs480nhHFlKP4psm9nnvfeRXo2YzHgLOw5nTUkeXz63eS77OJQ/exec';
+        
+        const skeleton = document.getElementById('skeleton-container');
+        const roomsWrapper = document.getElementById('rooms-wrapper');
+        const statusMsg = document.getElementById('status-msg');
+
+        // Assets to Preload before showing the UI
+        const logoUrl = 'https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110';
+        const titleUrl = 'https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png';
+
+        const preloadImage = (src) => {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve();
+                img.onerror = () => resolve();
+                img.src = src;
+            });
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch(scriptUrl)
+                .then(res => res.json())
+                .then(data => {
+                    if(data.error) { throw new Error(data.error); }
+                    if(data.length === 0) { throw new Error("No Free Tournaments available right now."); }
+
+                    // Preload critical images, then render
+                    Promise.all([preloadImage(logoUrl), preloadImage(titleUrl)]).then(() => {
+                        skeleton.style.display = 'none';
+                        renderRooms(data);
+                    });
+                })
+                .catch(err => {
+                    skeleton.style.display = 'none';
+                    statusMsg.innerText = err.message || "Failed to load tournaments.";
+                    statusMsg.classList.add('error');
+                });
+        });
+
+        // ---------------------------------------------------------
+        // RENDER LOGIC (WITH STRICT STRING CONVERSION TO PREVENT CRASHES)
+        // ---------------------------------------------------------
+        function renderRooms(data) {
+            // Reverse so newest rooms added to bottom of sheet appear at top of app
+            const reversedData = [...data].reverse();
+
+            reversedData.forEach(room => {
+                // EXTREMELY SAFE STRING CONVERSIONS
+                const rawStatus = room.Status !== undefined && room.Status !== null ? String(room.Status) : "";
+                const isDone = (rawStatus.trim() !== "");
+                
+                const prize = room.Prize !== undefined && room.Prize !== null ? String(room.Prize) : "TBA";
+                const time = room.Time !== undefined && room.Time !== null ? String(room.Time) : "TBA";
+                const roomId = room.ID !== undefined && room.ID !== null ? String(room.ID) : "Hidden";
+                const roomPass = room.Pass !== undefined && room.Pass !== null ? String(room.Pass) : "Hidden";
+                const uidParams = room.Uid !== undefined && room.Uid !== null ? String(room.Uid) : "";
+
+                if (isDone) {
+                    // DONE STATE CARD
+                    roomsWrapper.innerHTML += `
+                        <div class="room-card done" onclick="openWinner('${uidParams}')">
+                            <div class="blur-wrapper">
+                                <div class="room-header">
+                                    <img src="${logoUrl}" class="room-logo" draggable="false">
+                                    <img src="${titleUrl}" class="room-title-img" draggable="false">
+                                    <div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>
+                                </div>
+                                <div class="room-mid">
+                                    <div class="room-time"><i class="fas fa-clock"></i> ${time}</div>
+                                    <button class="book-btn" disabled><i class="fas fa-bell"></i> Ended</button>
+                                </div>
+                                <div class="room-footer">
+                                    <div class="copy-box"><span>ID: *****</span> <i class="fas fa-copy copy-icon"></i></div>
+                                    <div class="copy-box"><span>PASS: *****</span> <i class="fas fa-copy copy-icon"></i></div>
+                                </div>
+                            </div>
+                            <div class="done-overlay">
+                                <i class="fas fa-trophy"></i>
+                                <span>View Winner</span>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // ACTIVE STATE CARD
+                    // Escaping quotes for JS inline functions using safely converted strings
+                    const safeTime = time.replace(/'/g, "\\'");
+                    const safeId = roomId.replace(/'/g, "\\'");
+                    const safePass = roomPass.replace(/'/g, "\\'");
+
+                    roomsWrapper.innerHTML += `
+                        <div class="room-card active">
+                            <div class="room-header">
+                                <img src="${logoUrl}" class="room-logo" draggable="false">
+                                <img src="${titleUrl}" class="room-title-img" draggable="false">
+                                <div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>
+                            </div>
+                            <div class="room-mid">
+                                <div class="room-time"><i class="fas fa-clock"></i> ${time}</div>
+                                <button class="book-btn" onclick="setAlarm('${safeTime}')">
+                                    <i class="fas fa-bell"></i> Book Room
+                                </button>
+                            </div>
+                            <div class="room-footer">
+                                <div class="copy-box">
+                                    <span>ID: ${roomId}</span> 
+                                    <i class="fas fa-copy copy-icon" onclick="copyText('${safeId}', this)"></i>
+                                </div>
+                                <div class="copy-box">
+                                    <span>PASS: ${roomPass}</span> 
+                                    <i class="fas fa-copy copy-icon" onclick="copyText('${safePass}', this)"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // ---------------------------------------------------------
+        // ACTIONS & INTENTS
+        // ---------------------------------------------------------
+
+        // 1. Copy Function
+        window.copyText = function(text, el) {
+            if(text === "Hidden" || text === "") return;
+            navigator.clipboard.writeText(text).then(() => {
+                el.className = 'fas fa-check copy-icon';
+                el.style.color = '#00ff00';
+                setTimeout(() => {
+                    el.className = 'fas fa-copy copy-icon';
+                    el.style.color = '#00ffff';
+                }, 2000);
+            });
+        };
+
+        // 2. Open Winner in Hall of Fame
+        window.openWinner = function(uid) {
+            if(!uid) return;
+            // Instantly directs to Hall of Fame, passing the Uid hash to auto-trigger the modal
+            window.location.href = `hall.html#profile-${uid}`;
+        };
+
+        // 3. Smart Android Alarm Intent Parser
+        window.setAlarm = function(timeStr) {
+            if(!timeStr || timeStr === "TBA") return alert("Time not scheduled yet!");
+
+            // Regex to smartly extract "8:30 PM", "14:00", etc.
+            const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM|am|pm)?/i);
+            
+            if(!match) {
+                // Fallback if parsing fails - just open normal clock app
+                window.location.href = "intent://#Intent;action=android.intent.action.SET_ALARM;b.android.intent.extra.alarm.SKIP_UI=true;end";
+                return;
+            }
+
+            let h = parseInt(match[1]);
+            let m = parseInt(match[2]);
+            let ampm = match[3];
+
+            // Convert to 24 Hour format for Intent
+            if(ampm) {
+                ampm = ampm.toUpperCase();
+                if(ampm === 'PM' && h < 12) h += 12;
+                if(ampm === 'AM' && h === 12) h = 0;
+            }
+
+            // Fire pure Android Intent for Setting Alarm
+            const intentUrl = `intent://#Intent;action=android.intent.action.SET_ALARM;i.android.intent.extra.alarm.HOUR=${h};i.android.intent.extra.alarm.MINUTES=${m};S.android.intent.extra.alarm.MESSAGE=Dragon%20Match;b.android.intent.extra.alarm.SKIP_UI=false;end`;
+            
+            window.location.href = intentUrl;
+        };
+
+    </script>
+</body>
+</html>
