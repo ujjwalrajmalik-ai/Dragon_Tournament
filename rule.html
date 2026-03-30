@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tournament Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* === RESTRICTIONS & BASE STYLES === */
+        :root {
+            --bg-color: #000000; /* Switched to Black */
+            --header-bg: #000000;
+            --card-grey: #e5e7eb;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: pan-y;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        #landscape-blocker {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; color: #fff;
+            z-index: 99999;
+            align-items: center; justify-content: center;
+            text-align: center; font-size: 1.5rem; font-weight: bold; padding: 20px;
+        }
+        @media screen and (orientation: landscape) {
+            #landscape-blocker { display: flex; }
+            #app-content { display: none; }
+        }
+
+        /* === HEADER === */
+        .header {
+            background-color: var(--header-bg);
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            /* Adjusted shadow and added subtle border to separate from black body */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            border-bottom: 1px solid #222222; 
+        }
+        .header a { height: 100%; display: block; }
+        .header img { height: 100%; width: auto; object-fit: contain; }
+
+        /* === CARDS LAYOUT === */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem 1rem;
+            padding: 3rem 1rem 2rem 1rem;
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            cursor: pointer;
+            z-index: 10;
+            transition: z-index 0s step-start;
+            /* Subtle light shadow to lift card off the black background */
+            box-shadow: 0 10px 20px rgba(255,255,255,0.03);
+            background: #ffffff;
+            border-radius: 4px; /* Optional slight rounding to soften edges */
+        }
+
+        /* Grey Box (80% Top) */
+        .card-grey-box {
+            position: absolute;
+            top: 5%;
+            left: 0;
+            width: 100%;
+            height: 75%;
+            background-color: var(--card-grey);
+            clip-path: polygon(0 0, 85% 0, 100% 12%, 100% 100%, 12% 100%, 0 88%);
+            z-index: 1;
+        }
+
+        /* Premium White Info Box (20% Bottom) */
+        .card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20%;
+            background-color: #ffffff;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 0.5rem 0 0.75rem;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.04);
+            border-left: 4px solid #000000; 
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .card-info h2 {
+            font-size: 0.75rem;
+            font-weight: 900;
+            color: #000;
+            margin: 0 0 2px 0;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card-info p {
+            font-size: 0.55rem;
+            color: #666;
+            margin: 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Character PNG Wrapper */
+        .char-wrapper {
+            position: absolute;
+            bottom: 20%;
+            left: 0;
+            width: 100%;
+            height: 85%;
+            z-index: 2;
+            overflow: visible;
+            display: flex;
+            justify-content: center; 
+        }
+        
+        .char-img {
+            width: 95%;
+            height: 100%;
+            object-fit: contain;
+            object-position: bottom center;
+            filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.4));
+            
+            will-change: transform, filter;
+            animation: cleanSwipeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        filter 0.5s ease-out;
+            transform-origin: bottom center;
+        }
+
+        @keyframes cleanSwipeUp {
+            0% { transform: translateY(15%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .card:nth-child(1) .char-img { animation-delay: 0.05s; }
+        .card:nth-child(2) .char-img { animation-delay: 0.15s; }
+        .card:nth-child(3) .char-img { animation-delay: 0.25s; }
+        .card:nth-child(4) .char-img { animation-delay: 0.35s; }
+
+        /* Little Logo & Loader Container */
+        .little-logo-container {
+            position: absolute;
+            right: 4%;
+            bottom: 20%;
+            transform: translateY(50%);
+            width: 32px;
+            height: 32px;
+            z-index: 4;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .little-logo-img, .loader {
+            position: absolute;
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: opacity, transform;
+        }
+        .little-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            opacity: 1;
+            transform: scale(1);
+        }
+        .loader {
+            width: 18px;
+            height: 18px;
+            border: 3px solid #000;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* === ACTIVE (CLICKED) STATE === */
+        .card.active { z-index: 50; }
+        .card.active .char-img {
+            transform: scale(1.2);
+            filter: drop-shadow(0px 25px 30px rgba(0,0,0,0.8));
+        }
+        .card.active .little-logo-img { opacity: 0; transform: scale(0.2); }
+        .card.active .loader { opacity: 1; transform: scale(1); }
+    </style>
+</head>
+<body>
+
+    <div id="landscape-blocker">
+        <span>Portrait Mode Only.<br>Please rotate your device.</span>
+    </div>
+
+    <div id="app-content">
+        <header class="header">
+            <a href="index.html">
+                <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-28-40-573.png?updatedAt=1774839553114" alt="Main Logo" draggable="false">
+            </a>
+        </header>
+
+        <main class="card-container">
+            <!-- Card 1 -->
+            <div class="card" onclick="handleCardClick(this, 'freerule.html')">
+                <div class="card-grey-box"></div>
+                <div class="char-wrapper">
+                    <img src="https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/20229/a00504b94adddc82ae3ff2bfc53b568b.png" class="char-img" draggable="false">
+                </div>
+                <div class="little-logo-container">
+                    <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110" class="little-logo-img" draggable="false">
+                    <div class="loader"></div>
+                </div>
+                <div class="card-info">
+                    <h2>Free Tournament Rule</h2>
+                    <p>Important to follow</p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card" onclick="handleCardClick(this, 'paidrule.html')">
+                <div class="card-grey-box"></div>
+                <div class="char-wrapper">
+                    <img src="https://freefiremobile-a.akamaihd.net/common/web_event/official2.ff.garena.all/img/20228/20ca50be91eaaa4c33a92777c8429b24.png" class="char-img" draggable="false">
+                </div>
+                <div class="little-logo-container">
+                    <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110" class="little-logo-img" draggable="false">
+                    <div class="loader"></div>
+                </div>
+                <div class="card-info">
+                    <h2>Paid Tournament Rule</h2>
+                    <p>E-Sport Protection</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card" onclick="handleCardClick(this, 'megarule.html')">
+                <div class="card-grey-box"></div>
+                <div class="char-wrapper">
+                    <img src="https://freefiremobile-a.akamaihd.net/common/web_event/official2.ff.garena.all/img/20228/181faa683450fa82e5b7ffe068a9c7f9.png" class="char-img" draggable="false">
+                </div>
+                <div class="little-logo-container">
+                    <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110" class="little-logo-img" draggable="false">
+                    <div class="loader"></div>
+                </div>
+                <div class="card-info">
+                    <h2>Mega Tournament</h2>
+                    <p>Extream Compitative</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card" onclick="handleCardClick(this, 'motive.html')">
+                <div class="card-grey-box"></div>
+                <div class="char-wrapper">
+                    <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_09-19-36-959.png" class="char-img" draggable="false">
+                </div>
+                <div class="little-logo-container">
+                    <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110" class="little-logo-img" draggable="false">
+                    <div class="loader"></div>
+                </div>
+                <div class="card-info">
+                    <h2>who i am ?</h2>
+                    <p>Motive ?</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'F12' || event.keyCode === 123) event.preventDefault();
+            if ((event.ctrlKey || event.metaKey) && event.shiftKey && (event.key === 'I' || event.key === 'i')) event.preventDefault();
+            if ((event.ctrlKey || event.metaKey) && event.shiftKey && (event.key === 'J' || event.key === 'j')) event.preventDefault();
+            if ((event.ctrlKey || event.metaKey) && (event.key === 'U' || event.key === 'u')) event.preventDefault();
+        });
+
+        let isNavigating = false;
+
+        function handleCardClick(cardElement, redirectUrl) {
+            if (isNavigating) return;
+            isNavigating = true;
+
+            if (navigator.vibrate) navigator.vibrate(40); 
+
+            cardElement.classList.add('active');
+
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 850); 
+        }
+
+        // --- BFCache Fix: Reset state when user presses "Back" button ---
+        window.addEventListener('pageshow', function(event) {
+            // Unlocks navigation lock
+            isNavigating = false;
+            
+            // Reverts all cards back to their normal visual state
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
