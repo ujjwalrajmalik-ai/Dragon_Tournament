@@ -8,9 +8,9 @@
     <style>
         /* === RESTRICTIONS & BASE STYLES === */
         :root {
-            --bg-color: #000000; /* Switched to Black */
+            --bg-color: #000000; 
             --header-bg: #000000;
-            --card-grey: #e5e7eb;
+            --card-grey: #222222; /* Changed to Dark Grey */
         }
         
         body {
@@ -49,7 +49,6 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            /* Adjusted shadow and added subtle border to separate from black body */
             box-shadow: 0 4px 15px rgba(0,0,0,0.8);
             border-bottom: 1px solid #222222; 
         }
@@ -71,13 +70,12 @@
             cursor: pointer;
             z-index: 10;
             transition: z-index 0s step-start;
-            /* Subtle light shadow to lift card off the black background */
             box-shadow: 0 10px 20px rgba(255,255,255,0.03);
-            background: #ffffff;
-            border-radius: 4px; /* Optional slight rounding to soften edges */
+            background: #000000; /* Changed from white to black (Behind the grey box) */
+            border-radius: 4px; 
         }
 
-        /* Grey Box (80% Top) */
+        /* Dark Grey Box (80% Top) */
         .card-grey-box {
             position: absolute;
             top: 5%;
@@ -143,7 +141,7 @@
             height: 100%;
             object-fit: contain;
             object-position: bottom center;
-            filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.4));
+            filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.6)); /* Deepened shadow for dark background */
             
             will-change: transform, filter;
             animation: cleanSwipeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
@@ -213,7 +211,7 @@
         .card.active { z-index: 50; }
         .card.active .char-img {
             transform: scale(1.2);
-            filter: drop-shadow(0px 25px 30px rgba(0,0,0,0.8));
+            filter: drop-shadow(0px 25px 30px rgba(0,0,0,0.9)); /* Deeper shadow on click */
         }
         .card.active .little-logo-img { opacity: 0; transform: scale(0.2); }
         .card.active .loader { opacity: 1; transform: scale(1); }
@@ -325,12 +323,8 @@
             }, 850); 
         }
 
-        // --- BFCache Fix: Reset state when user presses "Back" button ---
         window.addEventListener('pageshow', function(event) {
-            // Unlocks navigation lock
             isNavigating = false;
-            
-            // Reverts all cards back to their normal visual state
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.classList.remove('active');
