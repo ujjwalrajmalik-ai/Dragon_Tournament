@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- STRICTLY UNZOOMABLE VIEWPORT -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dragon Tournaments | Free Rooms</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,123 +16,104 @@
             -moz-user-select: none; -ms-user-select: none; user-select: none;
         }
 
+        /* Dynamic Cyber Scrollbars */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(11, 12, 16, 0.9); }
+        ::-webkit-scrollbar-thumb { background: #66fcf1; border-radius: 10px; box-shadow: 0 0 10px rgba(102, 252, 241, 0.5); }
+
         img { -webkit-touch-callout: none; -webkit-user-drag: none; }
 
         body {
-            background-color: #000000; color: #ffffff;
+            background-color: #0b0c10; color: #ffffff;
             min-height: 100vh; display: flex; flex-direction: column;
             align-items: center; overflow-x: hidden;
-            padding-top: 120px; /* Space for Header */
+            padding-top: 90px;
             padding-bottom: 50px;
         }
 
-        /* Global Fixed App Header */
+        /* Hall of Fame Style Header */
         .app-header {
             position: fixed; top: 0; left: 0; width: 100%; 
-            height: 105px; padding: 35px 20px 0 20px; 
-            background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex;
+            height: 70px; padding: 0 20px;
+            background: rgba(11, 12, 16, 0.9); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex;
             justify-content: space-between; align-items: center; 
-            z-index: 900; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+            z-index: 900; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
         .header-title-img { height: 40px; width: auto; border-radius: 5px; cursor: pointer; }
 
         .header-action-btn {
-            color: #fff; font-size: 22px; cursor: pointer; transition: all 0.3s ease;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); display: flex;
-            align-items: center; gap: 8px; background: none; border: none; outline: none;
+            color: #c5c6c7; font-size: 22px; cursor: pointer; transition: color 0.3s ease, transform 0.2s ease;
+            display: flex; align-items: center; gap: 8px; background: none; border: none; outline: none;
         }
-        .header-action-btn:hover { color: #00ffff; text-shadow: 0 0 15px #00ffff; transform: scale(1.1); }
+        .header-action-btn:hover { color: #66fcf1; transform: scale(1.05); }
 
         /* Content Container */
-        #content-container {
-            width: 95%; max-width: 500px; display: flex; flex-direction: column; gap: 20px;
-            animation: fadeIn 0.4s ease;
-        }
-
+        #content-container { width: 95%; max-width: 500px; display: flex; flex-direction: column; gap: 20px; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* System Messages */
-        .status-msg {
-            color: #00ffff; text-shadow: 0 0 10px #00ffff; font-weight: bold; font-size: 16px;
-            text-align: center; margin-bottom: 20px;
-        }
-        .error { color: #ff3333 !important; text-shadow: 0 0 10px #ff3333 !important; }
+        .status-msg { color: #888; font-weight: 600; font-size: 14px; text-align: center; margin-bottom: 10px; height: 20px; }
+        .error { color: #ff4c4c !important; text-shadow: none !important; }
 
-        /* Skeleton Loader for Room Cards */
-        .skeleton-card {
-            background: rgba(25, 25, 25, 0.6); border-radius: 15px; padding: 15px;
-            position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); height: 160px;
-        }
-        .skeleton-card::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transform: skewX(-20deg); animation: shimmer 1.5s infinite;
-        }
+        /* Hall of Fame Skeleton Loader */
+        .skeleton-card { display: flex; align-items: center; background: rgba(31, 33, 36, 0.6); border-radius: 12px; padding: 15px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.03); height: 140px; }
+        .skeleton-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transform: skewX(-20deg); animation: shimmer 1.5s infinite; }
         @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
 
-        /* --- ESPORTS ROOM CARD --- */
+        /* --- PREMIUM ROOM CARD --- */
         .room-card {
-            background: rgba(15, 15, 15, 0.8); backdrop-filter: blur(10px);
-            border: 1px solid #00ff88; border-radius: 15px; padding: 15px;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), inset 0 0 10px rgba(0, 255, 136, 0.05);
+            background: rgba(31, 33, 36, 0.6); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 18px;
             position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 15px;
-            transition: transform 0.2s;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+        .room-card.active { border: 1px solid rgba(102, 252, 241, 0.3); box-shadow: 0 4px 20px rgba(102, 252, 241, 0.05); }
 
         /* Top Row: Logo, Title, Prize */
-        .room-header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;
-        }
-        .room-logo { height: 35px; width: auto; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
-        .room-title-img { height: 25px; width: auto; opacity: 0.9; }
-        .room-prize {
-            background: linear-gradient(45deg, #ffd700, #ffaa00); padding: 4px 10px;
-            border-radius: 5px; color: #000; font-weight: 900; font-size: 13px;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); display: flex; align-items: center; gap: 5px;
-        }
+        .room-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; }
+        .room-logo { height: 35px; width: auto; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
+        .room-title-img { height: 22px; width: auto; opacity: 0.9; margin-left: -10px; }
+        .room-prize { background: linear-gradient(135deg, #ffd700, #b8860b); padding: 5px 12px; border-radius: 6px; color: #0b0c10; font-weight: 800; font-size: 12px; box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2); display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
 
-        /* Middle Row: Time & Alarm Button */
-        .room-mid { display: flex; justify-content: space-between; align-items: center; }
-        .room-time {
-            font-size: 18px; font-weight: 900; color: #00ffff; text-shadow: 0 0 10px rgba(0,255,255,0.5);
-            display: flex; align-items: center; gap: 8px; letter-spacing: 1px;
-        }
+        /* Middle Row: Book Room Button (Integrated Time) */
+        .room-mid { width: 100%; }
         .book-btn {
-            background: linear-gradient(45deg, #00ff88, #00aa55); color: #000;
-            border: none; padding: 8px 15px; border-radius: 20px; font-weight: 900;
-            font-size: 12px; text-transform: uppercase; cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4); transition: transform 0.2s;
-            display: flex; align-items: center; gap: 6px; outline: none;
+            width: 100%; background: rgba(102, 252, 241, 0.1); color: #66fcf1;
+            border: 1px solid rgba(102, 252, 241, 0.4); padding: 12px; border-radius: 8px;
+            font-weight: 800; font-size: 14px; text-transform: uppercase; cursor: pointer;
+            transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; letter-spacing: 1px;
         }
-        .book-btn:active { transform: scale(0.95); }
+        .book-btn:active { transform: scale(0.98); background: rgba(102, 252, 241, 0.2); }
+        .book-btn:hover { box-shadow: 0 0 15px rgba(102, 252, 241, 0.2); }
 
         /* Bottom Row: ID & PASS Copy Sections */
-        .room-footer { display: flex; gap: 10px; }
+        .room-footer { display: flex; gap: 12px; }
         .copy-box {
-            flex: 1; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 10px; border-radius: 8px; display: flex; justify-content: space-between;
-            align-items: center; font-size: 14px; font-weight: bold; color: #ddd;
+            flex: 1; background: rgba(11, 12, 16, 0.8); border: 1px solid rgba(255,255,255,0.05);
+            padding: 10px 12px; border-radius: 8px; display: flex; justify-content: space-between;
+            align-items: center; font-size: 13px; font-weight: 700; color: #c5c6c7; transition: 0.3s;
         }
-        .copy-box span { letter-spacing: 1px; }
-        .copy-icon { color: #00ffff; font-size: 16px; cursor: pointer; transition: color 0.3s; }
+        .copy-box.populated { border-color: rgba(102, 252, 241, 0.2); color: #fff; }
+        .copy-icon { color: #888; font-size: 15px; cursor: pointer; transition: color 0.2s; }
+        .copy-box.populated .copy-icon { color: #66fcf1; }
+        .copy-box.populated .copy-icon:hover { color: #fff; transform: scale(1.1); }
 
-        /* --- DONE STATE (Completed Room) --- */
-        .room-card.done {
-            border-color: #555; box-shadow: none; cursor: pointer;
-        }
-        .room-card.done .blur-wrapper {
-            filter: grayscale(100%) blur(5px); opacity: 0.4; pointer-events: none;
-        }
-        .done-overlay {
+        /* Waiting state animation */
+        .waiting-text { font-style: italic; color: #666; font-weight: 600; }
+        .waiting-dots::after { content: ''; animation: dots 1.5s steps(4, end) infinite; }
+        @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
+
+        /* --- ABSOLUTE BLACKOUT STATE (Completed Room) --- */
+        .room-card.blackout { background: rgba(15, 17, 20, 0.3); border-color: transparent; box-shadow: none; pointer-events: none; }
+        .room-card.blackout .room-content { filter: grayscale(100%) opacity(0.1) blur(2px); pointer-events: none; }
+        .blackout-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 10; color: #ffd700; font-size: 24px; font-weight: 900; text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 5px #000; gap: 10px;
+            z-index: 10; color: #444; font-size: 20px; font-weight: 900; text-transform: uppercase;
+            letter-spacing: 5px; gap: 8px; pointer-events: none;
         }
-        .done-overlay i { font-size: 35px; animation: float 2s infinite alternate; }
+        .blackout-overlay i { font-size: 28px; margin-bottom: 5px; opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -148,7 +128,7 @@
 
     <!-- MAIN CONTENT -->
     <div id="content-container">
-        <div id="status-msg" class="status-msg"></div>
+        <div id="status-msg" class="status-msg">Loading Tournaments...</div>
 
         <!-- SKELETON LOADER -->
         <div id="skeleton-container">
@@ -171,21 +151,7 @@
         });
 
         // ---------------------------------------------------------
-        // FLUTTER BRIDGE (SAFE COMMUNICATION TO APP)
-        // ---------------------------------------------------------
-        function sendToApp(command, data) {
-            if (window.FlutterChannel) {
-                window.FlutterChannel.postMessage(JSON.stringify({
-                    "command": command,
-                    "payload": data
-                }));
-                return true;
-            }
-            return false;
-        }
-
-        // ---------------------------------------------------------
-        // BACKEND FETCH LOGIC
+        // BACKEND FETCH & SILENT REFRESH LOGIC
         // ---------------------------------------------------------
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbxpQe60NQKeXM91_eEs480nhHFlKP4psm9nnvfeRXo2YzHgLOw5nTUkeXz63eS77OJQ/exec';
         
@@ -195,6 +161,9 @@
 
         const logoUrl = 'https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110';
         const titleUrl = 'https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png';
+
+        let autoRefreshTimer = null;
+        let lastRenderedHTML = "";
 
         const preloadImage = (src) => {
             return new Promise((resolve) => {
@@ -206,148 +175,184 @@
         };
 
         document.addEventListener("DOMContentLoaded", () => {
-            fetch(scriptUrl)
-                .then(res => res.json())
-                .then(data => {
-                    if(data.error) { throw new Error(data.error); }
-                    if(data.length === 0) { throw new Error("No Free Tournaments available right now."); }
+            fetchRooms(false); // Initial load (not silent)
+        });
 
-                    Promise.all([preloadImage(logoUrl), preloadImage(titleUrl)]).then(() => {
-                        skeleton.style.display = 'none';
-                        renderRooms(data);
-                    });
-                })
-                .catch(err => {
+        async function fetchRooms(isSilent = false) {
+            try {
+                let res = await fetch(scriptUrl);
+                let data = await res.json();
+                
+                if(data.error) throw new Error(data.error);
+                if(data.length === 0) throw new Error("No Free Tournaments available right now.");
+
+                if (!isSilent) {
+                    await Promise.all([preloadImage(logoUrl), preloadImage(titleUrl)]);
+                    skeleton.style.display = 'none';
+                }
+
+                const reversedData = [...data].reverse();
+                buildAndRenderRooms(reversedData);
+                statusMsg.innerText = "Tournaments Loaded.";
+                if(isSilent) setTimeout(() => statusMsg.innerText = "", 2000); else statusMsg.innerText = "";
+                
+                checkIfRefreshNeeded(reversedData);
+
+            } catch(err) {
+                if (!isSilent) {
                     skeleton.style.display = 'none';
                     statusMsg.innerText = err.message || "Failed to load tournaments.";
                     statusMsg.classList.add('error');
-                });
-        });
+                }
+            }
+        }
 
-        // ---------------------------------------------------------
-        // RENDER LOGIC
-        // ---------------------------------------------------------
-        function renderRooms(data) {
-            const reversedData = [...data].reverse();
+        // Checks if any active room is missing ID or Pass. If yes, keeps polling.
+        function checkIfRefreshNeeded(data) {
+            let needsRefresh = data.some(room => {
+                const status = (room.Status || "").toString().trim();
+                if (status !== "") return false; // Done rooms don't need refresh
 
-            reversedData.forEach(room => {
-                // EXTREMELY SAFE STRING CONVERSIONS
-                const rawStatus = room.Status !== undefined && room.Status !== null ? String(room.Status) : "";
-                const isDone = (rawStatus.trim() !== "");
+                const id = (room.ID || "").toString().trim().toLowerCase();
+                const pass = (room.Pass || "").toString().trim().toLowerCase();
                 
-                const prize = room.Prize !== undefined && room.Prize !== null ? String(room.Prize) : "TBA";
-                const time = room.Time !== undefined && room.Time !== null ? String(room.Time) : "TBA";
-                const roomId = room.ID !== undefined && room.ID !== null ? String(room.ID) : "Hidden";
-                const roomPass = room.Pass !== undefined && room.Pass !== null ? String(room.Pass) : "Hidden";
-                const uidParams = room.Uid !== undefined && room.Uid !== null ? String(room.Uid) : "";
+                return id === "" || id === "tba" || id === "hidden" || 
+                       pass === "" || pass === "tba" || pass === "hidden";
+            });
+
+            if (needsRefresh && !autoRefreshTimer) {
+                statusMsg.innerText = "Waiting for ID & Pass to arrive...";
+                autoRefreshTimer = setInterval(() => fetchRooms(true), 10000); // Poll every 10 seconds silently
+            } else if (!needsRefresh && autoRefreshTimer) {
+                clearInterval(autoRefreshTimer);
+                autoRefreshTimer = null;
+                statusMsg.innerText = "";
+            }
+        }
+
+        // ---------------------------------------------------------
+        // RENDER LOGIC (Optimized to prevent flickering)
+        // ---------------------------------------------------------
+        function buildAndRenderRooms(data) {
+            let newHTML = "";
+
+            data.forEach(room => {
+                const rawStatus = (room.Status || "").toString().trim();
+                const isDone = (rawStatus !== "");
+                
+                const prize = (room.Prize || "TBA").toString();
+                const time = (room.Time || "TBA").toString();
+                
+                const rawId = (room.ID || "").toString().trim();
+                const rawPass = (room.Pass || "").toString().trim();
+                
+                const isIdHidden = rawId === "" || rawId.toLowerCase() === "tba" || rawId.toLowerCase() === "hidden";
+                const isPassHidden = rawPass === "" || rawPass.toLowerCase() === "tba" || rawPass.toLowerCase() === "hidden";
 
                 if (isDone) {
-                    roomsWrapper.innerHTML += `
-                        <div class="room-card done" onclick="openWinner('${uidParams}')">
-                            <div class="blur-wrapper">
+                    newHTML += `
+                        <div class="room-card blackout">
+                            <div class="room-content">
                                 <div class="room-header">
                                     <img src="${logoUrl}" class="room-logo" draggable="false">
                                     <img src="${titleUrl}" class="room-title-img" draggable="false">
                                     <div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>
                                 </div>
                                 <div class="room-mid">
-                                    <div class="room-time"><i class="fas fa-clock"></i> ${time}</div>
-                                    <button class="book-btn" disabled><i class="fas fa-bell"></i> Ended</button>
+                                    <button class="book-btn"><i class="fas fa-bell"></i> SET ALARM FOR ${time}</button>
                                 </div>
                                 <div class="room-footer">
-                                    <div class="copy-box"><span>ID: *****</span> <i class="fas fa-copy copy-icon"></i></div>
-                                    <div class="copy-box"><span>PASS: *****</span> <i class="fas fa-copy copy-icon"></i></div>
+                                    <div class="copy-box"><span>ID: HIDDEN</span> <i class="fas fa-copy copy-icon"></i></div>
+                                    <div class="copy-box"><span>PASS: HIDDEN</span> <i class="fas fa-copy copy-icon"></i></div>
                                 </div>
                             </div>
-                            <div class="done-overlay">
-                                <i class="fas fa-trophy"></i>
-                                <span>View Winner</span>
+                            <div class="blackout-overlay">
+                                <i class="fas fa-times-circle"></i>
+                                <span>Tournament Ended</span>
                             </div>
                         </div>
                     `;
                 } else {
                     const safeTime = time.replace(/'/g, "\\'");
-                    const safeId = roomId.replace(/'/g, "\\'");
-                    const safePass = roomPass.replace(/'/g, "\\'");
+                    const safeId = rawId.replace(/'/g, "\\'");
+                    const safePass = rawPass.replace(/'/g, "\\'");
 
-                    roomsWrapper.innerHTML += `
+                    const idHtml = isIdHidden 
+                        ? `<span class="waiting-text">ID: Waiting<span class="waiting-dots"></span></span>` 
+                        : `<span>ID: ${rawId}</span> <i class="fas fa-copy copy-icon" onclick="copyText('${safeId}', this)"></i>`;
+                    
+                    const passHtml = isPassHidden 
+                        ? `<span class="waiting-text">PASS: Waiting<span class="waiting-dots"></span></span>` 
+                        : `<span>PASS: ${rawPass}</span> <i class="fas fa-copy copy-icon" onclick="copyText('${safePass}', this)"></i>`;
+
+                    newHTML += `
                         <div class="room-card active">
-                            <div class="room-header">
-                                <img src="${logoUrl}" class="room-logo" draggable="false">
-                                <img src="${titleUrl}" class="room-title-img" draggable="false">
-                                <div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>
-                            </div>
-                            <div class="room-mid">
-                                <div class="room-time"><i class="fas fa-clock"></i> ${time}</div>
-                                <button class="book-btn" onclick="setAlarm('${safeTime}')">
-                                    <i class="fas fa-bell"></i> Book Room
-                                </button>
-                            </div>
-                            <div class="room-footer">
-                                <div class="copy-box">
-                                    <span>ID: ${roomId}</span> 
-                                    <i class="fas fa-copy copy-icon" onclick="copyText('${safeId}', this)"></i>
+                            <div class="room-content">
+                                <div class="room-header">
+                                    <img src="${logoUrl}" class="room-logo" draggable="false">
+                                    <img src="${titleUrl}" class="room-title-img" draggable="false">
+                                    <div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>
                                 </div>
-                                <div class="copy-box">
-                                    <span>PASS: ${roomPass}</span> 
-                                    <i class="fas fa-copy copy-icon" onclick="copyText('${safePass}', this)"></i>
+                                <div class="room-mid">
+                                    <button class="book-btn" onclick="setNativeAlarm('${safeTime}')">
+                                        <i class="fas fa-bell"></i> SET ALARM FOR ${time}
+                                    </button>
+                                </div>
+                                <div class="room-footer">
+                                    <div class="copy-box ${!isIdHidden ? 'populated' : ''}">${idHtml}</div>
+                                    <div class="copy-box ${!isPassHidden ? 'populated' : ''}">${passHtml}</div>
                                 </div>
                             </div>
                         </div>
                     `;
                 }
             });
+
+            // Only update DOM if HTML actually changed (prevents button/copy interruptions during silent refresh)
+            if (lastRenderedHTML !== newHTML) {
+                roomsWrapper.innerHTML = newHTML;
+                lastRenderedHTML = newHTML;
+            }
         }
 
         // ---------------------------------------------------------
-        // ACTIONS & INTENTS
+        // NATIVE ALARM INTENT & ACTIONS
         // ---------------------------------------------------------
         window.copyText = function(text, el) {
-            if(text === "Hidden" || text === "") return;
+            if(!text || text === "") return;
             navigator.clipboard.writeText(text).then(() => {
                 el.className = 'fas fa-check copy-icon';
-                el.style.color = '#00ff00';
+                el.style.color = '#fff';
                 setTimeout(() => {
                     el.className = 'fas fa-copy copy-icon';
-                    el.style.color = '#00ffff';
+                    el.style.color = '';
                 }, 2000);
             });
         };
 
-        window.openWinner = function(uid) {
-            if(!uid) return;
-            window.location.href = `hall.html#profile-${uid}`;
-        };
+        window.setNativeAlarm = function(timeStr) {
+            if(!timeStr || timeStr.toLowerCase() === "tba") return alert("Time not scheduled yet!");
 
-        window.setAlarm = function(timeStr) {
-            if(!timeStr || timeStr === "TBA") return alert("Time not scheduled yet!");
-
-            const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM|am|pm)?/i);
+            // Parses exactly 12-hour format: e.g. "08:30 PM" or "8:30am"
+            const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/i);
             
             if(!match) {
-                // FIXED: Removed // after intent:
-                window.location.href = "intent:#Intent;action=android.intent.action.SET_ALARM;b.android.intent.extra.alarm.SKIP_UI=true;end";
+                alert("Cannot read time format correctly. Ensure it is HH:MM AM/PM.");
                 return;
             }
 
             let h = parseInt(match[1]);
             let m = parseInt(match[2]);
-            let ampm = match[3];
+            let ampm = match[3].toUpperCase();
 
-            if(ampm) {
-                ampm = ampm.toUpperCase();
-                if(ampm === 'PM' && h < 12) h += 12;
-                if(ampm === 'AM' && h === 12) h = 0;
-            }
+            // Convert 12hr to 24hr for Android Intent purely
+            if(ampm === 'PM' && h < 12) h += 12;
+            if(ampm === 'AM' && h === 12) h = 0;
 
-            // OPTION 1: Send to Flutter App via JS Channel
-            const sentToFlutter = sendToApp("SET_ALARM", { hour: h, minute: m, message: "Dragon Match" });
+            // Raw Android Intent. Forces the local clock app open directly.
+            const intentUrl = `intent:#Intent;action=android.intent.action.SET_ALARM;i.android.intent.extra.alarm.HOUR=${h};i.android.intent.extra.alarm.MINUTES=${m};S.android.intent.extra.alarm.MESSAGE=Dragon%20Tournament;b.android.intent.extra.alarm.SKIP_UI=false;end`;
             
-            // OPTION 2: Fallback to Native Android Intent URL (FIXED: No slashes)
-            if (!sentToFlutter) {
-                const intentUrl = `intent:#Intent;action=android.intent.action.SET_ALARM;i.android.intent.extra.alarm.HOUR=${h};i.android.intent.extra.alarm.MINUTES=${m};S.android.intent.extra.alarm.MESSAGE=Dragon%20Match;b.android.intent.extra.alarm.SKIP_UI=false;end`;
-                window.location.href = intentUrl;
-            }
+            window.location.href = intentUrl;
         };
     </script>
 </body>
