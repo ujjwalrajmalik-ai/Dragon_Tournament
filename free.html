@@ -55,7 +55,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .status-msg { color: #888; font-weight: 600; font-size: 14px; text-align: center; margin-bottom: 10px; height: 20px; }
-        .error { color: #ff4c4c !important; text-shadow: none !important; }
+        .error { color: #ff4c4c !important; text-shadow: 0 0 10px rgba(255, 76, 76, 0.5) !important; }
 
         /* PERFECT SKELETON LOADER */
         .skeleton-card {
@@ -244,11 +244,18 @@
         let autoRefreshTimer = null;
         let lastRenderedData = [];
 
+        // BULLETPROOF PRELOADER (Never hangs)
         const preloadImage = (src) => {
             return new Promise((resolve) => {
                 if(!src) return resolve();
                 const img = new Image();
-                img.onload = () => resolve(); img.onerror = () => resolve(); img.src = src;
+                let resolved = false;
+                const done = () => { if(!resolved){ resolved = true; resolve(); } };
+                img.onload = done;
+                img.onerror = done;
+                img.src = src;
+                if(img.complete) done();
+                setTimeout(done, 2500); // 2.5 second absolute failsafe
             });
         };
 
@@ -262,7 +269,7 @@
                 let data = await res.json();
                 
                 if(data.error) throw new Error(data.error);
-                if(data.length === 0) throw new Error("No Free Tournaments available right now.");
+                if(!data || data.length === 0) throw new Error("No Free Tournaments available right now.");
 
                 if (!isSilent) {
                     await Promise.all([preloadImage(logoUrl), preloadImage(titleUrl)]);
@@ -339,44 +346,143 @@
             let newHTML = "";
 
             data.forEach((room, index) => {
-                const rawStatus = (room.Status || "").toString().trim();
-                const isDone = (rawStatus !== "");
-                const prize = (room.Prize || "TBA").toString();
-                
-                const rawTime = (room.Time || "TBA").toString();
-                const displayTime = cleanTimeDisplay(rawTime);
-                
-                // Treats UID column purely as Date Text now
-                const dateText = (room.Uid || "").toString().trim();
-                
-                // Checks standard image columns for prize popup
-                const prizePic = room.Photo || room.Image || room.PrizePic || room.PrizeImage || "";
-                
-                const rawId = (room.ID || "").toString().trim();
-                const rawPass = (room.Pass || "").toString().trim();
-                
-                const isIdHidden = rawId === "" || rawId.toLowerCase() === "tba" || rawId.toLowerCase() === "hidden";
-                const isPassHidden = rawPass === "" || rawPass.toLowerCase() === "tba" || rawPass.toLowerCase() === "hidden";
+                try {
+                    const rawStatus = (room.Status || "").toString().trim();
+                    const isDone = (rawStatus !== "");
+                    const prize = (room.Prize || "TBA").toString();
+                    
+                    const rawTime = (room.Time || "TBA").toString();
+                    const displayTime = cleanTimeDisplay(rawTime);
+                    
+                    const dateText = (room.Uid || "").toString().trim();
+                    
+                    // Secure image extraction
+                    const prizePic = (room.Photo || room.Image || room.PrizePic || room.PrizeImage || "").toString().trim();
+                    const safePrizePic = prizePic.replace(/'/g, "\\'");
+                    
+                    const rawId = (room.ID || "").toString().trim();
+                    const rawPass = (room.Pass || "").toString().trim();
+                    
+                    const isIdHidden = rawId === "" || rawId.toLowerCase() === "tba" || rawId.toLowerCase() === "hidden";
+                    const isPassHidden = rawPass === "" || rawPass.toLowerCase() === "tba" || rawPass.toLowerCase() === "hidden";
 
-                let justArrivedClass = "";
-                if (lastRenderedData.length > 0) {
-                    const oldRoom = lastRenderedData[index];
-                    if (oldRoom) {
-                        const oldIdHidden = (oldRoom.ID || "").toString().trim() === "" || (oldRoom.ID || "").toString().trim().toLowerCase() === "tba";
-                        if (oldIdHidden && !isIdHidden) justArrivedClass = "flash-success";
+                    let justArrivedClass = "";
+                    if (lastRenderedData.length > 0) {
+                        const oldRoom = lastRenderedData[index];
+                        if (oldRoom) {
+                            const oldIdHidden = (oldRoom.ID || "").toString().trim() === "" || (oldRoom.ID || "").toString().trim().toLowerCase() === "tba";
+                            if (oldIdHidden && !isIdHidden) justArrivedClass = "flash-success";
+                        }
                     }
+
+                    const prizeHtml = prizePic !== "" 
+                        ? `<div class="room-prize clickable" onclick="openPrizeModal('${safePrizePic}')"><i class="fas fa-gift"></i> ${prize}</div>`
+                        : `<div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>`;
+
+                    if (isDone) {
+                        newHTML += `
+                            <div class="room-card blackout">
+                                <div class="room-content">
+                                    <div class="room-header">
+                                        <div style="display:flex; align-items:center; gap:8px;">
+                                            <img src="${logoUrl}" class="room-logo" draggable="false">
+                                            <img src="${titleUrl}" class="room-title-img" draggable="false">
+                                        </div>
+                                        ${prizeHtml}
+                                    </div>
+                                    <div class="room-mid">
+                                        ${dateText ? `<div class="room-date">${dateText}</div>` : ''}
+                                        <div class="room-time"><i class="fas fa-clock"></i> ${displayTime}</div>
+                                    </div>
+                                    <div class="room-footer">
+                                        <div class="copy-box"><span>ID: HIDDEN</span> <i class="fas fa-copy copy-icon"></i></div>
+                                        <div class="copy-box"><span>PASS: HIDDEN</span> <i class="fas fa-copy copy-icon"></i></div>
+                                    </div>
+                                    <div class="rules-link"><i class="fas fa-exclamation-circle"></i> Check Rules before play!</div>
+                                </div>
+                                <div class="blackout-overlay">
+                                    <i class="fas fa-times-circle"></i>
+                                    <span>Tournament Ended</span>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        const safeId = rawId.replace(/'/g, "\\'");
+                        const safePass = rawPass.replace(/'/g, "\\'");
+
+                        const idHtml = isIdHidden 
+                            ? `<span class="waiting-text">ID: Waiting<span class="waiting-dots"></span></span>` 
+                            : `<span>ID: ${rawId}</span> <i class="fas fa-copy copy-icon" onclick="copyText('${safeId}', this)"></i>`;
+                        
+                        const passHtml = isPassHidden 
+                            ? `<span class="waiting-text">PASS: Waiting<span class="waiting-dots"></span></span>` 
+                            : `<span>PASS: ${rawPass}</span> <i class="fas fa-copy copy-icon" onclick="copyText('${safePass}', this)"></i>`;
+
+                        newHTML += `
+                            <div class="room-card active">
+                                <div class="room-content">
+                                    <div class="room-header">
+                                        <div style="display:flex; align-items:center; gap:8px;">
+                                            <img src="${logoUrl}" class="room-logo" draggable="false">
+                                            <img src="${titleUrl}" class="room-title-img" draggable="false">
+                                        </div>
+                                        ${prizeHtml}
+                                    </div>
+                                    <div class="room-mid">
+                                        ${dateText ? `<div class="room-date">${dateText}</div>` : ''}
+                                        <div class="room-time"><i class="fas fa-clock"></i> ${displayTime}</div>
+                                    </div>
+                                    <div class="room-footer">
+                                        <div class="copy-box ${!isIdHidden ? 'populated' : ''} ${justArrivedClass}">${idHtml}</div>
+                                        <div class="copy-box ${!isPassHidden ? 'populated' : ''} ${justArrivedClass}">${passHtml}</div>
+                                    </div>
+                                    <div class="rules-link" onclick="window.location.href='freerule.html'">
+                                        <i class="fas fa-exclamation-circle"></i> Check Rules before play!
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } catch (e) {
+                    console.error("Error rendering a room card", e);
                 }
+            });
 
-                // Setup Prize Click logic
-                const prizeHtml = prizePic !== "" 
-                    ? `<div class="room-prize clickable" onclick="openPrizeModal('${prizePic}')"><i class="fas fa-gift"></i> ${prize}</div>`
-                    : `<div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>`;
+            roomsWrapper.innerHTML = newHTML;
+            lastRenderedData = [...data]; 
+        }
 
-                if (isDone) {
-                    newHTML += `
-                        <div class="room-card blackout">
-                            <div class="room-content">
-                                <div class="room-header">
-                                    <div style="display:flex; align-items:center; gap:8px;">
-                                        <img src="${logoUrl}" class="room-logo" draggable="false">
-                                        <img src="${titleUrl}" class="room-title-img" draggable="false">
+        // ---------------------------------------------------------
+        // ACTIONS (Copy & Lightbox)
+        // ---------------------------------------------------------
+        window.copyText = function(text, el) {
+            if(!text || text === "") return;
+            navigator.clipboard.writeText(text).then(() => {
+                el.className = 'fas fa-check copy-icon';
+                el.style.color = '#fff';
+                setTimeout(() => {
+                    el.className = 'fas fa-copy copy-icon';
+                    el.style.color = '';
+                }, 2000);
+            });
+        };
+
+        window.openPrizeModal = function(url) {
+            const modal = document.getElementById('prize-modal');
+            const img = document.getElementById('prize-modal-img');
+            img.src = url;
+            modal.style.display = 'flex';
+        };
+
+        window.closePrizeModal = function() {
+            document.getElementById('prize-modal').style.display = 'none';
+            document.getElementById('prize-modal-img').src = '';
+        };
+        
+        document.getElementById('prize-modal').addEventListener('click', function(e) {
+            if(e.target === this) closePrizeModal();
+        });
+
+    </script>
+</body>
+</html>
