@@ -76,16 +76,13 @@
         .room-title-img { height: 22px; width: auto; opacity: 0.9; margin-left: -10px; }
         .room-prize { background: linear-gradient(135deg, #ffd700, #b8860b); padding: 5px 12px; border-radius: 6px; color: #0b0c10; font-weight: 800; font-size: 12px; box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2); display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
 
-        /* Middle Row: Book Room Button */
-        .room-mid { width: 100%; }
-        .book-btn {
-            width: 100%; background: rgba(102, 252, 241, 0.1); color: #66fcf1;
-            border: 1px solid rgba(102, 252, 241, 0.4); padding: 12px; border-radius: 8px;
-            font-weight: 800; font-size: 14px; text-transform: uppercase; cursor: pointer;
-            transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; letter-spacing: 1px;
+        /* Middle Row: Glowing Time Display */
+        .room-mid { width: 100%; display: flex; justify-content: center; align-items: center; padding: 5px 0; }
+        .room-time {
+            font-size: 22px; font-weight: 900; color: #66fcf1;
+            text-shadow: 0 0 15px rgba(102, 252, 241, 0.4);
+            letter-spacing: 2px; display: flex; align-items: center; gap: 10px;
         }
-        .book-btn:active { transform: scale(0.98); background: rgba(102, 252, 241, 0.2); }
-        .book-btn:hover { box-shadow: 0 0 15px rgba(102, 252, 241, 0.2); }
 
         /* Bottom Row: ID & PASS Copy Sections */
         .room-footer { display: flex; gap: 12px; }
@@ -163,7 +160,7 @@
         const titleUrl = 'https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png';
 
         let autoRefreshTimer = null;
-        let lastRenderedData = []; // Store raw data to track state changes
+        let lastRenderedData = [];
 
         const preloadImage = (src) => {
             return new Promise((resolve) => {
@@ -229,42 +226,31 @@
         }
 
         // ---------------------------------------------------------
-        // UNIVERSAL TIME PARSER (Strips dates, handles 24h & 12h)
+        // UNIVERSAL TIME CLEANER (Strictly formatting for Display)
         // ---------------------------------------------------------
-        function parseTimeData(rawStr) {
-            if (!rawStr) return null;
+        function cleanTimeDisplay(rawStr) {
+            if (!rawStr) return "TBA";
             let str = String(rawStr).trim();
 
-            // 1. Matches Explicit 12-hour format (e.g., "08:30 PM", "8:30am", "2023-10-24 08:30 PM")
             let match12 = str.match(/(\d{1,2}):(\d{2})(?::\d{2})?\s*(AM|PM)/i);
             if (match12) {
-                let h = parseInt(match12[1], 10);
-                let m = parseInt(match12[2], 10);
-                let ampm = match12[3].toUpperCase();
-                return { h: h, m: m, ampm: ampm, display: `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}` };
+                let h = parseInt(match12[1], 10); let m = parseInt(match12[2], 10); let ampm = match12[3].toUpperCase();
+                return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
             }
 
-            // 2. Matches ISO Date String (e.g., "1899-12-30T15:00:00.000Z")
             let d = new Date(str);
             if (!isNaN(d.getTime()) && str.includes('T')) {
-                let h24 = d.getHours();
-                let m = d.getMinutes();
-                let ampm = h24 >= 12 ? 'PM' : 'AM';
-                let h12 = h24 % 12 || 12;
-                return { h: h12, m: m, ampm: ampm, display: `${h12.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}` };
+                let h24 = d.getHours(); let m = d.getMinutes(); let ampm = h24 >= 12 ? 'PM' : 'AM'; let h12 = h24 % 12 || 12;
+                return `${h12.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
             }
 
-            // 3. Matches Raw 24-hour string (e.g., "20:30", "10/24 20:30:00")
             let match24 = str.match(/(\d{1,2}):(\d{2})/);
             if (match24) {
-                let h24 = parseInt(match24[1], 10);
-                let m = parseInt(match24[2], 10);
-                let ampm = h24 >= 12 ? 'PM' : 'AM';
-                let h12 = h24 % 12 || 12;
-                return { h: h12, m: m, ampm: ampm, display: `${h12.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}` };
+                let h24 = parseInt(match24[1], 10); let m = parseInt(match24[2], 10); let ampm = h24 >= 12 ? 'PM' : 'AM'; let h12 = h24 % 12 || 12;
+                return `${h12.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
             }
 
-            return null; // Format unrecognizable
+            return str; // Fallback
         }
 
         // ---------------------------------------------------------
@@ -279,8 +265,7 @@
                 const prize = (room.Prize || "TBA").toString();
                 
                 const rawTime = (room.Time || "TBA").toString();
-                const parsedTime = parseTimeData(rawTime);
-                const displayTime = parsedTime ? parsedTime.display : rawTime;
+                const displayTime = cleanTimeDisplay(rawTime);
                 
                 const rawId = (room.ID || "").toString().trim();
                 const rawPass = (room.Pass || "").toString().trim();
@@ -288,7 +273,6 @@
                 const isIdHidden = rawId === "" || rawId.toLowerCase() === "tba" || rawId.toLowerCase() === "hidden";
                 const isPassHidden = rawPass === "" || rawPass.toLowerCase() === "tba" || rawPass.toLowerCase() === "hidden";
 
-                // Detect if data just arrived this cycle to trigger flash animation
                 let justArrivedClass = "";
                 if (lastRenderedData.length > 0) {
                     const oldRoom = lastRenderedData[index];
@@ -308,7 +292,7 @@
                                     <div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>
                                 </div>
                                 <div class="room-mid">
-                                    <button class="book-btn"><i class="fas fa-bell"></i> SET ALARM FOR ${displayTime}</button>
+                                    <div class="room-time"><i class="fas fa-clock"></i> ${displayTime}</div>
                                 </div>
                                 <div class="room-footer">
                                     <div class="copy-box"><span>ID: HIDDEN</span> <i class="fas fa-copy copy-icon"></i></div>
@@ -322,7 +306,6 @@
                         </div>
                     `;
                 } else {
-                    const safeTimeArg = parsedTime ? parsedTime.display : rawTime.replace(/'/g, "\\'");
                     const safeId = rawId.replace(/'/g, "\\'");
                     const safePass = rawPass.replace(/'/g, "\\'");
 
@@ -343,9 +326,7 @@
                                     <div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>
                                 </div>
                                 <div class="room-mid">
-                                    <button class="book-btn" onclick="setNativeAlarm('${safeTimeArg}')">
-                                        <i class="fas fa-bell"></i> SET ALARM FOR ${displayTime}
-                                    </button>
+                                    <div class="room-time"><i class="fas fa-clock"></i> ${displayTime}</div>
                                 </div>
                                 <div class="room-footer">
                                     <div class="copy-box ${!isIdHidden ? 'populated' : ''} ${justArrivedClass}">${idHtml}</div>
@@ -358,12 +339,9 @@
             });
 
             roomsWrapper.innerHTML = newHTML;
-            lastRenderedData = [...data]; // Save current data state
+            lastRenderedData = [...data]; 
         }
 
-        // ---------------------------------------------------------
-        // NATIVE ALARM INTENT & ACTIONS
-        // ---------------------------------------------------------
         window.copyText = function(text, el) {
             if(!text || text === "") return;
             navigator.clipboard.writeText(text).then(() => {
@@ -374,29 +352,6 @@
                     el.style.color = '';
                 }, 2000);
             });
-        };
-
-        window.setNativeAlarm = function(timeStr) {
-            if(!timeStr || timeStr.toLowerCase() === "tba") return alert("Time not scheduled yet!");
-
-            const parsed = parseTimeData(timeStr);
-            
-            if(!parsed) {
-                alert("Error: Cannot read time (" + timeStr + "). Format unrecognizable.");
-                return;
-            }
-
-            let h = parsed.h;
-            let m = parsed.m;
-            let ampm = parsed.ampm;
-
-            // Convert to 24h explicitly for the Native Alarm Intent
-            if(ampm === 'PM' && h < 12) h += 12;
-            if(ampm === 'AM' && h === 12) h = 0;
-
-            const intentUrl = `intent:#Intent;action=android.intent.action.SET_ALARM;i.android.intent.extra.alarm.HOUR=${h};i.android.intent.extra.alarm.MINUTES=${m};S.android.intent.extra.alarm.MESSAGE=Dragon%20Tournament;b.android.intent.extra.alarm.SKIP_UI=false;end`;
-            
-            window.location.href = intentUrl;
         };
     </script>
 </body>
