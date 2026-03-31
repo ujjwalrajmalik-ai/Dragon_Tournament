@@ -6,8 +6,7 @@
     <title>Dragon Tournaments | Hall of Fame</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- External Libraries for New Features -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -22,11 +21,18 @@
             -moz-user-select: none; -ms-user-select: none; user-select: none;
         }
 
-        /* IDEA 10: Customized Cyber Scrollbars */
+        /* Dynamic Cyber Scrollbars */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: rgba(11, 12, 16, 0.9); }
+        
+        /* Default Scrollbar (Home Page) */
         ::-webkit-scrollbar-thumb { background: #66fcf1; border-radius: 10px; box-shadow: 0 0 10px rgba(102, 252, 241, 0.5); }
-        ::-webkit-scrollbar-thumb:hover { background: #45a29e; }
+        
+        /* Rank-Based Scrollbars */
+        body.scroll-elite ::-webkit-scrollbar-thumb { background: #66fcf1; box-shadow: 0 0 10px #66fcf1; }
+        body.scroll-gold ::-webkit-scrollbar-thumb { background: #ffd700; box-shadow: 0 0 10px #ffd700; }
+        body.scroll-silver ::-webkit-scrollbar-thumb { background: #c0c0c0; box-shadow: 0 0 10px #c0c0c0; }
+        body.scroll-bronze ::-webkit-scrollbar-thumb { background: #cd7f32; box-shadow: 0 0 10px #cd7f32; }
 
         img { -webkit-touch-callout: none; -webkit-user-drag: none; }
         input { -webkit-user-select: text; -khtml-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
@@ -82,18 +88,12 @@
         @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
 
         /* Search View Container */
-        #search-view {
-            display: none; width: 100%; min-height: calc(100vh - 105px);
-            background-color: #0b0c10; flex-direction: column; align-items: center;
-            padding-top: 30px; animation: fadeIn 0.3s ease;
-        }
-
+        #search-view { display: none; width: 100%; min-height: calc(100vh - 105px); background-color: #0b0c10; flex-direction: column; align-items: center; padding-top: 30px; animation: fadeIn 0.3s ease; }
         .search-input-wrapper { width: 90%; max-width: 500px; position: relative; margin-bottom: 30px; }
         .live-search-bar { width: 100%; padding: 18px 25px 18px 50px; font-size: 16px; color: #fff; background: rgba(31, 33, 36, 0.8); border: 1px solid rgba(102, 252, 241, 0.2); border-radius: 12px; outline: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; }
         .live-search-bar:focus { border-color: #66fcf1; background: rgba(31, 33, 36, 1); }
         .search-icon-inside { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #66fcf1; font-size: 18px; }
         .search-status { color: #888; font-size: 14px; margin-bottom: 20px; height: 20px; }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .error { color: #ff4c4c !important; text-align: center; font-weight: 500; margin-bottom: 20px;}
 
@@ -101,42 +101,45 @@
         .section-container { width: 90%; max-width: 600px; margin-bottom: 40px; display: flex; flex-direction: column; gap: 15px; }
         .section-title { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px; color: #c5c6c7; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 8px; text-align: center; }
 
-        /* IDEA 7: Quick Filter "Pill" Buttons */
-        .pill-filters-container {
-            display: flex; gap: 10px; width: 100%; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px;
-            scrollbar-width: none; /* Firefox */
-        }
-        .pill-filters-container::-webkit-scrollbar { display: none; /* Safari/Chrome */ }
-        
-        .filter-pill {
-            background: rgba(31, 33, 36, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); color: #888;
-            padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; white-space: nowrap;
-            cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 5px;
-        }
+        /* Quick Filter "Pill" Buttons */
+        .pill-filters-container { display: flex; gap: 10px; width: 100%; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; scrollbar-width: none; }
+        .pill-filters-container::-webkit-scrollbar { display: none; }
+        .filter-pill { background: rgba(31, 33, 36, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); color: #888; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 5px; }
         .filter-pill.active { background: rgba(102, 252, 241, 0.1); border-color: #66fcf1; color: #fff; box-shadow: 0 0 10px rgba(102, 252, 241, 0.2); }
         .filter-pill:hover { border-color: #c5c6c7; color: #fff; }
 
-        /* Sort Dropdown */
+        /* Themed Sort Dropdown */
         .filter-container { display: flex; justify-content: flex-end; width: 100%; margin-bottom: 5px; }
-        .sort-select { background: rgba(31, 33, 36, 0.8); color: #c5c6c7; border: 1px solid rgba(255, 255, 255, 0.1); padding: 6px 12px; border-radius: 8px; outline: none; font-size: 12px; font-weight: 600; cursor: pointer; transition: border-color 0.2s; }
-        .sort-select:focus { border-color: #66fcf1; color: #fff; }
+        .sort-select {
+            appearance: none;
+            background: linear-gradient(145deg, rgba(31,33,36,0.9), rgba(15,17,20,0.9));
+            color: #66fcf1;
+            border: 1px solid rgba(102, 252, 241, 0.3);
+            padding: 8px 35px 8px 15px;
+            border-radius: 20px;
+            font-size: 13px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2366fcf1%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 12px top 50%;
+            background-size: 10px auto;
+            transition: all 0.3s ease;
+        }
+        .sort-select:hover { border-color: #66fcf1; box-shadow: 0 4px 20px rgba(102, 252, 241, 0.2); }
+        .sort-select:focus { outline: none; border-color: #fff; color: #fff; }
+        .sort-select option { background: #0b0c10; color: #fff; font-weight: 600; }
 
         /* --- STRICTLY UNIFORM PREMIUM CARDS --- */
-        /* Core fix: All cards have strictly 1px border. Dimensions will absolutely not change. */
         .player-card {
             display: flex; align-items: center; background: rgba(31, 33, 36, 0.6); backdrop-filter: blur(10px);
             padding: 16px; cursor: pointer; position: relative; text-decoration: none; color: #fff; 
-            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); /* Uniform Border */
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; /* Tuned for 3D Tilt */
+            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
             will-change: transform;
         }
         
-        .player-card-photo-wrapper {
-            position: relative; width: 65px; height: 65px; margin-right: 18px; flex-shrink: 0;
-            display: flex; justify-content: center; align-items: center; border-radius: 50%; background: #000;
-        }
+        .player-card-photo-wrapper { position: relative; width: 65px; height: 65px; margin-right: 18px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; border-radius: 50%; background: #000; }
         .player-card-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; z-index: 2; border: 2px solid transparent; }
-        
         .player-card-info { display: flex; flex-direction: column; flex-grow: 1; justify-content: center; pointer-events: none; }
         .player-card-name { font-size: 17px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
         .player-card-uid { font-size: 12px; color: #888; margin-bottom: 8px; font-weight: 500; letter-spacing: 1px; }
@@ -147,7 +150,6 @@
 
         .mini-tier-icon { margin-left: auto; font-size: 20px; padding-left: 10px; display: flex; align-items: center; justify-content: center; opacity: 0.9; pointer-events: none;}
 
-        /* Professional Tier Coloring (Strictly identical dimensions) */
         .tier-bronze { border-color: rgba(205, 127, 50, 0.4); background: rgba(31, 33, 36, 0.5); }
         .tier-bronze .player-card-photo { border-color: rgba(205, 127, 50, 0.3); }
 
@@ -173,16 +175,18 @@
         #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; background-color: #0b0c10; background-size: cover; background-position: center; background-attachment: fixed; overflow-y: auto; padding-top: 105px; }
         .modal-header { position: fixed; top: 0; left: 0; width: 100%; height: 105px; padding: 35px 20px 0 20px; background: rgba(11, 12, 16, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center; z-index: 1001; }
         
-        .modal-overlay { position: relative; width: 100%; min-height: calc(100% - 105px); background: rgba(11, 12, 16, 0.92); backdrop-filter: blur(20px); display: flex; flex-direction: column; align-items: center; padding: 40px 20px 40px 20px; }
+        /* Adjusted Overlay for better Background Photo Visibility */
+        .modal-overlay { position: relative; width: 100%; min-height: calc(100% - 105px); background: rgba(11, 12, 16, 0.65); backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; padding: 40px 20px 40px 20px; }
         
-        /* The container we will screenshot for Postcard */
-        .modal-content { width: 100%; max-width: 600px; padding: 40px 30px; display: flex; flex-direction: column; align-items: center; position: relative; border-radius: 16px; background: rgba(31,33,36,0.6); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+        /* Darker Inner Content box so text is readable */
+        .modal-content { width: 100%; max-width: 600px; padding: 40px 30px; display: flex; flex-direction: column; align-items: center; position: relative; border-radius: 16px; background: rgba(15, 17, 20, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 40px rgba(0,0,0,0.6);}
 
         /* Share Button */
         .modal-share-btn { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; z-index: 10; }
         .modal-share-btn:hover { background: rgba(102, 252, 241, 0.2); border-color: #66fcf1; color: #66fcf1; }
 
-        .modal-tier-box { position: absolute; top: 20px; right: 20px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px 16px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; z-index: 10; transition: all 0.3s ease; text-align: center; min-width: 80px; backdrop-filter: blur(5px); }
+        .modal-tier-box { position: absolute; top: 20px; right: 20px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px 16px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; z-index: 10; transition: all 0.3s ease; text-align: center; min-width: 80px; }
+        
         .modal-photo-wrapper { width: 140px; height: 140px; margin-bottom: 25px; position: relative; display: flex; justify-content: center; align-items: center; border-radius: 50%; padding: 4px; }
         .modal-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; z-index: 2; background: #000; }
 
@@ -199,21 +203,13 @@
         .copy-btn { cursor: pointer; transition: color 0.2s; font-size: 15px; color: #888; }
         .copy-btn:hover { color: #fff; }
         
-        /* Radar Chart Container */
-        .chart-container { width: 100%; max-width: 300px; margin-bottom: 25px; }
-
         .modal-talent { background: rgba(255, 76, 76, 0.1); border: 1px solid rgba(255, 76, 76, 0.3); color: #ff4c4c; padding: 6px 18px; border-radius: 6px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 25px; }
         .detail-badges-container { display: flex; gap: 15px; margin-bottom: 30px; }
         .detail-win-badge, .detail-kill-badge { padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
         .detail-win-badge { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; }
         .detail-kill-badge { background: rgba(255, 76, 76, 0.05); border: 1px solid rgba(255, 76, 76, 0.2); color: #ff4c4c; }
 
-        .modal-huge-reel-btn {
-            width: 100%; max-width: 320px; display: flex; justify-content: center; align-items: center; gap: 12px;
-            background: linear-gradient(135deg, #e1306c 0%, #c13584 100%);
-            padding: 16px; border-radius: 12px; color: white; font-size: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-            cursor: pointer; margin-bottom: 30px; transition: transform 0.2s, box-shadow 0.2s; border: none;
-        }
+        .modal-huge-reel-btn { width: 100%; max-width: 320px; display: flex; justify-content: center; align-items: center; gap: 12px; background: linear-gradient(135deg, #e1306c 0%, #c13584 100%); padding: 16px; border-radius: 12px; color: white; font-size: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; margin-bottom: 30px; transition: transform 0.2s, box-shadow 0.2s; border: none; }
         .modal-huge-reel-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(225, 48, 108, 0.3); }
 
         .modal-bio { text-align: center; font-size: 14px; color: #b0b0b0; margin-bottom: 35px; line-height: 1.7; font-style: italic; max-width: 90%; }
@@ -229,8 +225,15 @@
         .gallery-img:hover { transform: scale(1.02); opacity: 1; }
         @media (max-width: 500px) { .gallery-container { column-count: 1; } }
 
-        /* Postcard Sharing Hidden State */
-        .sharing-mode .modal-share-btn, .sharing-mode .gallery-container, .sharing-mode .modal-huge-reel-btn { display: none !important; }
+        /* Branding logo inside Postcard (Hidden by default) */
+        .brand-watermark { display: none; text-align: center; margin-top: 10px; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+        .brand-watermark img { width: 90px; filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)); }
+        .brand-watermark span { font-size: 11px; color: #888; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* Sharing Mode overrides */
+        .sharing-mode { background: #0b0c10 !important; border-radius: 0 !important; border: none !important; box-shadow: none !important; padding: 50px 30px !important; }
+        .sharing-mode .modal-share-btn, .sharing-mode .gallery-container, .sharing-mode .modal-huge-reel-btn, .sharing-mode .copy-btn, .sharing-mode .social-container { display: none !important; }
+        .sharing-mode .brand-watermark { display: flex !important; }
 
         #lightbox-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 12, 16, 0.98); z-index: 2000; justify-content: center; align-items: center; }
         #lightbox-img { max-width: 95%; max-height: 95%; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); }
@@ -271,7 +274,6 @@
         <div id="section-b" class="section-container" style="display: none;">
             <div class="section-title">Hall of Fame</div>
             
-            <!-- Quick Pill Filters -->
             <div class="pill-filters-container" id="pill-filters">
                 <div class="filter-pill active" data-filter="All">All</div>
                 <div class="filter-pill" data-filter="ELITE">💎 Elite</div>
@@ -280,16 +282,16 @@
                 <div class="filter-pill" data-filter="BRONZE">🥉 Bronze</div>
             </div>
 
+            <!-- Themed Dropdown -->
             <div class="filter-container">
                 <select id="sort-filter" class="sort-select">
-                    <option value="desc">Most Wins</option>
-                    <option value="asc">Minimum Wins</option>
+                    <option value="desc">Most Wins (Max)</option>
+                    <option value="asc">Least Wins (Min)</option>
                 </select>
             </div>
             
             <div id="leaderboard-container" style="display: flex; flex-direction: column; gap: 15px;"></div>
             
-            <!-- Infinite Scroll Target -->
             <div id="loading-spinner" class="loading-spinner"></div>
             <div id="scroll-trigger" style="height: 20px; width: 100%;"></div>
         </div>
@@ -346,14 +348,11 @@
         let filteredData = [];
         let autoOpenTriggeredFor = "";
         
-        // Settings State
         let currentSort = 'desc'; 
         let currentFilter = 'All';
         
-        // Infinite Scroll State
         let currentPage = 1;
         const itemsPerPage = 10;
-        let chartInstance = null; // Holds Radar Chart
 
         window.addEventListener('hashchange', handleRoute);
 
@@ -370,11 +369,13 @@
             } else if (hash.startsWith('#profile')) {
                 lightbox.style.display = 'none'; profile.style.display = 'block'; search.style.display = 'none'; home.style.display = 'none'; document.body.style.overflow = 'hidden';
             } else if (hash === '#search') {
+                document.body.className = ''; // Reset scrollbar theme
                 lightbox.style.display = 'none'; profile.style.display = 'none'; search.style.display = 'flex'; home.style.display = 'none'; document.body.style.overflow = 'auto';
                 mainHeaderBtn.innerHTML = '<span class="header-action-text">Home</span><i class="fas fa-home"></i>';
                 mainHeaderBtn.onclick = () => location.hash = 'home';
                 document.getElementById('live-uid-input').focus();
             } else { 
+                document.body.className = ''; // Reset scrollbar theme
                 lightbox.style.display = 'none'; profile.style.display = 'none'; search.style.display = 'none'; home.style.display = 'flex'; document.body.style.overflow = 'auto';
                 mainHeaderBtn.innerHTML = '<span class="header-action-text">Search</span><i class="fas fa-search"></i>';
                 mainHeaderBtn.onclick = () => location.hash = 'search';
@@ -384,16 +385,12 @@
         }
         handleRoute();
 
-        // Confetti & URL Action
         function openDeepLinkReel(url, e) {
             if(!url) return;
-            // Confetti effect originating from the click
             const rect = e.target.getBoundingClientRect();
             const x = (rect.left + (rect.width / 2)) / window.innerWidth;
             const y = (rect.top + (rect.height / 2)) / window.innerHeight;
-            
             confetti({ particleCount: 50, spread: 60, origin: { x: x, y: y }, colors: ['#e1306c', '#c13584', '#ffd700', '#66fcf1'] });
-            
             setTimeout(() => { window.location.href = url; }, 600);
         }
         function openDeepLink(url) { if(url) window.location.href = url; }
@@ -405,7 +402,6 @@
             }).catch(err => console.error('Failed to copy', err));
         }
 
-        // Tier Logic based on absolute Index (Sorted initially by wins/kills)
         function getPlayerRankIndex(playerUid) { return globalPlayerData.findIndex(p => p.Uid.toString() === playerUid.toString()); }
         function getTierInfo(rankIndex) {
             if (rankIndex === 0) return { class: "tier-diamond", name: "ELITE", icon: "fa-gem", color: "#66fcf1" };
@@ -431,7 +427,6 @@
             setTimeout(() => { el.innerText = originalText; el.style.color = ""; el.style.borderColor = "rgba(255, 255, 255, 0.1)"; }, 3000);
         }
 
-        // Apply 3D Tilt Effect
         function applyTiltEffect() {
             const cards = document.querySelectorAll('.player-card:not(.tilt-active)');
             cards.forEach(card => {
@@ -448,7 +443,6 @@
             });
         }
 
-        // Setup Filtering & Sorting
         document.getElementById('sort-filter').addEventListener('change', function() { currentSort = this.value; refreshList(); });
         
         document.querySelectorAll('.filter-pill').forEach(pill => {
@@ -468,7 +462,6 @@
         }
 
         function applyFiltersAndSort() {
-            // First Apply Filters based on global absolute rank
             let temp = [];
             if(currentFilter === 'All') { temp = [...globalPlayerData]; } 
             else {
@@ -478,8 +471,6 @@
                     return tier === currentFilter;
                 });
             }
-            
-            // Then Sort
             if (currentSort === 'asc') temp.reverse();
             filteredData = temp;
         }
@@ -520,7 +511,6 @@
             } else { autoOpenTriggeredFor = ""; }
         });
 
-        // Initialize App & Fetch Data
         document.addEventListener("DOMContentLoaded", () => {
             const errorMsg = document.getElementById('error-message');
             const skeletonContainer = document.getElementById('skeleton-container');
@@ -529,7 +519,6 @@
                 if(data.error) { skeletonContainer.style.display = 'none'; errorMsg.style.display = 'block'; errorMsg.innerText = "Error: " + data.error; return; }
                 if(data.length === 0) { skeletonContainer.style.display = 'none'; errorMsg.style.display = 'block'; errorMsg.innerText = "Database is empty."; return; }
                 
-                // Absolute base sorting dictates actual ranks
                 globalPlayerData = data.sort((a, b) => {
                     const winA = parseInt(a.Win) || 0; const winB = parseInt(b.Win) || 0;
                     if (winA !== winB) return winB - winA; 
@@ -539,13 +528,12 @@
                 
                 filteredData = [...globalPlayerData];
 
-                // Setup Intersection Observer for Infinite Scroll
                 const spinner = document.getElementById('loading-spinner');
                 const observer = new IntersectionObserver((entries) => {
                     if(entries[0].isIntersecting) {
                         if(currentPage * itemsPerPage < filteredData.length) {
                             spinner.style.display = 'block';
-                            setTimeout(() => { currentPage++; renderPage(); spinner.style.display = 'none'; }, 400); // Artificial smooth delay
+                            setTimeout(() => { currentPage++; renderPage(); spinner.style.display = 'none'; }, 400);
                         }
                     }
                 }, { rootMargin: "100px" });
@@ -571,7 +559,7 @@
 
                 container.innerHTML += `
                     <div class="player-card ${tierInfo.class}" onclick="openModal('${player.Uid}')">
-                        <div class="player-card-photo-wrapper"><img src="${player.Photo || 'https://via.placeholder.css/70'}" class="player-card-photo" draggable="false"></div>
+                        <div class="player-card-photo-wrapper"><img src="${player.Photo || 'https://via.placeholder.css/70'}" class="player-card-photo" draggable="false" crossorigin="anonymous"></div>
                         <div class="player-card-info">
                             <div class="player-card-name">${player.GameName || 'Unknown'}</div>
                             <div class="player-card-uid">UID: ${player.Uid}</div>
@@ -585,13 +573,12 @@
 
         window.openLightbox = function(src) { document.getElementById('lightbox-img').src = src; window.location.hash = 'lightbox'; };
 
-        // Postcard Generation
         async function downloadPostcard(name) {
             const node = document.getElementById('modal-inner-content');
-            node.classList.add('sharing-mode');
+            node.classList.add('sharing-mode'); // Hides buttons, shows logo watermark
             
             try {
-                const canvas = await html2canvas(node, { backgroundColor: '#0b0c10', scale: 2, useCORS: true });
+                const canvas = await html2canvas(node, { backgroundColor: '#0b0c10', scale: 2, useCORS: true, allowTaint: true });
                 const link = document.createElement('a');
                 link.download = `${name.replace(/\s+/g, '_')}_Dragon_Tournaments.png`;
                 link.href = canvas.toDataURL('image/png');
@@ -616,15 +603,14 @@
             const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Background) || 0; 
             const rankIndex = getPlayerRankIndex(player.Uid); const tierInfo = getTierInfo(rankIndex);
             
+            // Set dynamic scrollbar theme
+            document.body.className = `scroll-${tierInfo.name.toLowerCase()}`;
+
             innerContent.className = `modal-content ${tierInfo.class}`;
 
             let galleryHTML = '';
             const pics = [player.AlbumPic1, player.AlbumPic2, player.AlbumPic3, player.AlbumPic4, player.AlbumPic5];
             pics.forEach(pic => { if(pic && pic.trim() !== "") galleryHTML += `<img src="${pic}" class="gallery-img" draggable="false" loading="lazy" style="border: 1px solid rgba(255,255,255,0.1);" onclick="openLightbox('${pic}')">`; });
-
-            // Getting Max Server Stats for Radar Chart
-            const maxWins = Math.max(...globalPlayerData.map(p => parseInt(p.Win)||0), 1);
-            const maxKills = Math.max(...globalPlayerData.map(p => parseInt(p.Background)||0), 1);
             
             innerContent.innerHTML = `
                 <button class="modal-share-btn" onclick="downloadPostcard('${player.GameName || 'Player'}')"><i class="fas fa-share-alt"></i> Share Card</button>
@@ -652,8 +638,6 @@
                     <div class="detail-kill-badge">KILLS: ${kills}</div>
                 </div>
 
-                <div class="chart-container"><canvas id="radarChart"></canvas></div>
-
                 ${player.InstagramReel ? `<button class="modal-huge-reel-btn" onclick="openDeepLinkReel('${player.InstagramReel}', event)"><i class="fab fa-instagram" style="font-size:18px;"></i> WATCH WINNING REEL</button>` : ''}
                 ${player.Bio ? `<div class="modal-bio">"${player.Bio}"</div>` : ''}
 
@@ -662,37 +646,14 @@
                     ${player.HisYoutube ? `<div class="social-icon yt" onclick="openDeepLink('${player.HisYoutube}')"><i class="fab fa-youtube"></i></div>` : ''}
                     ${player.HisGmail ? `<div class="social-icon mail" onclick="openDeepLink('mailto:${player.HisGmail}')"><i class="fas fa-envelope"></i></div>` : ''}
                 </div>
+                
+                <div class="brand-watermark">
+                    <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-28-40-573.png?updatedAt=1774839553114" alt="Brand Logo" crossorigin="anonymous">
+                    <span>Dragon Tournaments</span>
+                </div>
+
                 ${galleryHTML ? `<div class="gallery-container">${galleryHTML}</div>` : ''}
             `;
-
-            // Render Radar Chart
-            if (chartInstance) chartInstance.destroy();
-            const ctx = document.getElementById('radarChart').getContext('2d');
-            chartInstance = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: ['Wins', 'Kills', 'Consistency', 'Aggression'],
-                    datasets: [{
-                        label: 'Player Stats',
-                        data: [(wins/maxWins)*100, (kills/maxKills)*100, wins>0?70:30, kills>0?80:20],
-                        backgroundColor: 'rgba(102, 252, 241, 0.2)',
-                        borderColor: '#66fcf1',
-                        pointBackgroundColor: '#66fcf1',
-                        borderWidth: 2,
-                    }]
-                },
-                options: {
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            pointLabels: { color: '#c5c6c7', font: { size: 10, weight: 'bold' } },
-                            ticks: { display: false, max: 100 }
-                        }
-                    },
-                    plugins: { legend: { display: false } }
-                }
-            });
 
             if (rankIndex === 0) {
                 introOverlay.classList.remove('fade-out-overlay'); introOverlay.style.display = 'flex';
