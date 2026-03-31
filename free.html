@@ -18,13 +18,14 @@
 
         /* Dynamic Cyber Scrollbars */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(11, 12, 16, 0.9); }
+        ::-webkit-scrollbar-track { background: #000000; }
         ::-webkit-scrollbar-thumb { background: #66fcf1; border-radius: 10px; box-shadow: 0 0 10px rgba(102, 252, 241, 0.5); }
 
         img { -webkit-touch-callout: none; -webkit-user-drag: none; }
 
+        /* PURE BLACK BACKGROUND */
         body {
-            background-color: #0b0c10; color: #ffffff;
+            background-color: #000000; color: #ffffff;
             min-height: 100vh; display: flex; flex-direction: column;
             align-items: center; overflow-x: hidden;
             padding-top: 90px;
@@ -35,10 +36,10 @@
         .app-header {
             position: fixed; top: 0; left: 0; width: 100%; 
             height: 70px; padding: 0 20px;
-            background: rgba(11, 12, 16, 0.9); backdrop-filter: blur(15px);
+            background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex;
             justify-content: space-between; align-items: center; 
-            z-index: 900; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 900; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
         }
 
         .header-title-img { height: 40px; width: auto; border-radius: 5px; cursor: pointer; }
@@ -56,14 +57,25 @@
         .status-msg { color: #888; font-weight: 600; font-size: 14px; text-align: center; margin-bottom: 10px; height: 20px; }
         .error { color: #ff4c4c !important; text-shadow: none !important; }
 
-        /* Hall of Fame Skeleton Loader */
-        .skeleton-card { display: flex; align-items: center; background: rgba(31, 33, 36, 0.6); border-radius: 12px; padding: 15px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.03); height: 140px; }
-        .skeleton-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transform: skewX(-20deg); animation: shimmer 1.5s infinite; }
+        /* PERFECT SKELETON LOADER */
+        .skeleton-card {
+            background: rgba(20, 20, 20, 0.8); border-radius: 12px; padding: 18px;
+            position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.03);
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        .skeleton-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transform: skewX(-20deg); animation: shimmer 1.5s infinite; z-index: 5; }
         @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
+        
+        .skel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; }
+        .skel-logo-group { display: flex; align-items: center; gap: 10px; }
+        .skel-circle { width: 35px; height: 35px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+        .skel-rect { height: 20px; background: rgba(255,255,255,0.05); border-radius: 4px; }
+        .skel-mid { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 5px 0; }
+        .skel-footer { display: flex; gap: 12px; }
 
         /* --- PREMIUM ROOM CARD --- */
         .room-card {
-            background: rgba(31, 33, 36, 0.6); backdrop-filter: blur(10px);
+            background: rgba(15, 15, 15, 0.8); backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 18px;
             position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 15px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -74,20 +86,26 @@
         .room-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; }
         .room-logo { height: 35px; width: auto; filter: drop-shadow(0 0 5px rgba(0,0,0,0.5)); }
         .room-title-img { height: 22px; width: auto; opacity: 0.9; margin-left: -10px; }
+        
         .room-prize { background: linear-gradient(135deg, #ffd700, #b8860b); padding: 5px 12px; border-radius: 6px; color: #0b0c10; font-weight: 800; font-size: 12px; box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2); display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
+        .room-prize.clickable { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border: 1px solid #fff; }
+        .room-prize.clickable:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
 
-        /* Middle Row: Glowing Time Display */
-        .room-mid { width: 100%; display: flex; justify-content: center; align-items: center; padding: 5px 0; }
+        /* Middle Row: Date Subtitle & Glowing Time Display */
+        .room-mid { width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5px 0; gap: 4px; }
+        .room-date { font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 3px; }
         .room-time {
-            font-size: 22px; font-weight: 900; color: #66fcf1;
-            text-shadow: 0 0 15px rgba(102, 252, 241, 0.4);
+            font-size: 26px; font-weight: 900; color: #66fcf1;
+            text-shadow: 0 0 15px rgba(102, 252, 241, 0.5);
             letter-spacing: 2px; display: flex; align-items: center; gap: 10px;
+            animation: timePulse 2s infinite alternate;
         }
+        @keyframes timePulse { 0% { text-shadow: 0 0 10px rgba(102, 252, 241, 0.4); } 100% { text-shadow: 0 0 25px rgba(102, 252, 241, 0.8), 0 0 5px rgba(102, 252, 241, 1); } }
 
         /* Bottom Row: ID & PASS Copy Sections */
         .room-footer { display: flex; gap: 12px; }
         .copy-box {
-            flex: 1; background: rgba(11, 12, 16, 0.8); border: 1px solid rgba(255,255,255,0.05);
+            flex: 1; background: rgba(5, 5, 5, 0.8); border: 1px solid rgba(255,255,255,0.05);
             padding: 10px 12px; border-radius: 8px; display: flex; justify-content: space-between;
             align-items: center; font-size: 13px; font-weight: 700; color: #c5c6c7; transition: 0.3s;
         }
@@ -95,6 +113,15 @@
         .copy-icon { color: #888; font-size: 15px; cursor: pointer; transition: color 0.2s; }
         .copy-box.populated .copy-icon { color: #66fcf1; }
         .copy-box.populated .copy-icon:hover { color: #fff; transform: scale(1.1); }
+
+        /* Red Rules Link */
+        .rules-link {
+            color: #ff4c4c; font-size: 11px; font-weight: 800; text-align: center;
+            margin-top: 5px; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 6px; text-transform: uppercase; letter-spacing: 1px;
+            transition: transform 0.2s, color 0.2s; text-shadow: 0 0 5px rgba(255, 76, 76, 0.3);
+        }
+        .rules-link:hover { transform: scale(1.02); color: #ff6666; text-shadow: 0 0 10px rgba(255, 76, 76, 0.6); }
 
         /* Flash Animation when Data Arrives */
         .flash-success { animation: flashGlow 1.5s ease-out; }
@@ -106,15 +133,36 @@
         @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
 
         /* --- ABSOLUTE BLACKOUT STATE (Completed Room) --- */
-        .room-card.blackout { background: rgba(15, 17, 20, 0.3); border-color: transparent; box-shadow: none; pointer-events: none; }
+        .room-card.blackout { background: rgba(10, 10, 10, 0.5); border-color: transparent; box-shadow: none; pointer-events: none; }
         .room-card.blackout .room-content { filter: grayscale(100%) opacity(0.1) blur(2px); pointer-events: none; }
         .blackout-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 10; color: #444; font-size: 20px; font-weight: 900; text-transform: uppercase;
+            z-index: 10; color: #555; font-size: 20px; font-weight: 900; text-transform: uppercase;
             letter-spacing: 5px; gap: 8px; pointer-events: none;
         }
         .blackout-overlay i { font-size: 28px; margin-bottom: 5px; opacity: 0.5; }
+
+        /* --- PRIZE LIGHTBOX MODAL --- */
+        #prize-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); z-index: 2000;
+            justify-content: center; align-items: center; flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+        .prize-modal-content {
+            position: relative; width: 90%; max-width: 400px; display: flex; flex-direction: column;
+            align-items: center; background: #0b0c10; padding: 20px; border-radius: 15px;
+            border: 2px solid #ffd700; box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3);
+        }
+        #prize-modal-img { width: 100%; height: auto; border-radius: 10px; max-height: 60vh; object-fit: contain; }
+        .prize-modal-close {
+            position: absolute; top: -15px; right: -15px; background: #ff4c4c; color: #fff;
+            width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center;
+            align-items: center; font-size: 18px; cursor: pointer; box-shadow: 0 0 10px rgba(255, 76, 76, 0.5);
+            border: 2px solid #fff;
+        }
+        .prize-modal-title { color: #ffd700; font-weight: 900; font-size: 18px; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
     </style>
 </head>
 <body>
@@ -131,18 +179,49 @@
     <div id="content-container">
         <div id="status-msg" class="status-msg">Loading Tournaments...</div>
 
-        <!-- SKELETON LOADER -->
+        <!-- PERFECT SKELETON LOADER -->
         <div id="skeleton-container">
-            <div class="skeleton-card"></div>
-            <div class="skeleton-card"></div>
-            <div class="skeleton-card"></div>
+            <div class="skeleton-card">
+                <div class="skel-header">
+                    <div class="skel-logo-group">
+                        <div class="skel-circle"></div>
+                        <div class="skel-rect" style="width: 120px;"></div>
+                    </div>
+                    <div class="skel-rect" style="width: 70px;"></div>
+                </div>
+                <div class="skel-mid">
+                    <div class="skel-rect" style="width: 80px; height: 10px;"></div>
+                    <div class="skel-rect" style="width: 160px; height: 30px;"></div>
+                </div>
+                <div class="skel-footer">
+                    <div class="skel-rect" style="flex: 1; height: 40px;"></div>
+                    <div class="skel-rect" style="flex: 1; height: 40px;"></div>
+                </div>
+                <div class="skel-rect" style="width: 180px; height: 12px; margin: 5px auto 0;"></div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skel-header"><div class="skel-logo-group"><div class="skel-circle"></div><div class="skel-rect" style="width: 120px;"></div></div><div class="skel-rect" style="width: 70px;"></div></div>
+                <div class="skel-mid"><div class="skel-rect" style="width: 80px; height: 10px;"></div><div class="skel-rect" style="width: 160px; height: 30px;"></div></div>
+                <div class="skel-footer"><div class="skel-rect" style="flex: 1; height: 40px;"></div><div class="skel-rect" style="flex: 1; height: 40px;"></div></div>
+                <div class="skel-rect" style="width: 180px; height: 12px; margin: 5px auto 0;"></div>
+            </div>
         </div>
 
         <!-- ROOM CARDS INJECTED HERE -->
         <div id="rooms-wrapper" style="display: flex; flex-direction: column; gap: 20px;"></div>
     </div>
 
+    <!-- PRIZE LIGHTBOX MODAL -->
+    <div id="prize-modal">
+        <div class="prize-modal-content">
+            <div class="prize-modal-close" onclick="closePrizeModal()"><i class="fas fa-times"></i></div>
+            <div class="prize-modal-title"><i class="fas fa-trophy"></i> Tournament Prize</div>
+            <img id="prize-modal-img" src="" alt="Prize Details">
+        </div>
+    </div>
+
     <script>
+        /* --- SECURITY SCRIPT --- */
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', function(e) {
             if (e.keyCode === 123) e.preventDefault();
@@ -150,6 +229,9 @@
             if (e.ctrlKey && e.keyCode === 85) e.preventDefault();
         });
 
+        // ---------------------------------------------------------
+        // BACKEND FETCH & SILENT REFRESH LOGIC
+        // ---------------------------------------------------------
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbxpQe60NQKeXM91_eEs480nhHFlKP4psm9nnvfeRXo2YzHgLOw5nTUkeXz63eS77OJQ/exec';
         
         const skeleton = document.getElementById('skeleton-container');
@@ -164,6 +246,7 @@
 
         const preloadImage = (src) => {
             return new Promise((resolve) => {
+                if(!src) return resolve();
                 const img = new Image();
                 img.onload = () => resolve(); img.onerror = () => resolve(); img.src = src;
             });
@@ -231,26 +314,22 @@
         function cleanTimeDisplay(rawStr) {
             if (!rawStr) return "TBA";
             let str = String(rawStr).trim();
-
             let match12 = str.match(/(\d{1,2}):(\d{2})(?::\d{2})?\s*(AM|PM)/i);
             if (match12) {
                 let h = parseInt(match12[1], 10); let m = parseInt(match12[2], 10); let ampm = match12[3].toUpperCase();
                 return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
             }
-
             let d = new Date(str);
             if (!isNaN(d.getTime()) && str.includes('T')) {
                 let h24 = d.getHours(); let m = d.getMinutes(); let ampm = h24 >= 12 ? 'PM' : 'AM'; let h12 = h24 % 12 || 12;
                 return `${h12.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
             }
-
             let match24 = str.match(/(\d{1,2}):(\d{2})/);
             if (match24) {
                 let h24 = parseInt(match24[1], 10); let m = parseInt(match24[2], 10); let ampm = h24 >= 12 ? 'PM' : 'AM'; let h12 = h24 % 12 || 12;
                 return `${h12.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${ampm}`;
             }
-
-            return str; // Fallback
+            return str; 
         }
 
         // ---------------------------------------------------------
@@ -267,6 +346,12 @@
                 const rawTime = (room.Time || "TBA").toString();
                 const displayTime = cleanTimeDisplay(rawTime);
                 
+                // Treats UID column purely as Date Text now
+                const dateText = (room.Uid || "").toString().trim();
+                
+                // Checks standard image columns for prize popup
+                const prizePic = room.Photo || room.Image || room.PrizePic || room.PrizeImage || "";
+                
                 const rawId = (room.ID || "").toString().trim();
                 const rawPass = (room.Pass || "").toString().trim();
                 
@@ -282,77 +367,16 @@
                     }
                 }
 
+                // Setup Prize Click logic
+                const prizeHtml = prizePic !== "" 
+                    ? `<div class="room-prize clickable" onclick="openPrizeModal('${prizePic}')"><i class="fas fa-gift"></i> ${prize}</div>`
+                    : `<div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>`;
+
                 if (isDone) {
                     newHTML += `
                         <div class="room-card blackout">
                             <div class="room-content">
                                 <div class="room-header">
-                                    <img src="${logoUrl}" class="room-logo" draggable="false">
-                                    <img src="${titleUrl}" class="room-title-img" draggable="false">
-                                    <div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>
-                                </div>
-                                <div class="room-mid">
-                                    <div class="room-time"><i class="fas fa-clock"></i> ${displayTime}</div>
-                                </div>
-                                <div class="room-footer">
-                                    <div class="copy-box"><span>ID: HIDDEN</span> <i class="fas fa-copy copy-icon"></i></div>
-                                    <div class="copy-box"><span>PASS: HIDDEN</span> <i class="fas fa-copy copy-icon"></i></div>
-                                </div>
-                            </div>
-                            <div class="blackout-overlay">
-                                <i class="fas fa-times-circle"></i>
-                                <span>Tournament Ended</span>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    const safeId = rawId.replace(/'/g, "\\'");
-                    const safePass = rawPass.replace(/'/g, "\\'");
-
-                    const idHtml = isIdHidden 
-                        ? `<span class="waiting-text">ID: Waiting<span class="waiting-dots"></span></span>` 
-                        : `<span>ID: ${rawId}</span> <i class="fas fa-copy copy-icon" onclick="copyText('${safeId}', this)"></i>`;
-                    
-                    const passHtml = isPassHidden 
-                        ? `<span class="waiting-text">PASS: Waiting<span class="waiting-dots"></span></span>` 
-                        : `<span>PASS: ${rawPass}</span> <i class="fas fa-copy copy-icon" onclick="copyText('${safePass}', this)"></i>`;
-
-                    newHTML += `
-                        <div class="room-card active">
-                            <div class="room-content">
-                                <div class="room-header">
-                                    <img src="${logoUrl}" class="room-logo" draggable="false">
-                                    <img src="${titleUrl}" class="room-title-img" draggable="false">
-                                    <div class="room-prize"><i class="fas fa-gift"></i> ${prize}</div>
-                                </div>
-                                <div class="room-mid">
-                                    <div class="room-time"><i class="fas fa-clock"></i> ${displayTime}</div>
-                                </div>
-                                <div class="room-footer">
-                                    <div class="copy-box ${!isIdHidden ? 'populated' : ''} ${justArrivedClass}">${idHtml}</div>
-                                    <div class="copy-box ${!isPassHidden ? 'populated' : ''} ${justArrivedClass}">${passHtml}</div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-
-            roomsWrapper.innerHTML = newHTML;
-            lastRenderedData = [...data]; 
-        }
-
-        window.copyText = function(text, el) {
-            if(!text || text === "") return;
-            navigator.clipboard.writeText(text).then(() => {
-                el.className = 'fas fa-check copy-icon';
-                el.style.color = '#fff';
-                setTimeout(() => {
-                    el.className = 'fas fa-copy copy-icon';
-                    el.style.color = '';
-                }, 2000);
-            });
-        };
-    </script>
-</body>
-</html>
+                                    <div style="display:flex; align-items:center; gap:8px;">
+                                        <img src="${logoUrl}" class="room-logo" draggable="false">
+                                        <img src="${titleUrl}" class="room-title-img" draggable="false">
