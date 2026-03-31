@@ -38,14 +38,14 @@
             background-color: #0b0c10; color: #ffffff;
             min-height: 100vh; display: flex; flex-direction: column;
             align-items: center; overflow-x: hidden;
-            padding-top: 70px; /* REMOVED STATUS BAR SPACE */
+            padding-top: 70px;
             padding-bottom: 50px;
         }
 
         /* Global Fixed App Header */
         .app-header {
             position: fixed; top: 0; left: 0; width: 100%; 
-            height: 70px; padding: 0 20px; /* REMOVED STATUS BAR SPACE */
+            height: 70px; padding: 0 20px;
             background: rgba(11, 12, 16, 0.9); backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex;
             justify-content: space-between; align-items: center; 
@@ -97,13 +97,22 @@
         .filter-pill.active { background: rgba(102, 252, 241, 0.1); border-color: #66fcf1; color: #fff; box-shadow: 0 0 10px rgba(102, 252, 241, 0.2); }
         .filter-pill:hover { border-color: #c5c6c7; color: #fff; }
 
+        /* --- CUSTOM THEMED DROPDOWN (Replaces System UI) --- */
         .filter-container { display: flex; justify-content: flex-end; width: 100%; margin-bottom: 5px; }
-        .sort-select { appearance: none; background: linear-gradient(145deg, rgba(31,33,36,0.9), rgba(15,17,20,0.9)); color: #66fcf1; border: 1px solid rgba(102, 252, 241, 0.3); padding: 8px 35px 8px 15px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2366fcf1%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 12px top 50%; background-size: 10px auto; transition: all 0.3s ease; }
-        .sort-select:hover { border-color: #66fcf1; box-shadow: 0 4px 20px rgba(102, 252, 241, 0.2); }
-        .sort-select:focus { outline: none; border-color: #fff; color: #fff; }
-        .sort-select option { background: #0b0c10; color: #fff; font-weight: 600; }
+        .custom-select-wrapper { position: relative; user-select: none; width: 220px; z-index: 50; }
+        .custom-select-trigger { background: linear-gradient(145deg, rgba(31,33,36,0.9), rgba(15,17,20,0.9)); color: #66fcf1; border: 1px solid rgba(102, 252, 241, 0.3); padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.3s ease; }
+        .custom-select-trigger:hover { border-color: #66fcf1; box-shadow: 0 4px 20px rgba(102, 252, 241, 0.2); }
+        .custom-select-icon { transition: transform 0.3s ease; }
+        .custom-select-wrapper.open .custom-select-icon { transform: rotate(180deg); color: #fff; }
+        
+        .custom-select-options { position: absolute; top: calc(100% + 10px); right: 0; background: rgba(15, 17, 20, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(102, 252, 241, 0.3); border-radius: 12px; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; transform: translateY(-10px); transition: all 0.3s ease; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .custom-select-wrapper.open .custom-select-options { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .custom-option { padding: 14px 18px; color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; }
+        .custom-option:hover { background: rgba(102, 252, 241, 0.15); color: #66fcf1; }
+        .custom-option.selected { color: #66fcf1; background: rgba(102, 252, 241, 0.05); border-left: 3px solid #66fcf1; }
 
-        .player-card { display: flex; align-items: center; background: rgba(31, 33, 36, 0.6); backdrop-filter: blur(10px); padding: 16px; cursor: pointer; position: relative; text-decoration: none; color: #fff; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; will-change: transform; }
+        /* --- STRICTLY UNIFORM PREMIUM CARDS --- */
+        .player-card { display: flex; align-items: center; background: rgba(31, 33, 36, 0.6); backdrop-filter: blur(10px); padding: 16px; cursor: pointer; position: relative; text-decoration: none; color: #fff; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; will-change: transform; overflow: visible; }
         .player-card-photo-wrapper { position: relative; width: 65px; height: 65px; margin-right: 18px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; border-radius: 50%; background: #000; }
         .player-card-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; z-index: 2; border: 2px solid transparent; }
         .player-card-info { display: flex; flex-direction: column; flex-grow: 1; justify-content: center; pointer-events: none; }
@@ -115,19 +124,29 @@
         .kill-badge { border: 1px solid rgba(255, 76, 76, 0.2); color: #ff4c4c; background: rgba(255, 76, 76, 0.05); }
         .mini-tier-icon { margin-left: auto; font-size: 20px; padding-left: 10px; display: flex; align-items: center; justify-content: center; opacity: 0.9; pointer-events: none;}
 
+        /* Card Numeric Rank Badge */
+        .card-rank-badge { position: absolute; top: -10px; left: -10px; width: 32px; height: 32px; background: #0b0c10; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; z-index: 10; font-style: italic; }
+
         .tier-bronze { border-color: rgba(205, 127, 50, 0.4); background: rgba(31, 33, 36, 0.5); }
         .tier-bronze .player-card-photo { border-color: rgba(205, 127, 50, 0.3); }
+        .tier-bronze .card-rank-badge { color: #cd7f32; border: 2px solid #cd7f32; box-shadow: 0 0 10px rgba(205,127,50,0.5); }
+
         .tier-silver { border-color: rgba(192, 192, 192, 0.4); background: linear-gradient(145deg, rgba(45, 48, 52, 0.8) 0%, rgba(25, 27, 30, 0.8) 100%); }
         .tier-silver .player-card-name { color: #f5f5f5; }
         .tier-silver .player-card-photo { border-color: #c0c0c0; }
+        .tier-silver .card-rank-badge { color: #c0c0c0; border: 2px solid #c0c0c0; box-shadow: 0 0 10px rgba(192,192,192,0.5); }
+
         .tier-gold { border-color: rgba(255, 215, 0, 0.4); background: linear-gradient(145deg, rgba(60, 50, 20, 0.6) 0%, rgba(25, 25, 25, 0.8) 100%); box-shadow: 0 4px 15px rgba(255, 215, 0, 0.05); }
         .tier-gold .player-card-name { color: #ffd700; }
         .tier-gold .player-card-photo { border-color: #ffd700; }
-        .tier-diamond { border-color: rgba(102, 252, 241, 0.5); background: linear-gradient(145deg, rgba(20, 60, 65, 0.7) 0%, rgba(15, 20, 25, 0.9) 100%); box-shadow: 0 8px 25px rgba(102, 252, 241, 0.08); overflow: hidden; }
-        .tier-diamond::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(102, 252, 241, 0.1), transparent); transform: skewX(-20deg); transition: 0.5s; pointer-events: none; }
+        .tier-gold .card-rank-badge { color: #ffd700; border: 2px solid #ffd700; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
+
+        .tier-diamond { border-color: rgba(102, 252, 241, 0.5); background: linear-gradient(145deg, rgba(20, 60, 65, 0.7) 0%, rgba(15, 20, 25, 0.9) 100%); box-shadow: 0 8px 25px rgba(102, 252, 241, 0.08); overflow: visible; } /* Changed to visible so badge shows */
+        .tier-diamond::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(102, 252, 241, 0.1), transparent); transform: skewX(-20deg); transition: 0.5s; pointer-events: none; border-radius: 12px; }
         .tier-diamond:hover::after { left: 200%; transition: 0.8s ease-in-out; }
         .tier-diamond .player-card-name { color: #66fcf1; }
         .tier-diamond .player-card-photo { border-color: #66fcf1; }
+        .tier-diamond .card-rank-badge { color: #66fcf1; border: 2px solid #66fcf1; box-shadow: 0 0 15px rgba(102,252,241,0.6); }
 
         .loading-spinner { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #66fcf1; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -199,15 +218,16 @@
         #postcard-generator {
             position: absolute; left: -9999px; top: 0;
             width: 1080px; height: 1080px;
-            background: #0b0c10; display: flex; align-items: center; justify-content: center;
+            background: #000; /* Pure black core */
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             z-index: -9999;
         }
         
         .pc-bg {
-            position: absolute; top: -5%; left: -5%; width: 110%; height: 110%; /* Scaled to hide blur edges */
+            position: absolute; top: -10%; left: -10%; width: 120%; height: 120%;
             background-size: cover; background-position: center;
-            filter: blur(25px) brightness(0.25); z-index: 1;
+            filter: blur(40px) grayscale(40%); opacity: 0.15; z-index: 1; /* Pure black with hint of DP */
         }
 
         .pc-content {
@@ -221,24 +241,25 @@
             width: 320px; height: 320px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
             position: relative; margin-bottom: 40px; background: #000; padding: 10px;
         }
-        .pc-dp { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; z-index: 2; border: 6px solid #0b0c10; }
+        .pc-dp { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; z-index: 2; border: 6px solid #000; }
         .pc-icon {
-            position: absolute; bottom: -15px; right: 10px; font-size: 60px; background: #0b0c10; width: 110px; height: 110px;
-            display: flex; align-items: center; justify-content: center; border-radius: 50%; z-index: 10; border: 8px solid #0b0c10;
+            position: absolute; bottom: -15px; right: 10px; font-size: 60px; background: #000; width: 110px; height: 110px;
+            display: flex; align-items: center; justify-content: center; border-radius: 50%; z-index: 10; border: 8px solid #000;
         }
 
         .pc-name { font-size: 75px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 5px; text-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center; line-height: 1.1; max-width: 900px; }
         .pc-uid { font-size: 32px; color: #bbb; margin-bottom: 50px; font-weight: 600; letter-spacing: 3px; }
 
-        .pc-stats-container { display: flex; gap: 50px; margin-bottom: auto; } /* Auto pushes the logo to the bottom */
+        .pc-stats-container { display: flex; gap: 50px; margin-bottom: 30px; } 
         .pc-stat { background: rgba(30, 30, 30, 0.7); border: 2px solid rgba(255,255,255,0.1); padding: 30px 60px; border-radius: 20px; text-align: center; color: #ddd; font-size: 26px; font-weight: 700; letter-spacing: 2px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .pc-stat span { display: block; font-size: 70px; font-weight: 900; color: #fff; margin-top: 10px; }
         
         .pc-kill { border-color: rgba(255, 76, 76, 0.5); background: rgba(40, 10, 10, 0.7); color: #ff4c4c; }
         .pc-kill span { color: #ff4c4c; }
 
-        .pc-brand { margin-top: 40px; }
-        .pc-brand img { width: 380px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9)); }
+        /* HUUUUGE BRAND LOGO */
+        .pc-brand { margin-top: auto; padding-top: 20px; }
+        .pc-brand img { width: 600px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9)); }
 
         /* Dynamic Tier Styles for Postcard */
         .tier-elite .pc-tier-title { color: #66fcf1; text-shadow: 0 0 30px #66fcf1; }
@@ -292,12 +313,18 @@
                 <div class="filter-pill" data-filter="BRONZE">🥉 Bronze</div>
             </div>
 
-            <!-- Themed Dropdown -->
+            <!-- Custom Themed Dropdown -->
             <div class="filter-container">
-                <select id="sort-filter" class="sort-select">
-                    <option value="desc">Most Wins (Max)</option>
-                    <option value="asc">Least Wins (Min)</option>
-                </select>
+                <div class="custom-select-wrapper" id="custom-sort">
+                    <div class="custom-select-trigger">
+                        <span id="custom-select-text">Most Wins (Max)</span>
+                        <i class="fas fa-chevron-down custom-select-icon"></i>
+                    </div>
+                    <div class="custom-select-options">
+                        <div class="custom-option selected" data-value="desc">Most Wins (Max)</div>
+                        <div class="custom-option" data-value="asc">Least Wins (Min)</div>
+                    </div>
+                </div>
             </div>
             
             <div id="leaderboard-container" style="display: flex; flex-direction: column; gap: 15px;"></div>
@@ -415,6 +442,7 @@
             }).catch(err => console.error('Failed to copy', err));
         }
 
+        // Tier Logic based on absolute Index
         function getPlayerRankIndex(playerUid) { return globalPlayerData.findIndex(p => p.Uid.toString() === playerUid.toString()); }
         function getTierInfo(rankIndex) {
             if (rankIndex === 0) return { class: "tier-diamond", name: "ELITE", icon: "fa-gem", color: "#66fcf1" };
@@ -456,8 +484,27 @@
             });
         }
 
-        document.getElementById('sort-filter').addEventListener('change', function() { currentSort = this.value; refreshList(); });
-        
+        // Custom Themed Dropdown JS
+        const sortWrapper = document.getElementById('custom-sort');
+        const sortTrigger = sortWrapper.querySelector('.custom-select-trigger');
+        const sortOptions = sortWrapper.querySelectorAll('.custom-option');
+        const sortText = document.getElementById('custom-select-text');
+
+        sortTrigger.addEventListener('click', () => { sortWrapper.classList.toggle('open'); });
+        document.addEventListener('click', (e) => { if(!sortWrapper.contains(e.target)) sortWrapper.classList.remove('open'); });
+
+        sortOptions.forEach(opt => {
+            opt.addEventListener('click', function() {
+                sortOptions.forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                sortText.innerText = this.innerText;
+                currentSort = this.getAttribute('data-value');
+                sortWrapper.classList.remove('open');
+                refreshList();
+            });
+        });
+
+        // Pill Filters
         document.querySelectorAll('.filter-pill').forEach(pill => {
             pill.addEventListener('click', function() {
                 document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
@@ -508,6 +555,7 @@
 
                 suggestionsContainer.innerHTML += `
                     <div class="player-card ${tierInfo.class}" onclick="openModal('${player.Uid}')">
+                        <div class="card-rank-badge">#${rankIndex + 1}</div>
                         <div class="player-card-photo-wrapper"><img src="${player.Photo || 'https://via.placeholder.css/70'}" class="player-card-photo" draggable="false"></div>
                         <div class="player-card-info">
                             <div class="player-card-name">${player.GameName || 'Unknown'}</div>
@@ -572,6 +620,7 @@
 
                 container.innerHTML += `
                     <div class="player-card ${tierInfo.class}" onclick="openModal('${player.Uid}')">
+                        <div class="card-rank-badge">#${rankIndex + 1}</div>
                         <div class="player-card-photo-wrapper"><img src="${player.Photo || 'https://via.placeholder.css/70'}" class="player-card-photo" draggable="false" crossorigin="anonymous"></div>
                         <div class="player-card-info">
                             <div class="player-card-name">${player.GameName || 'Unknown'}</div>
@@ -586,7 +635,7 @@
 
         window.openLightbox = function(src) { document.getElementById('lightbox-img').src = src; window.location.hash = 'lightbox'; };
 
-        // --- NEW UPGRADED DEDICATED POSTCARD GENERATOR LOGIC ---
+        // Postcard Generation
         async function downloadPostcard(uid) {
             const player = globalPlayerData.find(p => p.Uid.toString() === uid.toString());
             if(!player) return;
@@ -604,7 +653,7 @@
             generator.innerHTML = `
                 <div class="pc-bg" style="background-image: url('${photoUrl}');"></div>
                 <div class="pc-content">
-                    <div class="pc-tier-title">${tierInfo.name} RANK</div>
+                    <div class="pc-tier-title">${tierInfo.name} RANK #${rankIndex + 1}</div>
                     <div class="pc-dp-wrapper">
                         <img class="pc-dp" src="${photoUrl}" crossorigin="anonymous">
                         <div class="pc-icon"><i class="fas ${tierInfo.icon}"></i></div>
@@ -628,21 +677,14 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERATING...';
             btn.style.pointerEvents = 'none';
 
-            // Wait for internal images to load before snapshotting
             await Promise.all(Array.from(generator.querySelectorAll('img')).map(img => {
                 if(img.complete) return Promise.resolve();
                 return new Promise(resolve => { img.onload = img.onerror = resolve; });
             }));
 
             try {
-                // Scale 2 on 1080x1080 canvas generates an ultra-crisp 2160x2160 image
                 const canvas = await html2canvas(generator, { 
-                    scale: 2, 
-                    useCORS: true, 
-                    allowTaint: true, 
-                    backgroundColor: '#0b0c10',
-                    width: 1080,
-                    height: 1080
+                    scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#000', width: 1080, height: 1080
                 });
                 const link = document.createElement('a');
                 link.download = `${(player.GameName || 'Player').replace(/\s+/g, '_')}_Dragon_Rank.png`;
