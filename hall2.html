@@ -24,11 +24,8 @@
         /* Dynamic Cyber Scrollbars */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: rgba(11, 12, 16, 0.9); }
-        
-        /* Default Scrollbar (Home Page) */
         ::-webkit-scrollbar-thumb { background: #66fcf1; border-radius: 10px; box-shadow: 0 0 10px rgba(102, 252, 241, 0.5); }
         
-        /* Rank-Based Scrollbars */
         body.scroll-elite ::-webkit-scrollbar-thumb { background: #66fcf1; box-shadow: 0 0 10px #66fcf1; }
         body.scroll-gold ::-webkit-scrollbar-thumb { background: #ffd700; box-shadow: 0 0 10px #ffd700; }
         body.scroll-silver ::-webkit-scrollbar-thumb { background: #c0c0c0; box-shadow: 0 0 10px #c0c0c0; }
@@ -41,13 +38,14 @@
             background-color: #0b0c10; color: #ffffff;
             min-height: 100vh; display: flex; flex-direction: column;
             align-items: center; overflow-x: hidden;
-            padding-top: 105px; padding-bottom: 50px;
+            padding-top: 70px; /* REMOVED STATUS BAR SPACE */
+            padding-bottom: 50px;
         }
 
         /* Global Fixed App Header */
         .app-header {
             position: fixed; top: 0; left: 0; width: 100%; 
-            height: 105px; padding: 35px 20px 0 20px;
+            height: 70px; padding: 0 20px; /* REMOVED STATUS BAR SPACE */
             background: rgba(11, 12, 16, 0.9); backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex;
             justify-content: space-between; align-items: center; 
@@ -65,16 +63,10 @@
         .header-action-text { font-size: 14px; font-weight: bold; text-transform: uppercase; display: none; }
         @media(min-width: 400px) { .header-action-text { display: block; } }
 
-        /* Home View Container */
         #home-view { width: 100%; display: flex; flex-direction: column; align-items: center; animation: fadeIn 0.4s ease; }
-
-        .main-logo {
-            width: 120px; height: auto; margin-top: 20px; margin-bottom: 20px;
-            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5)); animation: float 4s ease-in-out infinite;
-        }
+        .main-logo { width: 120px; height: auto; margin-top: 20px; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5)); animation: float 4s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
 
-        /* Skeleton Loader Styles */
         #skeleton-container { width: 90%; max-width: 600px; display: flex; flex-direction: column; gap: 15px; }
         .skeleton-card { display: flex; align-items: center; background: rgba(31, 33, 36, 0.6); border-radius: 12px; padding: 15px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.03); }
         .skeleton-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transform: skewX(-20deg); animation: shimmer 1.5s infinite; }
@@ -87,8 +79,7 @@
         .skeleton-badge { width: 60px; height: 22px; background: rgba(255,255,255,0.05); border-radius: 5px; }
         @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
 
-        /* Search View Container */
-        #search-view { display: none; width: 100%; min-height: calc(100vh - 105px); background-color: #0b0c10; flex-direction: column; align-items: center; padding-top: 30px; animation: fadeIn 0.3s ease; }
+        #search-view { display: none; width: 100%; min-height: calc(100vh - 70px); background-color: #0b0c10; flex-direction: column; align-items: center; padding-top: 30px; animation: fadeIn 0.3s ease; }
         .search-input-wrapper { width: 90%; max-width: 500px; position: relative; margin-bottom: 30px; }
         .live-search-bar { width: 100%; padding: 18px 25px 18px 50px; font-size: 16px; color: #fff; background: rgba(31, 33, 36, 0.8); border: 1px solid rgba(102, 252, 241, 0.2); border-radius: 12px; outline: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; }
         .live-search-bar:focus { border-color: #66fcf1; background: rgba(31, 33, 36, 1); }
@@ -97,47 +88,22 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .error { color: #ff4c4c !important; text-align: center; font-weight: 500; margin-bottom: 20px;}
 
-        /* Section Containers */
         .section-container { width: 90%; max-width: 600px; margin-bottom: 40px; display: flex; flex-direction: column; gap: 15px; }
         .section-title { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px; color: #c5c6c7; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 8px; text-align: center; }
 
-        /* Quick Filter "Pill" Buttons */
         .pill-filters-container { display: flex; gap: 10px; width: 100%; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; scrollbar-width: none; }
         .pill-filters-container::-webkit-scrollbar { display: none; }
         .filter-pill { background: rgba(31, 33, 36, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); color: #888; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 5px; }
         .filter-pill.active { background: rgba(102, 252, 241, 0.1); border-color: #66fcf1; color: #fff; box-shadow: 0 0 10px rgba(102, 252, 241, 0.2); }
         .filter-pill:hover { border-color: #c5c6c7; color: #fff; }
 
-        /* Themed Sort Dropdown */
         .filter-container { display: flex; justify-content: flex-end; width: 100%; margin-bottom: 5px; }
-        .sort-select {
-            appearance: none;
-            background: linear-gradient(145deg, rgba(31,33,36,0.9), rgba(15,17,20,0.9));
-            color: #66fcf1;
-            border: 1px solid rgba(102, 252, 241, 0.3);
-            padding: 8px 35px 8px 15px;
-            border-radius: 20px;
-            font-size: 13px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2366fcf1%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
-            background-repeat: no-repeat;
-            background-position: right 12px top 50%;
-            background-size: 10px auto;
-            transition: all 0.3s ease;
-        }
+        .sort-select { appearance: none; background: linear-gradient(145deg, rgba(31,33,36,0.9), rgba(15,17,20,0.9)); color: #66fcf1; border: 1px solid rgba(102, 252, 241, 0.3); padding: 8px 35px 8px 15px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2366fcf1%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 12px top 50%; background-size: 10px auto; transition: all 0.3s ease; }
         .sort-select:hover { border-color: #66fcf1; box-shadow: 0 4px 20px rgba(102, 252, 241, 0.2); }
         .sort-select:focus { outline: none; border-color: #fff; color: #fff; }
         .sort-select option { background: #0b0c10; color: #fff; font-weight: 600; }
 
-        /* --- STRICTLY UNIFORM PREMIUM CARDS --- */
-        .player-card {
-            display: flex; align-items: center; background: rgba(31, 33, 36, 0.6); backdrop-filter: blur(10px);
-            padding: 16px; cursor: pointer; position: relative; text-decoration: none; color: #fff; 
-            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
-            will-change: transform;
-        }
-        
+        .player-card { display: flex; align-items: center; background: rgba(31, 33, 36, 0.6); backdrop-filter: blur(10px); padding: 16px; cursor: pointer; position: relative; text-decoration: none; color: #fff; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; will-change: transform; }
         .player-card-photo-wrapper { position: relative; width: 65px; height: 65px; margin-right: 18px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; border-radius: 50%; background: #000; }
         .player-card-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; z-index: 2; border: 2px solid transparent; }
         .player-card-info { display: flex; flex-direction: column; flex-grow: 1; justify-content: center; pointer-events: none; }
@@ -147,46 +113,35 @@
         .badge-container { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .win-badge, .kill-badge { background: rgba(255, 255, 255, 0.05); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; border: 1px solid rgba(255,255,255,0.05); pointer-events: none;}
         .kill-badge { border: 1px solid rgba(255, 76, 76, 0.2); color: #ff4c4c; background: rgba(255, 76, 76, 0.05); }
-
         .mini-tier-icon { margin-left: auto; font-size: 20px; padding-left: 10px; display: flex; align-items: center; justify-content: center; opacity: 0.9; pointer-events: none;}
 
         .tier-bronze { border-color: rgba(205, 127, 50, 0.4); background: rgba(31, 33, 36, 0.5); }
         .tier-bronze .player-card-photo { border-color: rgba(205, 127, 50, 0.3); }
-
         .tier-silver { border-color: rgba(192, 192, 192, 0.4); background: linear-gradient(145deg, rgba(45, 48, 52, 0.8) 0%, rgba(25, 27, 30, 0.8) 100%); }
         .tier-silver .player-card-name { color: #f5f5f5; }
         .tier-silver .player-card-photo { border-color: #c0c0c0; }
-
         .tier-gold { border-color: rgba(255, 215, 0, 0.4); background: linear-gradient(145deg, rgba(60, 50, 20, 0.6) 0%, rgba(25, 25, 25, 0.8) 100%); box-shadow: 0 4px 15px rgba(255, 215, 0, 0.05); }
         .tier-gold .player-card-name { color: #ffd700; }
         .tier-gold .player-card-photo { border-color: #ffd700; }
-
         .tier-diamond { border-color: rgba(102, 252, 241, 0.5); background: linear-gradient(145deg, rgba(20, 60, 65, 0.7) 0%, rgba(15, 20, 25, 0.9) 100%); box-shadow: 0 8px 25px rgba(102, 252, 241, 0.08); overflow: hidden; }
         .tier-diamond::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(102, 252, 241, 0.1), transparent); transform: skewX(-20deg); transition: 0.5s; pointer-events: none; }
         .tier-diamond:hover::after { left: 200%; transition: 0.8s ease-in-out; }
         .tier-diamond .player-card-name { color: #66fcf1; }
         .tier-diamond .player-card-photo { border-color: #66fcf1; }
 
-        /* Infinite Scroll Loading Spinner */
         .loading-spinner { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #66fcf1; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Full Profile Modal */
-        #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; background-color: #0b0c10; background-size: cover; background-position: center; background-attachment: fixed; overflow-y: auto; padding-top: 105px; }
-        .modal-header { position: fixed; top: 0; left: 0; width: 100%; height: 105px; padding: 35px 20px 0 20px; background: rgba(11, 12, 16, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center; z-index: 1001; }
-        
-        /* Adjusted Overlay for better Background Photo Visibility */
-        .modal-overlay { position: relative; width: 100%; min-height: calc(100% - 105px); background: rgba(11, 12, 16, 0.65); backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; padding: 40px 20px 40px 20px; }
-        
-        /* Darker Inner Content box so text is readable */
+        #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; background-color: #0b0c10; background-size: cover; background-position: center; background-attachment: fixed; overflow-y: auto; padding-top: 70px; }
+        .modal-header { position: fixed; top: 0; left: 0; width: 100%; height: 70px; padding: 0 20px; background: rgba(11, 12, 16, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center; z-index: 1001; }
+        .modal-overlay { position: relative; width: 100%; min-height: calc(100% - 70px); background: rgba(11, 12, 16, 0.65); backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; padding: 40px 20px 40px 20px; }
         .modal-content { width: 100%; max-width: 600px; padding: 40px 30px; display: flex; flex-direction: column; align-items: center; position: relative; border-radius: 16px; background: rgba(15, 17, 20, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 40px rgba(0,0,0,0.6);}
 
-        /* Share Button */
         .modal-share-btn { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; z-index: 10; }
         .modal-share-btn:hover { background: rgba(102, 252, 241, 0.2); border-color: #66fcf1; color: #66fcf1; }
 
         .modal-tier-box { position: absolute; top: 20px; right: 20px; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px 16px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; z-index: 10; transition: all 0.3s ease; text-align: center; min-width: 80px; }
-        
         .modal-photo-wrapper { width: 140px; height: 140px; margin-bottom: 25px; position: relative; display: flex; justify-content: center; align-items: center; border-radius: 50%; padding: 4px; }
         .modal-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; z-index: 2; background: #000; }
 
@@ -225,16 +180,6 @@
         .gallery-img:hover { transform: scale(1.02); opacity: 1; }
         @media (max-width: 500px) { .gallery-container { column-count: 1; } }
 
-        /* Branding logo inside Postcard (Hidden by default) */
-        .brand-watermark { display: none; text-align: center; margin-top: 10px; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
-        .brand-watermark img { width: 90px; filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)); }
-        .brand-watermark span { font-size: 11px; color: #888; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
-
-        /* Sharing Mode overrides */
-        .sharing-mode { background: #0b0c10 !important; border-radius: 0 !important; border: none !important; box-shadow: none !important; padding: 50px 30px !important; }
-        .sharing-mode .modal-share-btn, .sharing-mode .gallery-container, .sharing-mode .modal-huge-reel-btn, .sharing-mode .copy-btn, .sharing-mode .social-container { display: none !important; }
-        .sharing-mode .brand-watermark { display: flex !important; }
-
         #lightbox-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 12, 16, 0.98); z-index: 2000; justify-content: center; align-items: center; }
         #lightbox-img { max-width: 95%; max-height: 95%; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); }
         .lightbox-close { position: absolute; top: 25px; right: 25px; color: #fff; font-size: 28px; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
@@ -247,6 +192,71 @@
         @keyframes textFadeIn { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
         .fade-out-overlay { animation: overlayFadeOut 0.5s forwards !important; }
         @keyframes overlayFadeOut { 0% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+
+        /* =========================================================
+           DEDICATED POSTCARD GENERATOR CANVAS (HIDDEN, HUGE, HIGH-RES)
+           ========================================================= */
+        #postcard-generator {
+            position: absolute; left: -9999px; top: 0;
+            width: 1080px; height: 1080px;
+            background: #0b0c10; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            z-index: -9999;
+        }
+        
+        .pc-bg {
+            position: absolute; top: -5%; left: -5%; width: 110%; height: 110%; /* Scaled to hide blur edges */
+            background-size: cover; background-position: center;
+            filter: blur(25px) brightness(0.25); z-index: 1;
+        }
+
+        .pc-content {
+            position: relative; z-index: 2; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; padding: 60px 40px 40px 40px;
+        }
+
+        .pc-tier-title { font-size: 40px; font-weight: 900; letter-spacing: 15px; margin-bottom: 60px; text-transform: uppercase; }
+
+        .pc-dp-wrapper {
+            width: 320px; height: 320px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            position: relative; margin-bottom: 40px; background: #000; padding: 10px;
+        }
+        .pc-dp { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; z-index: 2; border: 6px solid #0b0c10; }
+        .pc-icon {
+            position: absolute; bottom: -15px; right: 10px; font-size: 60px; background: #0b0c10; width: 110px; height: 110px;
+            display: flex; align-items: center; justify-content: center; border-radius: 50%; z-index: 10; border: 8px solid #0b0c10;
+        }
+
+        .pc-name { font-size: 75px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 5px; text-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center; line-height: 1.1; max-width: 900px; }
+        .pc-uid { font-size: 32px; color: #bbb; margin-bottom: 50px; font-weight: 600; letter-spacing: 3px; }
+
+        .pc-stats-container { display: flex; gap: 50px; margin-bottom: auto; } /* Auto pushes the logo to the bottom */
+        .pc-stat { background: rgba(30, 30, 30, 0.7); border: 2px solid rgba(255,255,255,0.1); padding: 30px 60px; border-radius: 20px; text-align: center; color: #ddd; font-size: 26px; font-weight: 700; letter-spacing: 2px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .pc-stat span { display: block; font-size: 70px; font-weight: 900; color: #fff; margin-top: 10px; }
+        
+        .pc-kill { border-color: rgba(255, 76, 76, 0.5); background: rgba(40, 10, 10, 0.7); color: #ff4c4c; }
+        .pc-kill span { color: #ff4c4c; }
+
+        .pc-brand { margin-top: 40px; }
+        .pc-brand img { width: 380px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9)); }
+
+        /* Dynamic Tier Styles for Postcard */
+        .tier-elite .pc-tier-title { color: #66fcf1; text-shadow: 0 0 30px #66fcf1; }
+        .tier-elite .pc-dp-wrapper { background: linear-gradient(135deg, #66fcf1, #45a29e); box-shadow: 0 0 80px rgba(102, 252, 241, 0.4); }
+        .tier-elite .pc-icon { color: #66fcf1; text-shadow: 0 0 20px #66fcf1; }
+        .tier-elite .pc-stat.pc-win { border-color: rgba(102, 252, 241, 0.4); }
+
+        .tier-gold .pc-tier-title { color: #ffd700; text-shadow: 0 0 30px #ffd700; }
+        .tier-gold .pc-dp-wrapper { background: linear-gradient(135deg, #ffd700, #b8860b); box-shadow: 0 0 80px rgba(255, 215, 0, 0.3); }
+        .tier-gold .pc-icon { color: #ffd700; text-shadow: 0 0 20px #ffd700; }
+
+        .tier-silver .pc-tier-title { color: #c0c0c0; text-shadow: 0 0 30px #c0c0c0; }
+        .tier-silver .pc-dp-wrapper { background: linear-gradient(135deg, #e0e0e0, #808080); box-shadow: 0 0 60px rgba(192, 192, 192, 0.2); }
+        .tier-silver .pc-icon { color: #c0c0c0; text-shadow: 0 0 20px #c0c0c0; }
+
+        .tier-bronze .pc-tier-title { color: #cd7f32; text-shadow: 0 0 30px #cd7f32; }
+        .tier-bronze .pc-dp-wrapper { background: linear-gradient(135deg, #cd7f32, #8b5a2b); box-shadow: 0 0 60px rgba(205, 127, 50, 0.2); }
+        .tier-bronze .pc-icon { color: #cd7f32; text-shadow: 0 0 20px #cd7f32; }
 
     </style>
 </head>
@@ -334,6 +344,9 @@
         <img id="lightbox-img" src="" alt="Full Preview" draggable="false">
     </div>
 
+    <!-- HIDDEN POSTCARD CANVAS FOR EXPORT (SQUARE 1080x1080) -->
+    <div id="postcard-generator"></div>
+
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('keydown', function(event) {
@@ -369,13 +382,13 @@
             } else if (hash.startsWith('#profile')) {
                 lightbox.style.display = 'none'; profile.style.display = 'block'; search.style.display = 'none'; home.style.display = 'none'; document.body.style.overflow = 'hidden';
             } else if (hash === '#search') {
-                document.body.className = ''; // Reset scrollbar theme
+                document.body.className = ''; 
                 lightbox.style.display = 'none'; profile.style.display = 'none'; search.style.display = 'flex'; home.style.display = 'none'; document.body.style.overflow = 'auto';
                 mainHeaderBtn.innerHTML = '<span class="header-action-text">Home</span><i class="fas fa-home"></i>';
                 mainHeaderBtn.onclick = () => location.hash = 'home';
                 document.getElementById('live-uid-input').focus();
             } else { 
-                document.body.className = ''; // Reset scrollbar theme
+                document.body.className = ''; 
                 lightbox.style.display = 'none'; profile.style.display = 'none'; search.style.display = 'none'; home.style.display = 'flex'; document.body.style.overflow = 'auto';
                 mainHeaderBtn.innerHTML = '<span class="header-action-text">Search</span><i class="fas fa-search"></i>';
                 mainHeaderBtn.onclick = () => location.hash = 'search';
@@ -573,19 +586,75 @@
 
         window.openLightbox = function(src) { document.getElementById('lightbox-img').src = src; window.location.hash = 'lightbox'; };
 
-        async function downloadPostcard(name) {
-            const node = document.getElementById('modal-inner-content');
-            node.classList.add('sharing-mode'); // Hides buttons, shows logo watermark
-            
+        // --- NEW UPGRADED DEDICATED POSTCARD GENERATOR LOGIC ---
+        async function downloadPostcard(uid) {
+            const player = globalPlayerData.find(p => p.Uid.toString() === uid.toString());
+            if(!player) return;
+
+            const rankIndex = getPlayerRankIndex(player.Uid);
+            const tierInfo = getTierInfo(rankIndex);
+            const wins = parseInt(player.Win) || 0; 
+            const kills = parseInt(player.Background) || 0;
+
+            const generator = document.getElementById('postcard-generator');
+            const photoUrl = player.Photo || 'https://via.placeholder.css/1080';
+            const brandLogoUrl = "https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-28-40-573.png?updatedAt=1774839553114";
+
+            generator.className = `tier-${tierInfo.name.toLowerCase()}`;
+            generator.innerHTML = `
+                <div class="pc-bg" style="background-image: url('${photoUrl}');"></div>
+                <div class="pc-content">
+                    <div class="pc-tier-title">${tierInfo.name} RANK</div>
+                    <div class="pc-dp-wrapper">
+                        <img class="pc-dp" src="${photoUrl}" crossorigin="anonymous">
+                        <div class="pc-icon"><i class="fas ${tierInfo.icon}"></i></div>
+                    </div>
+                    <div class="pc-name">${player.GameName || 'Unknown'}</div>
+                    <div class="pc-uid">UID: ${player.Uid}</div>
+                    
+                    <div class="pc-stats-container">
+                        <div class="pc-stat pc-win">WINS<span>${wins}</span></div>
+                        <div class="pc-stat pc-kill">KILLS<span>${kills}</span></div>
+                    </div>
+
+                    <div class="pc-brand">
+                        <img src="${brandLogoUrl}" crossorigin="anonymous">
+                    </div>
+                </div>
+            `;
+
+            const btn = document.querySelector('.modal-share-btn');
+            const oldText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> GENERATING...';
+            btn.style.pointerEvents = 'none';
+
+            // Wait for internal images to load before snapshotting
+            await Promise.all(Array.from(generator.querySelectorAll('img')).map(img => {
+                if(img.complete) return Promise.resolve();
+                return new Promise(resolve => { img.onload = img.onerror = resolve; });
+            }));
+
             try {
-                const canvas = await html2canvas(node, { backgroundColor: '#0b0c10', scale: 2, useCORS: true, allowTaint: true });
+                // Scale 2 on 1080x1080 canvas generates an ultra-crisp 2160x2160 image
+                const canvas = await html2canvas(generator, { 
+                    scale: 2, 
+                    useCORS: true, 
+                    allowTaint: true, 
+                    backgroundColor: '#0b0c10',
+                    width: 1080,
+                    height: 1080
+                });
                 const link = document.createElement('a');
-                link.download = `${name.replace(/\s+/g, '_')}_Dragon_Tournaments.png`;
-                link.href = canvas.toDataURL('image/png');
+                link.download = `${(player.GameName || 'Player').replace(/\s+/g, '_')}_Dragon_Rank.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
-            } catch (e) { console.error("Could not generate postcard", e); }
+            } catch (e) { 
+                console.error("Could not generate postcard", e); 
+                alert("Sorry, an error occurred while creating the postcard.");
+            }
             
-            node.classList.remove('sharing-mode');
+            btn.innerHTML = oldText;
+            btn.style.pointerEvents = 'auto';
         }
 
         function openModal(uid) {
@@ -603,9 +672,7 @@
             const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Background) || 0; 
             const rankIndex = getPlayerRankIndex(player.Uid); const tierInfo = getTierInfo(rankIndex);
             
-            // Set dynamic scrollbar theme
             document.body.className = `scroll-${tierInfo.name.toLowerCase()}`;
-
             innerContent.className = `modal-content ${tierInfo.class}`;
 
             let galleryHTML = '';
@@ -613,7 +680,7 @@
             pics.forEach(pic => { if(pic && pic.trim() !== "") galleryHTML += `<img src="${pic}" class="gallery-img" draggable="false" loading="lazy" style="border: 1px solid rgba(255,255,255,0.1);" onclick="openLightbox('${pic}')">`; });
             
             innerContent.innerHTML = `
-                <button class="modal-share-btn" onclick="downloadPostcard('${player.GameName || 'Player'}')"><i class="fas fa-share-alt"></i> Share Card</button>
+                <button class="modal-share-btn" onclick="downloadPostcard('${player.Uid}')"><i class="fas fa-share-alt"></i> Share Card</button>
                 <div class="modal-tier-box" data-original="${tierInfo.name}" onclick="showNextTier(this, ${rankIndex}, ${wins}, ${kills})" style="color: ${tierInfo.color};">${tierInfo.name}</div>
                 
                 <div class="modal-photo-wrapper">
@@ -647,11 +714,6 @@
                     ${player.HisGmail ? `<div class="social-icon mail" onclick="openDeepLink('mailto:${player.HisGmail}')"><i class="fas fa-envelope"></i></div>` : ''}
                 </div>
                 
-                <div class="brand-watermark">
-                    <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-28-40-573.png?updatedAt=1774839553114" alt="Brand Logo" crossorigin="anonymous">
-                    <span>Dragon Tournaments</span>
-                </div>
-
                 ${galleryHTML ? `<div class="gallery-container">${galleryHTML}</div>` : ''}
             `;
 
