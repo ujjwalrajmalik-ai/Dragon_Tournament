@@ -2,173 +2,407 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- STRICTLY UNZOOMABLE VIEWPORT -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dragon Tournaments | Home</title>
-    <!-- FontAwesome -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#050505">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <title>Dragon Tournaments | Battle Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* Base & Resets + Security CSS */
+        /* Base & Resets */
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
-            -webkit-user-select: none; -khtml-user-select: none;
-            -moz-user-select: none; -ms-user-select: none; user-select: none;
-        }
-
-        /* Prevent image dragging and hold menus */
-        img {
-            -webkit-touch-callout: none;
-            -webkit-user-drag: none;
+            user-select: none;
         }
 
         body {
-            background-color: #000000; color: #ffffff;
-            min-height: 100vh; display: flex; flex-direction: column;
-            align-items: center; overflow-x: hidden;
-            padding-top: 105px; /* Space for header + status bar */
-            padding-bottom: 50px;
-            position: relative;
+            background-color: #050505; color: #ffffff;
+            min-height: 100vh; overflow-x: hidden;
+            overscroll-behavior-y: none;
+            display: flex; flex-direction: column; align-items: center;
+            padding-top: calc(80px + env(safe-area-inset-top)); 
+            padding-bottom: calc(50px + env(safe-area-inset-bottom));
         }
 
-        /* Ambient Esports Background Glow */
-        body::before {
-            content: ''; position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); width: 80vw; height: 80vw;
-            background: radial-gradient(circle, rgba(30, 30, 30, 0.6) 0%, rgba(0, 0, 0, 0) 70%);
-            z-index: -1; animation: ambientPulse 4s infinite alternate; pointer-events: none;
-        }
-        @keyframes ambientPulse { 0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } }
+        ::-webkit-scrollbar { display: none; }
 
-        /* Global Fixed App Header - WITH STATUS BAR SPACING */
+        /* Page Transition Overlay */
+        #app-transition-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #050505; z-index: 9999; pointer-events: none;
+            opacity: 0; transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Cyber Grid Background */
+        .cyber-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -2; pointer-events: none;
+            transform: perspective(500px) rotateX(60deg) translateY(-100px) scale(3);
+            animation: gridMove 15s linear infinite; opacity: 0.3;
+        }
+        @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 0 40px; } }
+
+        /* Dynamic Ambient Glow */
+        #ambient-light {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80vw; height: 80vw; max-width: 800px; max-height: 800px;
+            background: radial-gradient(circle, rgba(102, 252, 241, 0.08) 0%, rgba(0,0,0,0) 60%);
+            z-index: -1; pointer-events: none; border-radius: 50%;
+            transition: background 0.6s ease;
+        }
+
+        /* Top App Bar */
         .app-header {
             position: fixed; top: 0; left: 0; width: 100%; 
-            height: 105px; padding: 35px 20px 0 20px; 
-            background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex;
-            justify-content: center; align-items: center; 
-            z-index: 900; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+            height: calc(60px + env(safe-area-inset-top)); 
+            padding-top: env(safe-area-inset-top);
+            padding-left: 20px; padding-right: 20px;
+            background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex;
+            justify-content: space-between; align-items: center; z-index: 900;
         }
-
-        .header-title-img { height: 45px; width: auto; border-radius: 5px; cursor: pointer; }
-
-        /* Main Content Container */
-        .menu-container {
-            width: 100%; display: flex; flex-direction: column; align-items: center;
-            padding: 20px; z-index: 1;
+        .header-btn {
+            width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;
+            color: #ccc; font-size: 20px; cursor: pointer; transition: color 0.2s;
         }
-
-        /* Hero Logo */
-        .main-logo {
-            width: 140px; height: auto; margin-top: 20px; margin-bottom: 40px;
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2)); 
-            animation: float 4s ease-in-out infinite, fadeInDown 1s ease-out;
-        }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
-
-        /* Premium Menu Cards */
-        .menu-card {
-            width: 100%; max-width: 400px; background: rgba(20, 20, 20, 0.7);
-            backdrop-filter: blur(10px); border-radius: 15px; padding: 20px;
-            margin-bottom: 20px; display: flex; align-items: center; cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
-            position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);
-            opacity: 0; animation: fadeInUp 0.6s ease-out forwards;
-        }
+        .header-btn:active { color: #66fcf1; transform: scale(0.9); }
+        .header-title-img { height: 24px; opacity: 0.8; pointer-events: none; }
         
-        /* Staggered entrance animation delays */
-        .menu-card:nth-child(2) { animation-delay: 0.1s; }
-        .menu-card:nth-child(3) { animation-delay: 0.2s; }
-        .menu-card:nth-child(4) { animation-delay: 0.3s; }
-
-        /* Touch Feedback for Mobile */
-        .menu-card:active { transform: scale(0.95); }
-
-        /* Specific Card Accents */
-        .card-free { border-left: 4px solid #00ff88; }
-        .card-free:hover, .card-free:active { box-shadow: 0 0 20px rgba(0, 255, 136, 0.2), inset 0 0 10px rgba(0, 255, 136, 0.1); }
-        .card-free .card-icon { color: #00ff88; text-shadow: 0 0 15px #00ff88; }
-
-        .card-paid { border-left: 4px solid #ffd700; }
-        .card-paid:hover, .card-paid:active { box-shadow: 0 0 20px rgba(255, 215, 0, 0.2), inset 0 0 10px rgba(255, 215, 0, 0.1); }
-        .card-paid .card-icon { color: #ffd700; text-shadow: 0 0 15px #ffd700; }
-
-        .card-hall { border-left: 4px solid #00ffff; }
-        .card-hall:hover, .card-hall:active { box-shadow: 0 0 20px rgba(0, 255, 255, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.1); }
-        .card-hall .card-icon { color: #00ffff; text-shadow: 0 0 15px #00ffff; }
-
-        .card-icon {
-            font-size: 30px; width: 50px; display: flex; justify-content: center; margin-right: 15px; transition: transform 0.3s;
+        .header-profile-btn {
+            width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.1);
+            display: flex; justify-content: center; align-items: center; color: #fff;
+            font-size: 14px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer;
+            transition: 0.2s;
         }
-        .menu-card:hover .card-icon { transform: scale(1.1) rotate(5deg); }
+        .header-profile-btn:active { transform: scale(0.9); border-color: #66fcf1; color: #66fcf1; }
 
-        .card-content { flex-grow: 1; display: flex; flex-direction: column; }
-        .card-title { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-        .card-subtitle { font-size: 12px; color: #aaaaaa; }
+        /* Hero Section */
+        .hero-section {
+            width: 90%; max-width: 800px; text-align: left; margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease;
+        }
+        .hero-title {
+            font-size: 32px; font-weight: 900; text-transform: uppercase;
+            letter-spacing: 5px; color: #fff; margin-bottom: 5px;
+            background: linear-gradient(90deg, #fff, #888);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle {
+            font-size: 12px; color: #66fcf1; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; display: flex; align-items: center; gap: 8px;
+        }
+        .status-dot {
+            width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%;
+            box-shadow: 0 0 10px #2ecc71; animation: pulsePulse 2s infinite; transition: 0.3s;
+        }
+        @keyframes pulsePulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
 
-        .card-arrow { color: rgba(255, 255, 255, 0.3); font-size: 20px; transition: transform 0.3s, color 0.3s; }
-        .menu-card:hover .card-arrow { color: #ffffff; transform: translateX(5px); }
+        /* App Navigation List */
+        .nav-container {
+            width: 90%; max-width: 800px; display: flex; flex-direction: column; gap: 16px;
+            animation: fadeInUp 0.8s ease; padding-bottom: 20px;
+        }
 
-        /* Animations */
-        @keyframes fadeInUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInDown { 0% { opacity: 0; transform: translateY(-30px); } 100% { opacity: 1; transform: translateY(0); } }
+        /* High-End App Surface Cards */
+        .hub-card {
+            position: relative; display: flex; align-items: center; justify-content: space-between;
+            background: rgba(20, 20, 20, 0.75); backdrop-filter: blur(20px);
+            padding: 22px 25px; text-decoration: none; color: #fff;
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.06);
+            overflow: hidden; cursor: pointer; 
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s, background 0.3s;
+            transform: translateZ(0); 
+        }
+        .hub-card:active { transform: scale(0.96); background: rgba(30, 30, 30, 0.9); }
+        .hub-card .bg-icon { position: absolute; right: -15px; top: 50%; transform: translateY(-50%); font-size: 110px; opacity: 0.03; z-index: 1; pointer-events: none; }
+        .card-content { display: flex; flex-direction: column; z-index: 2; pointer-events: none; }
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 6px; }
+        .card-icon { width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; font-size: 18px; border-radius: 12px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); }
+        .card-title { font-size: 18px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+        .card-desc { font-size: 12px; color: #999; font-weight: 500; max-width: 250px; line-height: 1.4; }
+        .card-arrow { font-size: 18px; color: #555; z-index: 2; }
 
+        @media(max-width: 500px) {
+            .hub-card { flex-direction: column; align-items: flex-start; padding: 20px; }
+            .card-arrow { display: none; }
+            .bg-icon { right: -25px; font-size: 130px; }
+            .hero-title { font-size: 28px; }
+        }
+
+        /* OFF-CANVAS SIDEBAR (LEFT MENU) */
+        .ui-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(3px);
+            z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s ease;
+        }
+        .ui-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .sidebar {
+            position: fixed; top: 0; left: -100%; width: 280px; height: 100vh;
+            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255,255,255,0.05); z-index: 2001;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+            padding-top: calc(20px + env(safe-area-inset-top)); padding-bottom: 20px;
+        }
+        .sidebar.active { left: 0; }
+        
+        .sidebar-header {
+            padding: 0 25px 20px 25px; border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 20px; display: flex; align-items: center; gap: 15px;
+        }
+        .sidebar-header img { height: 24px; }
+        .sidebar-title { font-size: 16px; font-weight: 800; text-transform: uppercase; color: #fff; letter-spacing: 1px; }
+
+        .sidebar-nav { display: flex; flex-direction: column; gap: 5px; padding: 0 15px; }
+        .sidebar-link {
+            display: flex; align-items: center; gap: 15px; padding: 15px 20px;
+            color: #aaa; text-decoration: none; font-size: 15px; font-weight: 600;
+            border-radius: 12px; transition: 0.2s;
+        }
+        .sidebar-link i { font-size: 18px; width: 20px; text-align: center; }
+        .sidebar-link:active { background: rgba(255,255,255,0.05); color: #fff; transform: scale(0.98); }
+        .sidebar-link.active-page { background: rgba(102, 252, 241, 0.1); color: #66fcf1; }
+
+        /* BOTTOM SHEET (PROFILE/SETTINGS) */
+        .bottom-sheet {
+            position: fixed; bottom: -100%; left: 0; width: 100%;
+            background: rgba(15, 15, 15, 0.95); backdrop-filter: blur(25px);
+            border-top-left-radius: 25px; border-top-right-radius: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1); z-index: 2001;
+            transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 10px 25px calc(30px + env(safe-area-inset-bottom)) 25px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .bottom-sheet.active { bottom: 0; }
+        
+        .sheet-handle { width: 40px; height: 5px; background: rgba(255,255,255,0.2); border-radius: 5px; margin-bottom: 25px; }
+        
+        .profile-avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #333, #111); display: flex; justify-content: center; align-items: center; font-size: 30px; color: #fff; margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .profile-name { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 5px; }
+        .profile-status { font-size: 12px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; }
+
+        .sheet-menu { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+        .sheet-btn {
+            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.05);
+            padding: 16px 20px; border-radius: 12px; color: #fff; font-size: 14px; font-weight: 600;
+            display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s;
+        }
+        .sheet-btn:active { background: rgba(255,255,255,0.1); transform: scale(0.98); }
+        .sheet-btn.primary { background: #66fcf1; color: #000; border: none; font-weight: 800; justify-content: center; margin-top: 10px; }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body>
+<body id="app-body">
 
-    <!-- GLOBAL HEADER -->
+    <!-- Smooth App Page Transition Overlay -->
+    <div id="app-transition-overlay"></div>
+    
+    <!-- UI Overlay for Menus -->
+    <div id="ui-overlay" class="ui-overlay"></div>
+
+    <!-- Backgrounds -->
+    <div class="cyber-grid"></div>
+    <div id="ambient-light"></div>
+
+    <!-- Top App Bar -->
     <div class="app-header">
-        <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Dragon Tournaments" class="header-title-img" draggable="false">
+        <div class="header-btn" id="open-sidebar-btn"><i class="fas fa-bars"></i></div>
+        <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Dragon" class="header-title-img">
+        <div class="header-profile-btn" id="open-profile-btn"><i class="fas fa-user"></i></div>
     </div>
 
-    <!-- MAIN MENU -->
-    <div class="menu-container">
-        <!-- Floating Logo -->
-        <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110" alt="Website Logo" class="main-logo" draggable="false">
+    <!-- SIDEBAR (LEFT MENU) -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110" alt="Logo">
+            <div class="sidebar-title">Dragon Tourneys</div>
+        </div>
+        <div class="sidebar-nav">
+            <div class="sidebar-link active-page" data-url="index.html"><i class="fas fa-home"></i> Hub Home</div>
+            <div class="sidebar-link nav-route" data-url="paid.html"><i class="fas fa-crown" style="color: #ffd700;"></i> Paid Arena</div>
+            <div class="sidebar-link nav-route" data-url="free.html"><i class="fas fa-bolt" style="color: #2ecc71;"></i> Free Scrims</div>
+            <div class="sidebar-link nav-route" data-url="hall.html"><i class="fas fa-gem" style="color: #66fcf1;"></i> Hall of Fame</div>
+            <div class="sidebar-link nav-route" data-url="Rule.html"><i class="fas fa-scroll" style="color: #9b59b6;"></i> Protocols</div>
+        </div>
+    </div>
 
-        <!-- Menu Option 1: Free Tournaments -->
-        <div class="menu-card card-free" onclick="window.location.href='free.html'">
-            <div class="card-icon"><i class="fas fa-trophy"></i></div>
+    <!-- BOTTOM SHEET (PROFILE/SETTINGS) -->
+    <div id="profile-sheet" class="bottom-sheet">
+        <div class="sheet-handle"></div>
+        <div class="profile-avatar"><i class="fas fa-user-ninja"></i></div>
+        <div class="profile-name">Guest Player</div>
+        <div class="profile-status">Status: Unranked</div>
+        
+        <div class="sheet-menu">
+            <!-- Support Route -->
+            <div class="sheet-btn nav-route" data-url="support.html">
+                <span><i class="fas fa-headset" style="margin-right: 10px; color: #888;"></i> Support Center</span>
+                <i class="fas fa-chevron-right" style="color: #555; font-size: 12px;"></i>
+            </div>
+            <!-- Login / Register Route -->
+            <div class="sheet-btn primary nav-route" data-url="log.html">LOGIN / REGISTER</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="hero-section">
+        <div class="hero-subtitle"><span class="status-dot" id="system-status-dot"></span> System Online</div>
+        <div class="hero-title">Select Arena</div>
+    </div>
+
+    <div class="nav-container">
+        <div class="hub-card paid nav-route" data-url="paid.html" data-color="rgba(255, 215, 0, 0.15)">
+            <i class="fas fa-coins bg-icon"></i>
             <div class="card-content">
-                <div class="card-title">Free Tournaments</div>
-                <div class="card-subtitle">Play and win for free</div>
+                <div class="card-header"><div class="card-icon"><i class="fas fa-crown"></i></div><div class="card-title">Paid Arena</div></div>
+                <div class="card-desc">High stakes combat. Compete for massive prize pools and ultimate glory.</div>
             </div>
             <i class="fas fa-chevron-right card-arrow"></i>
         </div>
 
-        <!-- Menu Option 2: Paid Tournaments -->
-        <div class="menu-card card-paid" onclick="window.location.href='paid.html'">
-            <div class="card-icon"><i class="fas fa-crown"></i></div>
+        <div class="hub-card free nav-route" data-url="free.html" data-color="rgba(46, 204, 113, 0.15)">
+            <i class="fas fa-gamepad bg-icon"></i>
             <div class="card-content">
-                <div class="card-title">Paid Tournaments</div>
-                <div class="card-subtitle">High stakes, premium rewards</div>
+                <div class="card-header"><div class="card-icon"><i class="fas fa-bolt"></i></div><div class="card-title">Free Scrims</div></div>
+                <div class="card-desc">Zero entry fee. Hone your skills, learn the meta, and rank up safely.</div>
             </div>
             <i class="fas fa-chevron-right card-arrow"></i>
         </div>
 
-        <!-- Menu Option 3: Hall of Fame -->
-        <div class="menu-card card-hall" onclick="window.location.href='hall.html'">
-            <div class="card-icon"><i class="fas fa-gem"></i></div>
+        <div class="hub-card hall nav-route" data-url="hall.html" data-color="rgba(102, 252, 241, 0.15)">
+            <i class="fas fa-trophy bg-icon"></i>
             <div class="card-content">
-                <div class="card-title">Hall of Fame</div>
-                <div class="card-subtitle">Legendary player leaderboards</div>
+                <div class="card-header"><div class="card-icon"><i class="fas fa-gem"></i></div><div class="card-title">Hall of Fame</div></div>
+                <div class="card-desc">View global leaderboards, verify stats, and explore player profiles.</div>
+            </div>
+            <i class="fas fa-chevron-right card-arrow"></i>
+        </div>
+
+        <div class="hub-card rule nav-route" data-url="Rule.html" data-color="rgba(155, 89, 182, 0.15)">
+            <i class="fas fa-shield-alt bg-icon"></i>
+            <div class="card-content">
+                <div class="card-header"><div class="card-icon"><i class="fas fa-scroll"></i></div><div class="card-title">Protocols</div></div>
+                <div class="card-desc">Essential tournament guidelines, scoring rules, and player conduct.</div>
             </div>
             <i class="fas fa-chevron-right card-arrow"></i>
         </div>
     </div>
 
     <script>
-        /* --- SECURITY SCRIPT: Disable Inspect Element, Right Click, & Shortcuts --- */
+        // App Security
         document.addEventListener('contextmenu', event => event.preventDefault());
-        document.addEventListener('keydown', function(event) {
-            // Prevent F12
-            if (event.keyCode === 123) { event.preventDefault(); }
-            // Prevent Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
-            if (event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67)) { event.preventDefault(); }
-            if (event.ctrlKey && event.keyCode === 85) { event.preventDefault(); }
+        document.addEventListener('dragstart', event => event.preventDefault());
+
+        // Routing & Transitions
+        const transitionOverlay = document.getElementById('app-transition-overlay');
+        const routeElements = document.querySelectorAll('.nav-route');
+        
+        routeElements.forEach(el => {
+            el.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                transitionOverlay.style.opacity = '1';
+                setTimeout(() => { window.location.href = this.getAttribute('data-url'); }, 300);
+            });
+        });
+
+        // UI Modals (Sidebar & Bottom Sheet)
+        const uiOverlay = document.getElementById('ui-overlay');
+        const sidebar = document.getElementById('sidebar');
+        const profileSheet = document.getElementById('profile-sheet');
+        
+        const openSidebarBtn = document.getElementById('open-sidebar-btn');
+        const openProfileBtn = document.getElementById('open-profile-btn');
+
+        function closeAllUI() {
+            uiOverlay.classList.remove('active');
+            sidebar.classList.remove('active');
+            profileSheet.classList.remove('active');
+        }
+
+        openSidebarBtn.addEventListener('click', () => {
+            uiOverlay.classList.add('active');
+            sidebar.classList.add('active');
+        });
+
+        openProfileBtn.addEventListener('click', () => {
+            uiOverlay.classList.add('active');
+            profileSheet.classList.add('active');
+        });
+
+        uiOverlay.addEventListener('click', closeAllUI);
+
+        // Handle return navigation fade-in
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted || transitionOverlay.style.opacity === '1') {
+                transitionOverlay.style.opacity = '0';
+                closeAllUI(); 
+            }
+        });
+
+        // Dynamic Lighting
+        const ambientLight = document.getElementById('ambient-light');
+        const defaultLight = 'radial-gradient(circle, rgba(102, 252, 241, 0.08) 0%, rgba(0,0,0,0) 60%)';
+        const cards = document.querySelectorAll('.hub-card');
+
+        cards.forEach(card => {
+            const handleGlow = () => {
+                const glowColor = card.getAttribute('data-color');
+                ambientLight.style.background = `radial-gradient(circle, ${glowColor} 0%, rgba(0,0,0,0) 70%)`;
+            };
+            const removeGlow = () => { ambientLight.style.background = defaultLight; };
+
+            card.addEventListener('mouseenter', handleGlow);
+            card.addEventListener('mouseleave', removeGlow);
+            card.addEventListener('touchstart', handleGlow, {passive: true});
+            card.addEventListener('touchend', () => setTimeout(removeGlow, 400), {passive: true});
+        });
+
+        // ==========================================
+        // APP OFFLINE ENGINE (LOCAL STORAGE CACHING)
+        // ==========================================
+        document.addEventListener("DOMContentLoaded", () => {
+            const CACHE_KEY = "dragon_hub_html_cache_v1";
+            
+            // 1. Immediately save the current HTML to Local Storage (so next load is instant)
+            localStorage.setItem(CACHE_KEY, document.documentElement.outerHTML);
+
+            // 2. Silently fetch the page in the background to check for updates
+            setTimeout(() => {
+                fetch(window.location.href, { cache: 'no-store' })
+                    .then(response => response.text())
+                    .then(newHtml => {
+                        const currentCache = localStorage.getItem(CACHE_KEY);
+                        
+                        // If the server HTML is different from what we have cached
+                        if (newHtml && currentCache && newHtml !== currentCache) {
+                            
+                            // Save the fresh UI into local storage
+                            localStorage.setItem(CACHE_KEY, newHtml);
+                            console.log("System Alert: New UI Version downloaded and cached for next launch.");
+                            
+                            // Visual indicator that an update was downloaded
+                            const statusDot = document.getElementById('system-status-dot');
+                            if(statusDot) {
+                                statusDot.style.backgroundColor = '#ffd700'; // Changes dot to Gold
+                                statusDot.style.boxShadow = '0 0 10px #ffd700';
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.log("System Running Offline - Using Cached UI");
+                    });
+            }, 2000); // Wait 2 seconds before checking so it doesn't interrupt page load
         });
     </script>
 </body>
