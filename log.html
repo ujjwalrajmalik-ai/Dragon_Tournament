@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#050505">
+    
+    <title>Dragon Tournaments | Coming Soon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Base & Resets */
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            user-select: none;
+        }
+
+        body {
+            background-color: #050505; color: #ffffff;
+            min-height: 100vh; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding-top: calc(60px + env(safe-area-inset-top)); 
+        }
+
+        /* Page Transition Overlay */
+        #app-transition-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #050505; z-index: 9999; pointer-events: none;
+            opacity: 1; transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Top App Bar (Branded) */
+        .app-header {
+            position: fixed; top: 0; left: 0; width: 100%; 
+            height: calc(60px + env(safe-area-inset-top)); 
+            padding-top: env(safe-area-inset-top);
+            padding-left: 20px; padding-right: 20px;
+            background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex;
+            justify-content: center; align-items: center; z-index: 900;
+        }
+        .header-title-img { height: 24px; opacity: 0.9; pointer-events: none; }
+        
+        /* Back Button inside Header */
+        .header-back-btn {
+            position: absolute; left: 20px; top: calc(50% + (env(safe-area-inset-top) / 2));
+            transform: translateY(-50%);
+            color: #c5c6c7; font-size: 20px; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .header-back-btn:active { color: #66fcf1; transform: translateY(-50%) scale(0.9); }
+
+        /* Cyber Grid Background */
+        .cyber-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -2; pointer-events: none;
+            transform: perspective(500px) rotateX(60deg) translateY(-100px) scale(3);
+            animation: gridMove 15s linear infinite; opacity: 0.3;
+        }
+        @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 0 40px; } }
+
+        /* Dynamic Ambient Glow (Branded Cyan) */
+        #ambient-light {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80vw; height: 80vw; max-width: 600px; max-height: 600px;
+            background: radial-gradient(circle, rgba(102, 252, 241, 0.12) 0%, rgba(0,0,0,0) 60%);
+            z-index: -1; pointer-events: none; border-radius: 50%;
+            animation: pulseGlow 4s infinite alternate ease-in-out;
+        }
+        @keyframes pulseGlow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; } }
+
+        /* Content Container */
+        .content-card {
+            display: flex; flex-direction: column; align-items: center;
+            background: rgba(15, 15, 15, 0.8); backdrop-filter: blur(20px);
+            border: 1px solid rgba(102, 252, 241, 0.15); border-radius: 24px;
+            padding: 40px 30px; text-align: center; width: 90%; max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(102, 252, 241, 0.05);
+            animation: slideUpFade 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0; transform: translateY(30px);
+        }
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
+
+        /* Branded Main Logo Animation */
+        .main-logo {
+            width: 130px; height: auto; margin-bottom: 25px;
+            filter: drop-shadow(0 10px 20px rgba(102, 252, 241, 0.3));
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+
+        /* Typography */
+        .progress-title {
+            font-size: 24px; font-weight: 900; color: #fff; text-transform: uppercase;
+            letter-spacing: 3px; margin-bottom: 12px;
+            text-shadow: 0 2px 10px rgba(102, 252, 241, 0.3);
+        }
+        
+        .progress-desc {
+            font-size: 15px; color: #a0a0a0; line-height: 1.6; margin-bottom: 35px;
+            font-weight: 500;
+        }
+        .highlight { color: #66fcf1; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Branded Action Button */
+        .go-back-btn {
+            background: linear-gradient(135deg, rgba(102, 252, 241, 0.1), rgba(102, 252, 241, 0.05));
+            border: 1px solid #66fcf1; color: #66fcf1; padding: 16px 30px; border-radius: 14px;
+            font-size: 14px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 1.5px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+            cursor: pointer; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 20px rgba(102, 252, 241, 0.1);
+        }
+        .go-back-btn:active {
+            transform: scale(0.96); background: #66fcf1; color: #000;
+            box-shadow: 0 4px 15px rgba(102, 252, 241, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fade Overlay -->
+    <div id="app-transition-overlay"></div>
+
+    <!-- Backgrounds -->
+    <div class="cyber-grid"></div>
+    <div id="ambient-light"></div>
+
+    <!-- App Header -->
+    <div class="app-header">
+        <div class="header-back-btn" id="header-back">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Dragon Tournaments" class="header-title-img">
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-card">
+        <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110" alt="Dragon Logo" class="main-logo">
+        
+        <div class="progress-title">Coming Soon</div>
+        <div class="progress-desc">
+            <span class="highlight">This page will be available soon.</span><br>
+            We are preparing the arena for the next phase.
+        </div>
+        
+        <button class="go-back-btn" id="go-back-btn">
+            <i class="fas fa-arrow-left"></i> Return to Hub
+        </button>
+    </div>
+
+    <script>
+        // Security logic
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('dragstart', event => event.preventDefault());
+
+        // Remove overlay on load
+        window.addEventListener('load', () => {
+            document.getElementById('app-transition-overlay').style.opacity = '0';
+        });
+
+        // Smooth Navigation Logic for both back buttons
+        function navigateBack() {
+            document.getElementById('app-transition-overlay').style.opacity = '1';
+            
+            setTimeout(() => {
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = 'index.html'; // Fallback
+                }
+            }, 400); // Matches CSS transition time
+        }
+
+        document.getElementById('go-back-btn').addEventListener('click', navigateBack);
+        document.getElementById('header-back').addEventListener('click', navigateBack);
+    </script>
+</body>
+</html>
