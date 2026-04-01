@@ -6,7 +6,6 @@
     <title>Dragon Tournaments | Hall of Fame</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -21,7 +20,6 @@
             -moz-user-select: none; -ms-user-select: none; user-select: none;
         }
 
-        /* Dynamic Cyber Scrollbars */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: rgba(5, 5, 5, 0.9); }
         ::-webkit-scrollbar-thumb { background: #66fcf1; border-radius: 10px; box-shadow: 0 0 10px rgba(102, 252, 241, 0.5); }
@@ -34,7 +32,6 @@
         img { -webkit-touch-callout: none; -webkit-user-drag: none; }
         input { -webkit-user-select: text; -khtml-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
 
-        /* PURE BLACK BACKGROUND */
         body {
             background-color: #000000; color: #ffffff;
             min-height: 100vh; display: flex; flex-direction: column;
@@ -43,7 +40,6 @@
             padding-bottom: 50px;
         }
 
-        /* Global Fixed App Header */
         .app-header {
             position: fixed; top: 0; left: 0; width: 100%; 
             height: 70px; padding: 0 20px;
@@ -59,10 +55,7 @@
             color: #c5c6c7; font-size: 22px; cursor: pointer; transition: color 0.3s ease, transform 0.2s ease;
             display: flex; align-items: center; gap: 8px; background: none; border: none; outline: none;
         }
-        
         .header-action-btn:hover { color: #66fcf1; transform: scale(1.05); }
-        .header-action-text { font-size: 14px; font-weight: bold; text-transform: uppercase; display: none; }
-        @media(min-width: 400px) { .header-action-text { display: block; } }
 
         #home-view { width: 100%; display: flex; flex-direction: column; align-items: center; animation: fadeIn 0.4s ease; }
         .main-logo { width: 120px; height: auto; margin-top: 20px; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5)); animation: float 4s ease-in-out infinite; }
@@ -76,8 +69,6 @@
         .skeleton-line { height: 14px; background: rgba(255,255,255,0.05); border-radius: 4px; }
         .skeleton-line.w-70 { width: 70%; }
         .skeleton-line.w-40 { width: 40%; }
-        .skeleton-badges { display: flex; gap: 10px; margin-top: 5px; }
-        .skeleton-badge { width: 60px; height: 22px; background: rgba(255,255,255,0.05); border-radius: 5px; }
         @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
 
         #search-view { display: none; width: 100%; min-height: calc(100vh - 70px); background-color: #000000; flex-direction: column; align-items: center; padding-top: 30px; animation: fadeIn 0.3s ease; }
@@ -98,7 +89,6 @@
         .filter-pill.active { background: rgba(102, 252, 241, 0.1); border-color: #66fcf1; color: #fff; box-shadow: 0 0 10px rgba(102, 252, 241, 0.2); }
         .filter-pill:hover { border-color: #c5c6c7; color: #fff; }
 
-        /* --- CUSTOM THEMED DROPDOWN --- */
         .filter-container { display: flex; justify-content: flex-end; width: 100%; margin-bottom: 5px; }
         .custom-select-wrapper { position: relative; user-select: none; width: 220px; z-index: 50; }
         .custom-select-trigger { background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(5,5,5,0.9)); color: #66fcf1; border: 1px solid rgba(102, 252, 241, 0.3); padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease; }
@@ -112,30 +102,22 @@
         .custom-option:hover { background: rgba(102, 252, 241, 0.15); color: #66fcf1; }
         .custom-option.selected { color: #66fcf1; background: rgba(102, 252, 241, 0.05); border-left: 3px solid #66fcf1; }
 
-        /* --- STRICTLY UNIFORM PREMIUM CARDS --- */
         .player-card { display: flex; align-items: center; background: rgba(15, 15, 15, 0.8); backdrop-filter: blur(10px); padding: 16px; cursor: pointer; position: relative; text-decoration: none; color: #fff; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; will-change: transform; overflow: visible; }
         .player-card-photo-wrapper { position: relative; width: 65px; height: 65px; margin-right: 18px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; border-radius: 50%; background: #000; }
         .player-card-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; z-index: 2; border: 2px solid transparent; }
         
         .player-card-info { display: flex; flex-direction: column; flex-grow: 1; justify-content: center; pointer-events: none; overflow: hidden; }
-        .player-card-name { 
-            font-size: 17px; font-weight: 700; 
-            /* PRESERVE EXACT FORMATTING (No uppercase transform) */
-            text-transform: none; 
-            letter-spacing: 0.5px; margin-bottom: 2px; 
-            /* Stop long symbols from breaking layout */
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
-            line-height: 1.4;
-        }
+        .player-card-name { font-size: 17px; font-weight: 700; text-transform: none; letter-spacing: 0.5px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.4; }
         .player-card-uid { font-size: 12px; color: #888; margin-bottom: 8px; font-weight: 500; letter-spacing: 1px; }
 
         .badge-container { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .win-badge, .kill-badge { background: rgba(255, 255, 255, 0.05); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; border: 1px solid rgba(255,255,255,0.05); pointer-events: none;}
         .kill-badge { border: 1px solid rgba(255, 76, 76, 0.2); color: #ff4c4c; background: rgba(255, 76, 76, 0.05); }
-        .mini-tier-icon { margin-left: auto; font-size: 20px; padding-left: 10px; display: flex; align-items: center; justify-content: center; opacity: 0.9; pointer-events: none;}
 
-        /* Card Numeric Rank Badge */
         .card-rank-badge { position: absolute; top: -10px; left: -10px; width: 32px; height: 32px; background: #000000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; z-index: 10; font-style: italic; }
+        
+        .tier-icon-badge { position: absolute; bottom: -5px; right: -5px; background: #000; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; z-index: 10; border: 2px solid #000; }
+        .tier-icon-badge img { width: 65%; height: auto; object-fit: contain; }
 
         .tier-bronze { border-color: rgba(205, 127, 50, 0.4); background: rgba(20, 20, 20, 0.6); }
         .tier-bronze .player-card-photo { border-color: rgba(205, 127, 50, 0.3); }
@@ -171,7 +153,9 @@
         .modal-share-btn:hover { background: rgba(102, 252, 241, 0.2); border-color: #66fcf1; color: #66fcf1; }
 
         .modal-tier-box { position: absolute; top: 20px; right: 20px; background: rgba(0, 0, 0, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px 16px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; z-index: 10; transition: all 0.3s ease; text-align: center; min-width: 80px; }
-        .modal-photo-wrapper { width: 140px; height: 140px; margin-bottom: 25px; position: relative; display: flex; justify-content: center; align-items: center; border-radius: 50%; padding: 4px; }
+        
+        .modal-photo-wrapper { width: 140px; height: 140px; margin-bottom: 25px; position: relative; display: flex; justify-content: center; align-items: center; border-radius: 50%; padding: 4px; cursor: pointer; transition: transform 0.2s; }
+        .modal-photo-wrapper:hover { transform: scale(1.05); }
         .modal-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; z-index: 2; background: #000; }
 
         .tier-bronze.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #cd7f32 0%, #8b5a2b 100%); }
@@ -179,16 +163,8 @@
         .tier-gold.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%); box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15); }
         .tier-diamond.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #66fcf1 0%, #45a29e 100%); box-shadow: 0 10px 40px rgba(102, 252, 241, 0.2); }
 
-        .tier-icon-badge { position: absolute; bottom: -5px; right: -5px; background: #000; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; z-index: 10; font-size: 20px; border: 3px solid #000; }
-
         .name-copy-container { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 5px; }
-        .modal-name { 
-            font-size: 28px; font-weight: 800; 
-            /* PRESERVE EXACT FORMATTING */
-            text-transform: none; 
-            text-align: center; letter-spacing: 1px; color: #fff; 
-            line-height: 1.4; word-break: break-word;
-        }
+        .modal-name { font-size: 28px; font-weight: 800; text-transform: none; text-align: center; letter-spacing: 1px; color: #fff; line-height: 1.4; word-break: break-word; }
         .uid-copy-container { display: flex; align-items: center; gap: 10px; margin-top: 5px; margin-bottom: 25px; color: #a0a0a0; font-size: 13px; font-weight: 500; background: rgba(255,255,255,0.05); padding: 6px 16px; border-radius: 20px; }
         .copy-btn { cursor: pointer; transition: color 0.2s; font-size: 15px; color: #888; }
         .copy-btn:hover { color: #fff; }
@@ -206,19 +182,29 @@
         .social-container { display: flex; gap: 25px; margin-bottom: 35px; }
         .social-icon { color: #888; font-size: 26px; cursor: pointer; transition: transform 0.2s, color 0.2s; }
         .social-icon:hover { transform: translateY(-3px); }
-        .social-icon.insta:hover { color: #e1306c; }
-        .social-icon.yt:hover { color: #ff0000; }
-        .social-icon.mail:hover { color: #ea4335; }
 
         .gallery-container { width: 100%; column-count: 2; column-gap: 15px; }
         .gallery-img { width: 100%; margin-bottom: 15px; border-radius: 8px; break-inside: avoid; cursor: pointer; transition: transform 0.2s; opacity: 0.9; }
         .gallery-img:hover { transform: scale(1.02); opacity: 1; }
         @media (max-width: 500px) { .gallery-container { column-count: 1; } }
 
-        #lightbox-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.98); z-index: 2000; justify-content: center; align-items: center; }
-        #lightbox-img { max-width: 95%; max-height: 95%; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8); }
-        .lightbox-close { position: absolute; top: 25px; right: 25px; color: #fff; font-size: 28px; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
+        /* --- UPGRADED ZOOMABLE LIGHTBOX MODAL --- */
+        #lightbox-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000000; z-index: 2000; flex-direction: column; }
+        #lightbox-wrapper { flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative; padding: 20px; }
+        #lightbox-img { max-width: 100%; max-height: 100%; border-radius: 8px; transition: transform 0.2s ease; transform-origin: center center; }
+        .lightbox-close { position: absolute; top: 25px; right: 25px; color: #fff; font-size: 28px; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; z-index: 2001; text-shadow: 0 0 10px #000; }
         .lightbox-close:hover { opacity: 1; }
+        .lightbox-toolbar { height: 80px; width: 100%; background: rgba(10,10,10,0.95); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-evenly; align-items: center; padding: 0 20px; z-index: 2001; box-shadow: 0 -5px 20px rgba(0,0,0,0.8); }
+        .lb-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 20px; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; outline: none; }
+        .lb-btn:active { transform: scale(0.9); }
+        .lb-download { padding: 0 25px; width: auto; border-radius: 25px; font-size: 14px; font-weight: 800; text-decoration: none; gap: 8px; color: #000 !important; letter-spacing: 1px; }
+
+        /* --- BIG DP MODAL --- */
+        #dp-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); z-index: 3000; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .dp-modal-top-logo { width: 250px; margin-bottom: 40px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.1)); }
+        .dp-modal-img { width: 90%; max-width: 400px; aspect-ratio: 1/1; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 0 40px rgba(255,255,255,0.3); }
+        .dp-modal-close { position: absolute; top: 30px; right: 30px; font-size: 30px; color: #fff; cursor: pointer; opacity: 0.7; transition: 0.2s; }
+        .dp-modal-close:hover { opacity: 1; }
 
         #elite-intro-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 5, 0.98); z-index: 1500; justify-content: center; align-items: center; flex-direction: column; }
         .elite-medal-icon { font-size: 90px; color: #66fcf1; filter: drop-shadow(0 10px 20px rgba(102, 252, 241, 0.2)); animation: cinematicIntro 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
@@ -231,75 +217,37 @@
         /* =========================================================
            DEDICATED POSTCARD GENERATOR CANVAS (HIDDEN, HUGE, HIGH-RES)
            ========================================================= */
-        #postcard-generator {
-            position: absolute; left: -9999px; top: 0;
-            width: 1080px; height: 1080px;
-            background: #000; 
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-            z-index: -9999;
-        }
-        
-        .pc-bg {
-            position: absolute; top: -10%; left: -10%; width: 120%; height: 120%;
-            background-size: cover; background-position: center;
-            filter: blur(40px) grayscale(40%); opacity: 0.15; z-index: 1;
-        }
-
-        .pc-content {
-            position: relative; z-index: 2; width: 100%; height: 100%;
-            display: flex; flex-direction: column; align-items: center; padding: 60px 40px 40px 40px;
-        }
-
+        #postcard-generator { position: absolute; left: -9999px; top: 0; width: 1080px; height: 1080px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; z-index: -9999; }
+        .pc-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(40px) grayscale(40%); opacity: 0.15; z-index: 1; }
+        .pc-content { position: relative; z-index: 2; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; padding: 60px 40px 40px 40px; }
         .pc-tier-title { font-size: 40px; font-weight: 900; letter-spacing: 15px; margin-bottom: 60px; text-transform: uppercase; }
-
-        .pc-dp-wrapper {
-            width: 320px; height: 320px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            position: relative; margin-bottom: 40px; background: #000; padding: 10px;
-        }
+        .pc-dp-wrapper { width: 320px; height: 320px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 40px; background: #000; padding: 10px; }
         .pc-dp { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; z-index: 2; border: 6px solid #000; }
-        .pc-icon {
-            position: absolute; bottom: -15px; right: 10px; font-size: 60px; background: #000; width: 110px; height: 110px;
-            display: flex; align-items: center; justify-content: center; border-radius: 50%; z-index: 10; border: 8px solid #000;
-        }
-
-        .pc-name { 
-            font-size: 75px; font-weight: 900; color: #fff; 
-            text-transform: none; /* Preserve symbols */
-            letter-spacing: 4px; margin-bottom: 5px; 
-            text-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center; 
-            line-height: 1.3; max-width: 900px; word-break: break-word;
-        }
+        .pc-icon { position: absolute; bottom: -15px; right: 10px; background: #000; width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; border-radius: 50%; z-index: 10; border: 8px solid #000; }
+        .pc-icon img { width: 65%; height: auto; object-fit: contain; }
+        
+        .pc-name { font-size: 75px; font-weight: 900; color: #fff; text-transform: none; letter-spacing: 4px; margin-bottom: 5px; text-shadow: 0 10px 30px rgba(0,0,0,0.8); text-align: center; line-height: 1.3; max-width: 900px; word-break: break-word; }
         .pc-uid { font-size: 32px; color: #bbb; margin-bottom: 50px; font-weight: 600; letter-spacing: 3px; }
-
         .pc-stats-container { display: flex; gap: 50px; margin-bottom: 30px; } 
         .pc-stat { background: rgba(30, 30, 30, 0.7); border: 2px solid rgba(255,255,255,0.1); padding: 30px 60px; border-radius: 20px; text-align: center; color: #ddd; font-size: 26px; font-weight: 700; letter-spacing: 2px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .pc-stat span { display: block; font-size: 70px; font-weight: 900; color: #fff; margin-top: 10px; }
-        
         .pc-kill { border-color: rgba(255, 76, 76, 0.5); background: rgba(40, 10, 10, 0.7); color: #ff4c4c; }
         .pc-kill span { color: #ff4c4c; }
-
         .pc-brand { margin-top: auto; padding-top: 20px; }
         .pc-brand img { width: 600px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9)); }
 
-        /* Dynamic Tier Styles for Postcard */
         .tier-elite .pc-tier-title { color: #66fcf1; text-shadow: 0 0 30px #66fcf1; }
         .tier-elite .pc-dp-wrapper { background: linear-gradient(135deg, #66fcf1, #45a29e); box-shadow: 0 0 80px rgba(102, 252, 241, 0.4); }
-        .tier-elite .pc-icon { color: #66fcf1; text-shadow: 0 0 20px #66fcf1; }
         .tier-elite .pc-stat.pc-win { border-color: rgba(102, 252, 241, 0.4); }
 
         .tier-gold .pc-tier-title { color: #ffd700; text-shadow: 0 0 30px #ffd700; }
         .tier-gold .pc-dp-wrapper { background: linear-gradient(135deg, #ffd700, #b8860b); box-shadow: 0 0 80px rgba(255, 215, 0, 0.3); }
-        .tier-gold .pc-icon { color: #ffd700; text-shadow: 0 0 20px #ffd700; }
 
         .tier-silver .pc-tier-title { color: #c0c0c0; text-shadow: 0 0 30px #c0c0c0; }
         .tier-silver .pc-dp-wrapper { background: linear-gradient(135deg, #e0e0e0, #808080); box-shadow: 0 0 60px rgba(192, 192, 192, 0.2); }
-        .tier-silver .pc-icon { color: #c0c0c0; text-shadow: 0 0 20px #c0c0c0; }
 
         .tier-bronze .pc-tier-title { color: #cd7f32; text-shadow: 0 0 30px #cd7f32; }
         .tier-bronze .pc-dp-wrapper { background: linear-gradient(135deg, #cd7f32, #8b5a2b); box-shadow: 0 0 60px rgba(205, 127, 50, 0.2); }
-        .tier-bronze .pc-icon { color: #cd7f32; text-shadow: 0 0 20px #cd7f32; }
-
     </style>
 </head>
 <body>
@@ -334,7 +282,6 @@
                 <div class="filter-pill" data-filter="BRONZE">🥉 Bronze</div>
             </div>
 
-            <!-- Custom Themed Dropdown -->
             <div class="filter-container">
                 <div class="custom-select-wrapper" id="custom-sort">
                     <div class="custom-select-trigger">
@@ -387,12 +334,26 @@
         </div>
     </div>
 
-    <div id="lightbox-modal" onclick="history.back()">
-        <i class="fas fa-times lightbox-close"></i>
-        <img id="lightbox-img" src="" alt="Full Preview" draggable="false">
+    <!-- NEW BIG DP MODAL -->
+    <div id="dp-modal" onclick="closeDPView()">
+        <div class="dp-modal-close" onclick="closeDPView()"><i class="fas fa-times"></i></div>
+        <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-28-40-573.png?updatedAt=1774839553114" class="dp-modal-top-logo" draggable="false">
+        <img id="dp-modal-pic" src="" class="dp-modal-img" onclick="event.stopPropagation()" draggable="false">
     </div>
 
-    <!-- HIDDEN POSTCARD CANVAS FOR EXPORT (SQUARE 1080x1080) -->
+    <!-- UPGRADED LIGHTBOX (ZOOMABLE & THEMED) -->
+    <div id="lightbox-modal">
+        <div class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></div>
+        <div id="lightbox-wrapper">
+            <img id="lightbox-img" src="" draggable="false">
+        </div>
+        <div class="lightbox-toolbar">
+            <button class="lb-btn" onclick="zoomLightbox(-0.5)"><i class="fas fa-search-minus"></i></button>
+            <a id="lb-dl-btn" class="lb-btn lb-download" href="" download="Dragon_Gallery.png"><i class="fas fa-download"></i> SAVE</a>
+            <button class="lb-btn" onclick="zoomLightbox(0.5)"><i class="fas fa-search-plus"></i></button>
+        </div>
+    </div>
+
     <div id="postcard-generator"></div>
 
     <script>
@@ -404,6 +365,7 @@
         });
 
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbwKxTpF_0GCXfKdYVHeYKrpymJWqwdOdfU4ycBdBs2FDUwkXVYlYeAakOg6oW9neWmn/exec';
+        const dragonLogoSmall = 'https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110';
 
         let globalPlayerData = [];
         let filteredData = [];
@@ -426,16 +388,20 @@
             const mainHeaderBtn = document.getElementById('header-toggle-btn');
 
             if (hash === '#lightbox') {
+                document.getElementById('dp-modal').style.display = 'none';
                 lightbox.style.display = 'flex'; document.body.style.overflow = 'hidden';
             } else if (hash.startsWith('#profile')) {
+                document.getElementById('dp-modal').style.display = 'none';
                 lightbox.style.display = 'none'; profile.style.display = 'block'; search.style.display = 'none'; home.style.display = 'none'; document.body.style.overflow = 'hidden';
             } else if (hash === '#search') {
+                document.getElementById('dp-modal').style.display = 'none';
                 document.body.className = ''; 
                 lightbox.style.display = 'none'; profile.style.display = 'none'; search.style.display = 'flex'; home.style.display = 'none'; document.body.style.overflow = 'auto';
                 mainHeaderBtn.innerHTML = '<span class="header-action-text">Home</span><i class="fas fa-home"></i>';
                 mainHeaderBtn.onclick = () => location.hash = 'home';
                 document.getElementById('live-uid-input').focus();
             } else { 
+                document.getElementById('dp-modal').style.display = 'none';
                 document.body.className = ''; 
                 lightbox.style.display = 'none'; profile.style.display = 'none'; search.style.display = 'none'; home.style.display = 'flex'; document.body.style.overflow = 'auto';
                 mainHeaderBtn.innerHTML = '<span class="header-action-text">Search</span><i class="fas fa-search"></i>';
@@ -463,13 +429,12 @@
             }).catch(err => console.error('Failed to copy', err));
         }
 
-        // Tier Logic based on absolute Index
         function getPlayerRankIndex(playerUid) { return globalPlayerData.findIndex(p => p.Uid.toString() === playerUid.toString()); }
         function getTierInfo(rankIndex) {
-            if (rankIndex === 0) return { class: "tier-diamond", name: "ELITE", icon: "fa-gem", color: "#66fcf1" };
-            if (rankIndex === 1) return { class: "tier-gold", name: "GOLD", icon: "fa-crown", color: "#ffd700" };
-            if (rankIndex === 2) return { class: "tier-silver", name: "SILVER", icon: "fa-shield-alt", color: "#c0c0c0" };
-            return { class: "tier-bronze", name: "BRONZE", icon: "fa-medal", color: "#cd7f32" };
+            if (rankIndex === 0) return { class: "tier-diamond", name: "ELITE", color: "#66fcf1" };
+            if (rankIndex === 1) return { class: "tier-gold", name: "GOLD", color: "#ffd700" };
+            if (rankIndex === 2) return { class: "tier-silver", name: "SILVER", color: "#c0c0c0" };
+            return { class: "tier-bronze", name: "BRONZE", color: "#cd7f32" };
         }
 
         function showNextTier(el, rankIndex, currentWins, currentKills) {
@@ -505,7 +470,6 @@
             });
         }
 
-        // Custom Themed Dropdown JS
         const sortWrapper = document.getElementById('custom-sort');
         const sortTrigger = sortWrapper.querySelector('.custom-select-trigger');
         const sortOptions = sortWrapper.querySelectorAll('.custom-option');
@@ -525,7 +489,6 @@
             });
         });
 
-        // Pill Filters
         document.querySelectorAll('.filter-pill').forEach(pill => {
             pill.addEventListener('click', function() {
                 document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
@@ -583,7 +546,9 @@
                             <div class="player-card-uid">UID: ${highlightedUID}</div>
                             <div class="badge-container"><div class="win-badge">WINS: ${wins}</div><div class="kill-badge">KILLS: ${kills}</div></div>
                         </div>
-                        <div class="mini-tier-icon" style="color: ${tierInfo.color};"><i class="fas ${tierInfo.icon}"></i></div>
+                        <div class="mini-tier-icon" style="border-color: ${tierInfo.color};">
+                            <img src="${dragonLogoSmall}" style="width: 60%; height: auto; object-fit: contain;">
+                        </div>
                     </div>`;
             });
             applyTiltEffect();
@@ -648,13 +613,49 @@
                             <div class="player-card-uid">UID: ${player.Uid}</div>
                             <div class="badge-container"><div class="win-badge">WINS: ${wins}</div><div class="kill-badge">KILLS: ${kills}</div></div>
                         </div>
-                        <div class="mini-tier-icon" style="color: ${tierInfo.color};"><i class="fas ${tierInfo.icon}"></i></div>
+                        <div class="mini-tier-icon" style="border-color: ${tierInfo.color};">
+                            <img src="${dragonLogoSmall}" style="width: 60%; height: auto; object-fit: contain;">
+                        </div>
                     </div>`;
             });
             applyTiltEffect();
         }
 
-        window.openLightbox = function(src) { document.getElementById('lightbox-img').src = src; window.location.hash = 'lightbox'; };
+        // --- ZOOMABLE LIGHTBOX LOGIC ---
+        let currentZoom = 1;
+        window.openLightbox = function(src, themeColor) { 
+            currentZoom = 1;
+            const img = document.getElementById('lightbox-img');
+            img.src = src; 
+            img.style.transform = `scale(${currentZoom})`;
+            img.style.border = `2px solid ${themeColor}`;
+            
+            const dlBtn = document.getElementById('lb-dl-btn');
+            dlBtn.href = src;
+            dlBtn.style.backgroundColor = themeColor;
+            
+            window.location.hash = 'lightbox'; 
+        };
+        window.zoomLightbox = function(amount) {
+            currentZoom += amount;
+            if(currentZoom < 1) currentZoom = 1;
+            if(currentZoom > 4) currentZoom = 4;
+            document.getElementById('lightbox-img').style.transform = `scale(${currentZoom})`;
+        };
+        window.closeLightbox = function() {
+            if(window.location.hash === '#lightbox') history.back();
+        };
+
+        // --- BIG DP LOGIC ---
+        window.openDPView = function(src) {
+            if(!src) return;
+            document.getElementById('dp-modal-pic').src = src;
+            document.getElementById('dp-modal').style.display = 'flex';
+        };
+        window.closeDPView = function() {
+            document.getElementById('dp-modal').style.display = 'none';
+            document.getElementById('dp-modal-pic').src = '';
+        };
 
         // Postcard Generation
         async function downloadPostcard(uid) {
@@ -677,7 +678,7 @@
                     <div class="pc-tier-title">${tierInfo.name} RANK #${rankIndex + 1}</div>
                     <div class="pc-dp-wrapper">
                         <img class="pc-dp" src="${photoUrl}" crossorigin="anonymous">
-                        <div class="pc-icon"><i class="fas ${tierInfo.icon}"></i></div>
+                        <div class="pc-icon"><img src="${dragonLogoSmall}" crossorigin="anonymous"></div>
                     </div>
                     <div class="pc-name">${player.GameName || 'Unknown'}</div>
                     <div class="pc-uid">UID: ${player.Uid}</div>
@@ -730,7 +731,7 @@
             const introOverlay = document.getElementById('elite-intro-overlay');
             
             if (player.Photo && player.Photo.trim() !== '') modal.style.backgroundImage = `url('${player.Photo}')`;
-            else { modal.style.backgroundImage = 'none'; modal.style.backgroundColor = '#0b0c10'; }
+            else { modal.style.backgroundImage = 'none'; modal.style.backgroundColor = '#000000'; }
 
             const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Background) || 0; 
             const rankIndex = getPlayerRankIndex(player.Uid); const tierInfo = getTierInfo(rankIndex);
@@ -740,15 +741,21 @@
 
             let galleryHTML = '';
             const pics = [player.AlbumPic1, player.AlbumPic2, player.AlbumPic3, player.AlbumPic4, player.AlbumPic5];
-            pics.forEach(pic => { if(pic && pic.trim() !== "") galleryHTML += `<img src="${pic}" class="gallery-img" draggable="false" loading="lazy" style="border: 1px solid rgba(255,255,255,0.1);" onclick="openLightbox('${pic}')">`; });
+            pics.forEach(pic => { 
+                if(pic && pic.trim() !== "") {
+                    galleryHTML += `<img src="${pic}" class="gallery-img" draggable="false" loading="lazy" style="border: 1px solid rgba(255,255,255,0.1);" onclick="openLightbox('${pic}', '${tierInfo.color}')">`; 
+                }
+            });
             
             innerContent.innerHTML = `
                 <button class="modal-share-btn" onclick="downloadPostcard('${player.Uid}')"><i class="fas fa-share-alt"></i> Share Card</button>
                 <div class="modal-tier-box" data-original="${tierInfo.name}" onclick="showNextTier(this, ${rankIndex}, ${wins}, ${kills})" style="color: ${tierInfo.color};">${tierInfo.name}</div>
                 
-                <div class="modal-photo-wrapper">
+                <div class="modal-photo-wrapper" onclick="openDPView('${player.Photo}')">
                     <img src="${player.Photo || 'https://via.placeholder.css/150'}" alt="Photo" class="modal-photo" draggable="false" crossorigin="anonymous">
-                    <div class="tier-icon-badge" style="color: ${tierInfo.color};"><i class="fas ${tierInfo.icon}"></i></div>
+                    <div class="tier-icon-badge" style="border-color: ${tierInfo.color};">
+                        <img src="${dragonLogoSmall}" style="width: 65%; height: auto; object-fit: contain;">
+                    </div>
                 </div>
                 
                 <div class="name-copy-container">
