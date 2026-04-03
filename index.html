@@ -149,17 +149,14 @@
 </head>
 <body id="app-body">
 
-    <!-- OVERLAYS -->
+    <!-- ALL UI SHELLS -->
     <div id="app-transition-overlay"></div>
     <div id="ui-overlay" class="ui-overlay"></div>
     <div id="modal-overlay" class="modal-overlay"></div>
     <div id="dialog-overlay" class="dialog-overlay"></div>
-
-    <!-- Backgrounds -->
     <div class="cyber-grid"></div>
     <div id="ambient-light"></div>
 
-    <!-- Top App Bar -->
     <div class="app-header">
         <div class="header-btn" id="open-sidebar-btn"><i class="fas fa-bars"></i></div>
         <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Dragon" class="header-title-img">
@@ -181,7 +178,7 @@
         </div>
     </div>
 
-    <!-- BOTTOM SHEET (GUEST) -->
+    <!-- PROFILE SHEET -->
     <div id="profile-sheet" class="bottom-sheet">
         <div class="sheet-handle"></div>
         <div class="profile-avatar"><i class="fas fa-user-ninja"></i></div>
@@ -193,7 +190,7 @@
         </div>
     </div>
 
-    <!-- LOGIN MODAL (ICON FIXED) -->
+    <!-- LOGIN MODAL -->
     <div id="login-modal" class="modal-popup">
         <div class="modal-header">SECURE LOGIN</div>
         <form id="login-form">
@@ -216,7 +213,7 @@
         </form>
     </div>
 
-    <!-- CYBER THEME SYSTEM ALERTS -->
+    <!-- CYBER ALERTS -->
     <div id="cyber-alert" class="modal-popup">
         <div class="modal-header" id="alert-title" style="color: #ff4757;">SYSTEM MSG</div>
         <div class="modal-text-sm" id="alert-msg" style="color: #fff; font-size: 15px; margin-bottom: 25px;"></div>
@@ -240,14 +237,13 @@
         </div>
     </div>
 
-    <!-- FULL PROFILE MODAL -->
+    <!-- FULL PROFILE -->
     <div id="full-profile-modal" class="full-profile">
         <div class="fp-header">
             <i class="fas fa-arrow-left fp-back" id="close-fp-btn"></i>
             <div class="fp-title">Player Dossier</div>
             <div class="fp-logout" id="logout-btn">LOGOUT</div>
         </div>
-        
         <div class="fp-top-card">
             <div class="fp-avatar-wrap"><img src="" alt="Avatar" class="fp-avatar" id="fp-avatar-img"></div>
             <div class="fp-uid" id="fp-uid-txt">UID: 00000</div>
@@ -260,374 +256,37 @@
                 <a href="#" target="_blank" class="soc-btn yt" id="fp-yt-link"><i class="fab fa-youtube"></i><i class="fas fa-pen edit-icon" onclick="event.preventDefault(); initiateEdit('Youtube', 5, 'YouTube Link')"></i></a>
             </div>
         </div>
-
         <div class="stat-grid">
-            <div class="stat-card" style="background: rgba(102, 252, 241, 0.05); border-color: rgba(102, 252, 241, 0.2);">
-                <div class="stat-val" id="fp-coin" style="color: #66fcf1;">0</div><div class="stat-label">Coins</div>
-            </div>
-            <div class="stat-card wcoin-card" id="trigger-withdraw-btn">
-                <div class="withdraw-badge"><i class="fas fa-bolt"></i> Withdraw</div>
-                <div class="stat-val" id="fp-wcoin">0</div><div class="stat-label" style="color: #ffd700;">Withdraw Money</div>
-            </div>
+            <div class="stat-card" style="background: rgba(102, 252, 241, 0.05); border-color: rgba(102, 252, 241, 0.2);"><div class="stat-val" id="fp-coin" style="color: #66fcf1;">0</div><div class="stat-label">Coins</div></div>
+            <div class="stat-card wcoin-card" id="trigger-withdraw-btn"><div class="withdraw-badge"><i class="fas fa-bolt"></i> Withdraw</div><div class="stat-val" id="fp-wcoin">0</div><div class="stat-label" style="color: #ffd700;">Withdraw Money</div></div>
             <div class="stat-card"><div class="stat-val" id="fp-win">0</div><div class="stat-label">Wins</div></div>
             <div class="stat-card"><div class="stat-val" id="fp-kill">0</div><div class="stat-label">Kills</div></div>
             <div class="stat-card"><div class="stat-val" id="fp-matches">0</div><div class="stat-label">Matches</div></div>
             <div class="stat-card"><div class="stat-val" id="fp-top10">0</div><div class="stat-label">Top 10s</div></div>
         </div>
-
         <div class="details-list">
-            <div class="detail-item">
-                <div class="detail-label"><i class="fas fa-phone"></i> Mobile</div>
-                <div class="detail-value"><span id="fp-mobile">0000000000</span><i class="fas fa-lock detail-locked"></i></div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label"><i class="fas fa-crosshairs"></i> Squad Role</div>
-                <div class="detail-value"><span id="fp-role">Assaulter</span><i class="fas fa-pen edit-icon" onclick="initiateEdit('SquadRole', 0, 'Squad Role')"></i></div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label"><i class="fas fa-info-circle"></i> Bio</div>
-                <div class="detail-value"><span id="fp-bio" style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">No bio</span><i class="fas fa-pen edit-icon" onclick="initiateEdit('Bio', 0, 'Bio')"></i></div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label"><i class="fas fa-money-bill-wave"></i> Total Earnings</div>
-                <div class="detail-value" style="color: #2ecc71;">₹<span id="fp-earnings">0</span></div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label"><i class="fas fa-star"></i> Subscription</div>
-                <div class="detail-value" id="fp-sub">Free</div>
-            </div>
+            <div class="detail-item"><div class="detail-label"><i class="fas fa-phone"></i> Mobile</div><div class="detail-value"><span id="fp-mobile">0000000000</span><i class="fas fa-lock detail-locked"></i></div></div>
+            <div class="detail-item"><div class="detail-label"><i class="fas fa-crosshairs"></i> Squad Role</div><div class="detail-value"><span id="fp-role">Assaulter</span><i class="fas fa-pen edit-icon" onclick="initiateEdit('SquadRole', 0, 'Squad Role')"></i></div></div>
+            <div class="detail-item"><div class="detail-label"><i class="fas fa-info-circle"></i> Bio</div><div class="detail-value"><span id="fp-bio" style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">No bio</span><i class="fas fa-pen edit-icon" onclick="initiateEdit('Bio', 0, 'Bio')"></i></div></div>
+            <div class="detail-item"><div class="detail-label"><i class="fas fa-money-bill-wave"></i> Total Earnings</div><div class="detail-value" style="color: #2ecc71;">₹<span id="fp-earnings">0</span></div></div>
+            <div class="detail-item"><div class="detail-label"><i class="fas fa-star"></i> Subscription</div><div class="detail-value" id="fp-sub">Free</div></div>
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- MAIN CONTENT (Varies page by page) -->
     <div class="hero-section">
         <div class="hero-subtitle"><span class="status-dot"></span> System Online</div>
         <div class="hero-title">Select Arena</div>
     </div>
     <div class="nav-container">
-        <!-- THE HTML PAGE REDIRECTS ARE SET HERE IN data-url -->
         <div class="hub-card paid nav-route" data-url="paid.html" data-color="rgba(255, 215, 0, 0.15)"><i class="fas fa-coins bg-icon"></i><div class="card-content"><div class="card-header"><div class="card-icon"><i class="fas fa-crown"></i></div><div class="card-title">Paid Arena</div></div><div class="card-desc">High stakes combat. Compete for massive prize pools.</div></div><i class="fas fa-chevron-right card-arrow"></i></div>
         <div class="hub-card free nav-route" data-url="free.html" data-color="rgba(46, 204, 113, 0.15)"><i class="fas fa-gamepad bg-icon"></i><div class="card-content"><div class="card-header"><div class="card-icon"><i class="fas fa-bolt"></i></div><div class="card-title">Free Scrims</div></div><div class="card-desc">Zero entry fee. Hone your skills and rank up safely.</div></div><i class="fas fa-chevron-right card-arrow"></i></div>
         <div class="hub-card hall nav-route" data-url="hall.html" data-color="rgba(102, 252, 241, 0.15)"><i class="fas fa-trophy bg-icon"></i><div class="card-content"><div class="card-header"><div class="card-icon"><i class="fas fa-gem"></i></div><div class="card-title">Hall of Fame</div></div><div class="card-desc">View global leaderboards and explore player profiles.</div></div><i class="fas fa-chevron-right card-arrow"></i></div>
         <div class="hub-card rule nav-route" data-url="Rule.html" data-color="rgba(155, 89, 182, 0.15)"><i class="fas fa-shield-alt bg-icon"></i><div class="card-content"><div class="card-header"><div class="card-icon"><i class="fas fa-scroll"></i></div><div class="card-title">Protocols</div></div><div class="card-desc">Essential tournament guidelines and scoring rules.</div></div><i class="fas fa-chevron-right card-arrow"></i></div>
     </div>
 
-    <script>
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz4arq66EEVVkiNDuCrPLfwzmgmvfEvhELtF7gKU4Kv9PGTaMUpLeQNITua-n9X7hdP/exec";
+    <!-- MAGIC HAPPENS HERE -->
+    <script src="auth.js"></script>
 
-        const uiOverlay = document.getElementById('ui-overlay');
-        const modalOverlay = document.getElementById('modal-overlay');
-        const dialogOverlay = document.getElementById('dialog-overlay');
-        
-        let authCreds = JSON.parse(localStorage.getItem('dragonAuth')) || null;
-        let currentUser = null; 
-
-        function cyberAlert(msg, title = "SYSTEM MESSAGE") {
-            return new Promise(resolve => {
-                document.getElementById('alert-title').innerText = title;
-                document.getElementById('alert-msg').innerText = msg;
-                dialogOverlay.classList.add('active');
-                document.getElementById('cyber-alert').classList.add('active');
-                
-                document.getElementById('alert-ok-btn').onclick = () => {
-                    document.getElementById('cyber-alert').classList.remove('active');
-                    dialogOverlay.classList.remove('active');
-                    resolve();
-                };
-            });
-        }
-
-        function cyberConfirm(msg, title = "CONFIRMATION") {
-            return new Promise(resolve => {
-                document.getElementById('confirm-title').innerText = title;
-                document.getElementById('confirm-msg').innerText = msg;
-                dialogOverlay.classList.add('active');
-                document.getElementById('cyber-confirm').classList.add('active');
-                
-                document.getElementById('confirm-yes-btn').onclick = () => {
-                    document.getElementById('cyber-confirm').classList.remove('active');
-                    dialogOverlay.classList.remove('active');
-                    resolve(true);
-                };
-                document.getElementById('confirm-no-btn').onclick = () => {
-                    document.getElementById('cyber-confirm').classList.remove('active');
-                    dialogOverlay.classList.remove('active');
-                    resolve(false);
-                };
-            });
-        }
-
-        function cyberPrompt(msg, defaultVal, title = "UPDATE DATA") {
-            return new Promise(resolve => {
-                document.getElementById('prompt-title').innerText = title;
-                document.getElementById('prompt-msg').innerText = msg;
-                const input = document.getElementById('prompt-input');
-                input.value = defaultVal || '';
-                
-                dialogOverlay.classList.add('active');
-                document.getElementById('cyber-prompt').classList.add('active');
-                
-                document.getElementById('prompt-save-btn').onclick = () => {
-                    document.getElementById('cyber-prompt').classList.remove('active');
-                    dialogOverlay.classList.remove('active');
-                    resolve(input.value);
-                };
-                document.getElementById('prompt-cancel-btn').onclick = () => {
-                    document.getElementById('cyber-prompt').classList.remove('active');
-                    dialogOverlay.classList.remove('active');
-                    resolve(null);
-                };
-            });
-        }
-
-        function renderUI() {
-            if (currentUser) {
-                document.getElementById('header-user-icon').style.display = 'none';
-                document.getElementById('header-user-img').src = currentUser.ProfilePic || 'https://via.placeholder.com/150';
-                document.getElementById('header-user-img').style.display = 'block';
-
-                document.getElementById('fp-avatar-img').src = currentUser.ProfilePic || 'https://via.placeholder.com/150';
-                document.getElementById('fp-uid-txt').innerText = `UID: ${currentUser.GameUid}`;
-                document.getElementById('fp-name-txt').innerText = currentUser.GameName;
-                document.getElementById('fp-ig-link').href = currentUser.Instagram || '#';
-                document.getElementById('fp-yt-link').href = currentUser.Youtube || '#';
-                
-                document.getElementById('fp-coin').innerText = currentUser.Coin || 0;
-                document.getElementById('fp-wcoin').innerText = currentUser.WCoin || 0;
-                document.getElementById('fp-win').innerText = currentUser.Win || 0;
-                document.getElementById('fp-kill').innerText = currentUser.Kill || 0;
-                document.getElementById('fp-matches').innerText = currentUser.MatchPlayed || 0;
-                document.getElementById('fp-top10').innerText = currentUser.Top10 || 0;
-                
-                document.getElementById('fp-mobile').innerText = currentUser.MobileNumber;
-                document.getElementById('fp-role').innerText = currentUser.SquadRole || 'Unassigned';
-                document.getElementById('fp-bio').innerText = currentUser.Bio || 'No bio set.';
-                document.getElementById('fp-earnings').innerText = currentUser.TotalEarnings || 0;
-                document.getElementById('fp-sub').innerText = currentUser.Subscription || 'Free';
-            } else {
-                document.getElementById('header-user-icon').className = 'fas fa-user';
-                document.getElementById('header-user-icon').style.display = 'block';
-                document.getElementById('header-user-img').style.display = 'none';
-            }
-        }
-
-        async function runBackgroundAuth() {
-            if (!authCreds) { renderUI(); return; }
-            document.getElementById('header-user-icon').className = 'fas fa-spinner fa-spin';
-            document.getElementById('header-user-icon').style.color = '#66fcf1';
-            
-            try {
-                const res = await fetch(`${GAS_WEB_APP_URL}?action=login&mobile=${encodeURIComponent(authCreds.mobile)}&password=${encodeURIComponent(authCreds.password)}`);
-                const data = await res.json();
-                
-                if (data.success) {
-                    currentUser = data.user;
-                } else {
-                    localStorage.removeItem('dragonAuth');
-                    authCreds = null;
-                }
-            } catch(e) {
-                console.log("Background sync network error");
-            }
-            
-            document.getElementById('header-user-icon').style.color = '';
-            renderUI();
-        }
-        runBackgroundAuth();
-
-        function closeAllUI() {
-            uiOverlay.classList.remove('active');
-            modalOverlay.classList.remove('active');
-            document.getElementById('sidebar').classList.remove('active');
-            document.getElementById('profile-sheet').classList.remove('active');
-            document.getElementById('login-modal').classList.remove('active');
-            document.getElementById('withdraw-modal').classList.remove('active');
-        }
-
-        document.getElementById('open-sidebar-btn').addEventListener('click', () => { uiOverlay.classList.add('active'); document.getElementById('sidebar').classList.add('active'); });
-        
-        document.getElementById('open-profile-btn').addEventListener('click', () => {
-            if (currentUser) {
-                document.getElementById('full-profile-modal').classList.add('active');
-            } else if (authCreds) {
-                cyberAlert("Syncing your profile data peacefully... Please wait a second.", "LOADING");
-            } else {
-                uiOverlay.classList.add('active'); document.getElementById('profile-sheet').classList.add('active'); 
-            }
-        });
-        
-        document.getElementById('close-fp-btn').addEventListener('click', () => document.getElementById('full-profile-modal').classList.remove('active'));
-        uiOverlay.addEventListener('click', closeAllUI);
-        modalOverlay.addEventListener('click', closeAllUI);
-
-        document.getElementById('trigger-login-btn').addEventListener('click', () => {
-            document.getElementById('profile-sheet').classList.remove('active');
-            uiOverlay.classList.remove('active');
-            setTimeout(() => { modalOverlay.classList.add('active'); document.getElementById('login-modal').classList.add('active'); }, 100);
-        });
-
-        document.getElementById('login-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const mobile = document.getElementById('login-mobile').value;
-            const password = document.getElementById('login-password').value;
-            
-            document.getElementById('login-btn-text').style.display = 'none';
-            document.getElementById('login-spinner').style.display = 'block';
-
-            try {
-                const res = await fetch(`${GAS_WEB_APP_URL}?action=login&mobile=${encodeURIComponent(mobile)}&password=${encodeURIComponent(password)}`);
-                const data = await res.json();
-                
-                document.getElementById('login-btn-text').style.display = 'inline';
-                document.getElementById('login-spinner').style.display = 'none';
-
-                if (data.success) {
-                    currentUser = data.user;
-                    authCreds = { mobile: mobile, password: password };
-                    localStorage.setItem('dragonAuth', JSON.stringify(authCreds));
-                    renderUI(); closeAllUI();
-                } else await cyberAlert(data.message || 'Invalid Credentials', "LOGIN FAILED");
-            } catch(err) {
-                document.getElementById('login-btn-text').style.display = 'inline';
-                document.getElementById('login-spinner').style.display = 'none';
-                await cyberAlert('Network error connecting to database.', 'ERROR');
-            }
-        });
-
-        document.getElementById('logout-btn').addEventListener('click', async () => {
-            if(await cyberConfirm("Are you sure you want to log out?", "LOGOUT")) {
-                localStorage.removeItem('dragonAuth'); authCreds = null; currentUser = null;
-                document.getElementById('full-profile-modal').classList.remove('active'); renderUI();
-            }
-        });
-
-        window.initiateEdit = async function(fieldKey, cost, displayName) {
-            if (!currentUser) return;
-            if (fieldKey === 'MobileNumber') return; 
-
-            let msg = cost > 0 ? `Update ${displayName} for ${cost} coins? (Bal: ${currentUser.Coin})` : `Update your ${displayName}?`;
-
-            if (await cyberConfirm(msg, "EDIT PROFILE")) {
-                if (currentUser.Coin < cost) return cyberAlert(`Insufficient coins! Need ${cost}.`, "ERROR");
-                
-                let newValue = await cyberPrompt(`Enter new ${displayName}:`, currentUser[fieldKey]);
-                if (newValue && newValue !== currentUser[fieldKey]) {
-                    let prevCoin = currentUser.Coin; let prevVal = currentUser[fieldKey];
-                    currentUser.Coin -= cost; currentUser[fieldKey] = newValue; renderUI();
-
-                    try {
-                        const res = await fetch(`${GAS_WEB_APP_URL}?action=updateProfile&uid=${currentUser.GameUid}&field=${fieldKey}&value=${encodeURIComponent(newValue)}&cost=${cost}`);
-                        const data = await res.json();
-                        
-                        if(data.success) await cyberAlert(`${displayName} updated successfully!`, "SUCCESS");
-                        else {
-                            currentUser.Coin = prevCoin; currentUser[fieldKey] = prevVal; renderUI();
-                            await cyberAlert("Failed: " + data.message, "ERROR");
-                        }
-                    } catch(e) {
-                        currentUser.Coin = prevCoin; currentUser[fieldKey] = prevVal; renderUI();
-                        await cyberAlert("Network error.", "ERROR");
-                    }
-                }
-            }
-        };
-
-        document.getElementById('trigger-withdraw-btn').addEventListener('click', () => {
-            if (!currentUser) return;
-            modalOverlay.classList.add('active');
-            document.getElementById('withdraw-modal').classList.add('active');
-        });
-        document.getElementById('close-wd-btn').addEventListener('click', closeAllUI);
-
-        document.getElementById('withdraw-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const amount = Number(document.getElementById('wd-amount').value);
-            const upi = document.getElementById('wd-upi').value;
-
-            if (amount < 50) return cyberAlert("Minimum withdrawal amount is ₹50.", "NOTICE");
-            if (currentUser.WCoin < amount) return cyberAlert("You don't have enough W-Coins.", "INSUFFICIENT FUNDS");
-
-            document.getElementById('wd-btn-text').style.display = 'none';
-            document.getElementById('wd-spinner').style.display = 'block';
-
-            try {
-                const res = await fetch(`${GAS_WEB_APP_URL}?action=withdraw&uid=${currentUser.GameUid}&amount=${amount}&upi=${encodeURIComponent(upi)}`);
-                const data = await res.json();
-
-                if (data.success) {
-                    try {
-                        const tgText = `🚨 <b>NEW WITHDRAWAL REQUEST</b> 🚨\n\n👤 <b>Player:</b> ${currentUser.GameName}\n🆔 <b>UID:</b> <code>${currentUser.GameUid}</code>\n💰 <b>Amount:</b> ₹${amount}\n🏦 <b>UPI ID:</b> <code>${upi}</code>`;
-                        await fetch(`https://api.telegram.org/bot${data.tgToken}/sendMessage`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ chat_id: data.tgChat, text: tgText, parse_mode: 'HTML' })
-                        });
-                    } catch (tgError) { console.error("TG Fail", tgError); }
-
-                    currentUser.WCoin -= amount; 
-                    renderUI();
-                    closeAllUI(); 
-                    document.getElementById('withdraw-form').reset();
-                    
-                    document.getElementById('wd-btn-text').style.display = 'inline';
-                    document.getElementById('wd-spinner').style.display = 'none';
-                    
-                    await cyberAlert("Request Sent! Admins will transfer your funds shortly.", "WITHDRAWAL SUCCESS");
-                } else {
-                    document.getElementById('wd-btn-text').style.display = 'inline';
-                    document.getElementById('wd-spinner').style.display = 'none';
-                    await cyberAlert(data.message, "ERROR");
-                }
-            } catch(e) {
-                document.getElementById('wd-btn-text').style.display = 'inline';
-                document.getElementById('wd-spinner').style.display = 'none';
-                await cyberAlert("Network Error processing withdrawal.", "ERROR");
-            }
-        });
-
-        // --------------------------------------------------------
-        // THE JAVASCRIPT REDIRECT & NAVIGATION SYSTEM (HTML REDIRECTS)
-        // --------------------------------------------------------
-        document.querySelectorAll('.nav-route').forEach(route => {
-            route.addEventListener('click', function(e) {
-                
-                // Agar button ke andar anchor tag <a> ho toh uski natural working rokein
-                if(e.target.tagName.toLowerCase() === 'a') e.preventDefault();
-                
-                // Div ke 'data-url' attribute se page ka naam nikaalein (like 'paid.html')
-                const url = this.getAttribute('data-url');
-                
-                if (url) {
-                    // Redirect karne se pehle UI elements close karein (taaki smooth lage)
-                    closeAllUI(); 
-                    
-                    // Black Fade Overlay Trigger
-                    const transitionOverlay = document.getElementById('app-transition-overlay');
-                    transitionOverlay.style.pointerEvents = 'auto';
-                    transitionOverlay.style.opacity = '1';
-                    
-                    // Thodi der wait karein (fade hone ke liye) aur fir Naye Page par bhej dein
-                    setTimeout(() => {
-                        window.location.href = url;
-                    }, 300);
-                }
-            });
-        });
-
-        // Jab naya page load ho, toh overlay hatayein (smoothly page open ho)
-        window.addEventListener('pageshow', () => {
-            const transitionOverlay = document.getElementById('app-transition-overlay');
-            transitionOverlay.style.opacity = '0';
-            transitionOverlay.style.pointerEvents = 'none';
-        });
-
-        // Ambient Lighting Effect
-        const ambientLight = document.getElementById('ambient-light');
-        document.querySelectorAll('.hub-card').forEach(card => {
-            card.addEventListener('mouseenter', () => ambientLight.style.background = `radial-gradient(circle, ${card.getAttribute('data-color')} 0%, rgba(0,0,0,0) 70%)`);
-            card.addEventListener('mouseleave', () => ambientLight.style.background = 'radial-gradient(circle, rgba(102, 252, 241, 0.08) 0%, rgba(0,0,0,0) 60%)');
-        });
-        document.addEventListener('contextmenu', e => e.preventDefault());
-    </script>
 </body>
 </html>
