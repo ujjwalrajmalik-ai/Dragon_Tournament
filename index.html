@@ -104,8 +104,33 @@
         .filter-pill.active { background: rgba(102, 252, 241, 0.1); border-color: #66fcf1; color: #fff; box-shadow: 0 0 10px rgba(102, 252, 241, 0.2); }
         .filter-pill:hover { border-color: #c5c6c7; color: #fff; }
 
-        .filter-container { display: flex; justify-content: flex-end; width: 100%; margin-bottom: 5px; }
-        .custom-select-wrapper { position: relative; user-select: none; width: 220px; z-index: 50; }
+        .filter-container { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 5px; }
+        
+        /* Rule Book Button Styles */
+        .rule-book-btn {
+            background: rgba(15, 15, 15, 0.8);
+            border: 1px solid rgba(102, 252, 241, 0.3);
+            color: #66fcf1;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        .rule-book-btn:hover {
+            background: rgba(102, 252, 241, 0.15);
+            border-color: #66fcf1;
+            box-shadow: 0 4px 20px rgba(102, 252, 241, 0.2);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .custom-select-wrapper { position: relative; user-select: none; width: 200px; z-index: 50; }
         .custom-select-trigger { background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(5,5,5,0.9)); color: #66fcf1; border: 1px solid rgba(102, 252, 241, 0.3); padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease; }
         .custom-select-trigger:hover { border-color: #66fcf1; box-shadow: 0 4px 20px rgba(102, 252, 241, 0.2); }
         .custom-select-icon { transition: transform 0.3s ease; }
@@ -319,7 +344,12 @@
                 <div class="filter-pill" data-filter="BRONZE">🥉 Bronze</div>
             </div>
 
+            <!-- MODIFIED FILTER CONTAINER -->
             <div class="filter-container">
+                <a href="Rule.html" class="rule-book-btn">
+                    <i class="fas fa-book"></i> Rule Book
+                </a>
+                
                 <div class="custom-select-wrapper" id="custom-sort">
                     <div class="custom-select-trigger">
                         <span id="custom-select-text">Most Wins (Max)</span>
