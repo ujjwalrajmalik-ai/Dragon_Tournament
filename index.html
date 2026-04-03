@@ -197,7 +197,6 @@
     <div id="login-modal" class="modal-popup">
         <div class="modal-header">SECURE LOGIN</div>
         <form id="login-form">
-            <!-- Icon changed to fa-mobile-alt to fix the mirroring issue -->
             <div class="input-group"><input type="tel" id="login-mobile" placeholder="Mobile Number" required autocomplete="off"><i class="fas fa-mobile-alt"></i></div>
             <div class="input-group"><input type="password" id="login-password" placeholder="Password" required autocomplete="off"><i class="fas fa-lock"></i></div>
             <button type="submit" class="btn-full btn-submit" id="submit-login-btn"><span id="login-btn-text">VERIFY IDENTITY</span><div class="loading-spinner" id="login-spinner"></div></button>
@@ -241,7 +240,7 @@
         </div>
     </div>
 
-    <!-- FULL PROFILE MODAL (LOGGED IN) -->
+    <!-- FULL PROFILE MODAL -->
     <div id="full-profile-modal" class="full-profile">
         <div class="fp-header">
             <i class="fas fa-arrow-left fp-back" id="close-fp-btn"></i>
@@ -306,6 +305,7 @@
         <div class="hero-title">Select Arena</div>
     </div>
     <div class="nav-container">
+        <!-- THE HTML PAGE REDIRECTS ARE SET HERE IN data-url -->
         <div class="hub-card paid nav-route" data-url="paid.html" data-color="rgba(255, 215, 0, 0.15)"><i class="fas fa-coins bg-icon"></i><div class="card-content"><div class="card-header"><div class="card-icon"><i class="fas fa-crown"></i></div><div class="card-title">Paid Arena</div></div><div class="card-desc">High stakes combat. Compete for massive prize pools.</div></div><i class="fas fa-chevron-right card-arrow"></i></div>
         <div class="hub-card free nav-route" data-url="free.html" data-color="rgba(46, 204, 113, 0.15)"><i class="fas fa-gamepad bg-icon"></i><div class="card-content"><div class="card-header"><div class="card-icon"><i class="fas fa-bolt"></i></div><div class="card-title">Free Scrims</div></div><div class="card-desc">Zero entry fee. Hone your skills and rank up safely.</div></div><i class="fas fa-chevron-right card-arrow"></i></div>
         <div class="hub-card hall nav-route" data-url="hall.html" data-color="rgba(102, 252, 241, 0.15)"><i class="fas fa-trophy bg-icon"></i><div class="card-content"><div class="card-header"><div class="card-icon"><i class="fas fa-gem"></i></div><div class="card-title">Hall of Fame</div></div><div class="card-desc">View global leaderboards and explore player profiles.</div></div><i class="fas fa-chevron-right card-arrow"></i></div>
@@ -313,17 +313,14 @@
     </div>
 
     <script>
-        // NEW URL Applied
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz4arq66EEVVkiNDuCrPLfwzmgmvfEvhELtF7gKU4Kv9PGTaMUpLeQNITua-n9X7hdP/exec";
 
-        // DOM Overlays
         const uiOverlay = document.getElementById('ui-overlay');
         const modalOverlay = document.getElementById('modal-overlay');
         const dialogOverlay = document.getElementById('dialog-overlay');
         
-        // BACKGROUND AUTH STORAGE (Only Mobile & Password saved)
         let authCreds = JSON.parse(localStorage.getItem('dragonAuth')) || null;
-        let currentUser = null; // Full details fetch fresh every time
+        let currentUser = null; 
 
         function cyberAlert(msg, title = "SYSTEM MESSAGE") {
             return new Promise(resolve => {
@@ -414,11 +411,8 @@
             }
         }
 
-        // SILENT BACKGROUND FETCH ON LOAD
         async function runBackgroundAuth() {
             if (!authCreds) { renderUI(); return; }
-            
-            // Show peaceful loading spinner on profile button
             document.getElementById('header-user-icon').className = 'fas fa-spinner fa-spin';
             document.getElementById('header-user-icon').style.color = '#66fcf1';
             
@@ -456,7 +450,6 @@
             if (currentUser) {
                 document.getElementById('full-profile-modal').classList.add('active');
             } else if (authCreds) {
-                // If clicked while background fetch is still loading
                 cyberAlert("Syncing your profile data peacefully... Please wait a second.", "LOADING");
             } else {
                 uiOverlay.classList.add('active'); document.getElementById('profile-sheet').classList.add('active'); 
@@ -467,7 +460,6 @@
         uiOverlay.addEventListener('click', closeAllUI);
         modalOverlay.addEventListener('click', closeAllUI);
 
-        // LOGIN SYSTEM
         document.getElementById('trigger-login-btn').addEventListener('click', () => {
             document.getElementById('profile-sheet').classList.remove('active');
             uiOverlay.classList.remove('active');
@@ -491,7 +483,6 @@
 
                 if (data.success) {
                     currentUser = data.user;
-                    // ONLY save Mobile & Pass locally
                     authCreds = { mobile: mobile, password: password };
                     localStorage.setItem('dragonAuth', JSON.stringify(authCreds));
                     renderUI(); closeAllUI();
@@ -510,7 +501,6 @@
             }
         });
 
-        // Edit Profile
         window.initiateEdit = async function(fieldKey, cost, displayName) {
             if (!currentUser) return;
             if (fieldKey === 'MobileNumber') return; 
@@ -542,7 +532,6 @@
             }
         };
 
-        // FRONTEND TELEGRAM SENDING IMPLEMENTED
         document.getElementById('trigger-withdraw-btn').addEventListener('click', () => {
             if (!currentUser) return;
             modalOverlay.classList.add('active');
@@ -562,13 +551,10 @@
             document.getElementById('wd-spinner').style.display = 'block';
 
             try {
-                // Call GAS to deduct coins AND get Telegram details
                 const res = await fetch(`${GAS_WEB_APP_URL}?action=withdraw&uid=${currentUser.GameUid}&amount=${amount}&upi=${encodeURIComponent(upi)}`);
                 const data = await res.json();
 
                 if (data.success) {
-                    
-                    // SEND TO TELEGRAM DIRECTLY FROM FRONTEND
                     try {
                         const tgText = `🚨 <b>NEW WITHDRAWAL REQUEST</b> 🚨\n\n👤 <b>Player:</b> ${currentUser.GameName}\n🆔 <b>UID:</b> <code>${currentUser.GameUid}</code>\n💰 <b>Amount:</b> ₹${amount}\n🏦 <b>UPI ID:</b> <code>${upi}</code>`;
                         await fetch(`https://api.telegram.org/bot${data.tgToken}/sendMessage`, {
@@ -578,7 +564,6 @@
                         });
                     } catch (tgError) { console.error("TG Fail", tgError); }
 
-                    // Update UI Instantly
                     currentUser.WCoin -= amount; 
                     renderUI();
                     closeAllUI(); 
@@ -598,6 +583,42 @@
                 document.getElementById('wd-spinner').style.display = 'none';
                 await cyberAlert("Network Error processing withdrawal.", "ERROR");
             }
+        });
+
+        // --------------------------------------------------------
+        // THE JAVASCRIPT REDIRECT & NAVIGATION SYSTEM (HTML REDIRECTS)
+        // --------------------------------------------------------
+        document.querySelectorAll('.nav-route').forEach(route => {
+            route.addEventListener('click', function(e) {
+                
+                // Agar button ke andar anchor tag <a> ho toh uski natural working rokein
+                if(e.target.tagName.toLowerCase() === 'a') e.preventDefault();
+                
+                // Div ke 'data-url' attribute se page ka naam nikaalein (like 'paid.html')
+                const url = this.getAttribute('data-url');
+                
+                if (url) {
+                    // Redirect karne se pehle UI elements close karein (taaki smooth lage)
+                    closeAllUI(); 
+                    
+                    // Black Fade Overlay Trigger
+                    const transitionOverlay = document.getElementById('app-transition-overlay');
+                    transitionOverlay.style.pointerEvents = 'auto';
+                    transitionOverlay.style.opacity = '1';
+                    
+                    // Thodi der wait karein (fade hone ke liye) aur fir Naye Page par bhej dein
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 300);
+                }
+            });
+        });
+
+        // Jab naya page load ho, toh overlay hatayein (smoothly page open ho)
+        window.addEventListener('pageshow', () => {
+            const transitionOverlay = document.getElementById('app-transition-overlay');
+            transitionOverlay.style.opacity = '0';
+            transitionOverlay.style.pointerEvents = 'none';
         });
 
         // Ambient Lighting Effect
