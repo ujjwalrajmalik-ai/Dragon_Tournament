@@ -49,6 +49,20 @@
             padding-bottom: 50px;
         }
 
+        /* In-App Browser Warning Overlay */
+        #in-app-warning {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(5, 5, 5, 0.98); z-index: 10000; flex-direction: column;
+            align-items: center; justify-content: center; padding: 30px; text-align: center;
+            backdrop-filter: blur(15px);
+        }
+        .warning-icon { font-size: 60px; color: #ff4c4c; margin-bottom: 25px; animation: pulseWarning 2s infinite; }
+        .warning-title { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 15px; letter-spacing: 1px; }
+        .warning-text { font-size: 15px; color: #bbb; line-height: 1.6; margin-bottom: 30px; max-width: 400px; }
+        .warning-steps { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(102, 252, 241, 0.3); color: #fff; text-align: left; font-size: 15px; width: 100%; max-width: 350px;}
+        .warning-steps span { color: #66fcf1; font-weight: bold; }
+        @keyframes pulseWarning { 0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,76,76,0.5)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255,76,76,0.8)); } 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,76,76,0.5)); } }
+
         /* Global Fixed App Header */
         .app-header {
             position: fixed; top: 0; left: 0; width: 100%; 
@@ -104,8 +118,12 @@
         .filter-pill.active { background: rgba(102, 252, 241, 0.1); border-color: #66fcf1; color: #fff; box-shadow: 0 0 10px rgba(102, 252, 241, 0.2); }
         .filter-pill:hover { border-color: #c5c6c7; color: #fff; }
 
-        .filter-container { display: flex; justify-content: flex-end; width: 100%; margin-bottom: 5px; }
-        .custom-select-wrapper { position: relative; user-select: none; width: 220px; z-index: 50; }
+        .filter-container { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 5px; }
+        
+        .rule-book-btn { background: rgba(15, 15, 15, 0.8); border: 1px solid rgba(102, 252, 241, 0.3); color: #66fcf1; padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); }
+        .rule-book-btn:hover { background: rgba(102, 252, 241, 0.15); border-color: #66fcf1; box-shadow: 0 4px 20px rgba(102, 252, 241, 0.2); color: #fff; transform: translateY(-2px); }
+
+        .custom-select-wrapper { position: relative; user-select: none; width: 200px; z-index: 50; }
         .custom-select-trigger { background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(5,5,5,0.9)); color: #66fcf1; border: 1px solid rgba(102, 252, 241, 0.3); padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s ease; }
         .custom-select-trigger:hover { border-color: #66fcf1; box-shadow: 0 4px 20px rgba(102, 252, 241, 0.2); }
         .custom-select-icon { transition: transform 0.3s ease; }
@@ -231,7 +249,7 @@
         .gallery-img:hover { transform: scale(1.02); opacity: 1; }
         @media (max-width: 500px) { .gallery-container { column-count: 1; } }
 
-        /* ADVANCED ALBUM LIGHTBOX (ZOOMABLE + DOWNLOAD) */
+        /* ADVANCED ALBUM LIGHTBOX */
         #lightbox-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100%; background: rgba(5, 5, 5, 0.98); z-index: 2000; flex-direction: column; overflow: hidden;}
         .lightbox-top-bar { display: flex; justify-content: space-between; align-items: center; padding: 20px; width: 100%; z-index: 2010; position: absolute; top: 0; left: 0; pointer-events: none; }
         .lightbox-top-bar > * { pointer-events: auto; }
@@ -255,7 +273,7 @@
         .fade-out-overlay { animation: overlayFadeOut 0.5s forwards !important; }
         @keyframes overlayFadeOut { 0% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
 
-        /* POSTCARD GENERATOR CANVAS (HIDDEN PROPERLY TO AVOID SCROLL ISSUES) */
+        /* POSTCARD GENERATOR CANVAS */
         #postcard-generator { position: fixed; left: -9999px; top: -9999px; width: 1080px; height: 1080px; background: #000; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; z-index: -9999; }
         .pc-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(40px) grayscale(40%); opacity: 0.15; z-index: 1; }
         .pc-content { position: relative; z-index: 2; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; padding: 60px 40px 40px 40px; }
@@ -289,6 +307,17 @@
 </head>
 <body>
 
+    <!-- IN-APP BROWSER BLOCKER OVERLAY -->
+    <div id="in-app-warning">
+        <i class="fas fa-exclamation-triangle warning-icon"></i>
+        <div class="warning-title">Action Required</div>
+        <div class="warning-text">You are viewing this site inside a social media app (Instagram/Facebook). Downloading and sharing features will not work here.</div>
+        <div class="warning-steps">
+            1. Tap the <span>3 dots</span> in the top right corner.<br><br>
+            2. Select <span>"Open in System Browser"</span> or <span>"Open in Chrome/Safari"</span>.
+        </div>
+    </div>
+
     <div class="app-header" id="main-header">
         <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Title Image" class="header-title-img" draggable="false" onclick="window.location.href='index.html';">
         <button class="header-action-btn" onclick="location.hash='search'" id="header-toggle-btn">
@@ -320,6 +349,10 @@
             </div>
 
             <div class="filter-container">
+                <a href="Rule.html" class="rule-book-btn">
+                    <i class="fas fa-book"></i> Rule Book
+                </a>
+                
                 <div class="custom-select-wrapper" id="custom-sort">
                     <div class="custom-select-trigger">
                         <span id="custom-select-text">Most Wins (Max)</span>
@@ -371,7 +404,7 @@
         </div>
     </div>
 
-    <!-- Album Pictures Zoomable Lightbox with Download -->
+    <!-- Album Pictures Zoomable Lightbox -->
     <div id="lightbox-modal">
         <div class="lightbox-top-bar">
             <i class="fas fa-times lightbox-close-new" onclick="history.back()"></i>
@@ -383,7 +416,7 @@
         </div>
     </div>
 
-    <!-- Big PFP Viewer with Enlarged Custom Overlay Logo and Shadow -->
+    <!-- Big PFP Viewer -->
     <div id="pfp-lightbox">
         <i class="fas fa-times lightbox-close-new" onclick="history.back()" style="position: absolute; top: 25px; right: 25px; z-index: 3001;"></i>
         <div style="position: relative; width: 90%; max-width: 500px; aspect-ratio: 1/1; display: flex; justify-content: center; align-items: center;">
@@ -395,6 +428,15 @@
     <div id="postcard-generator"></div>
 
     <script>
+        // --- IN-APP BROWSER DETECTOR ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            if ((ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1)) {
+                document.getElementById('in-app-warning').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('keydown', function(event) {
             if (event.keyCode === 123) event.preventDefault();
@@ -402,7 +444,8 @@
             if (event.ctrlKey && event.keyCode === 85) event.preventDefault();
         });
 
- 
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbz4arq66EEVVkiNDuCrPLfwzmgmvfEvhELtF7gKU4Kv9PGTaMUpLeQNITua-n9X7hdP/exec?action=getLeaderboard';
+
         let globalPlayerData = []; let filteredData = []; let autoOpenTriggeredFor = "";
         let currentSort = 'desc'; let currentFilter = 'All'; let currentPage = 1; const itemsPerPage = 10;
 
@@ -531,17 +574,10 @@
             setTimeout(() => {
                 let finalUrl = url;
                 const isAndroid = /android/i.test(navigator.userAgent);
-                
-                // If the user is on an Android phone, force the intent scheme so the native app opens.
                 if (isAndroid) {
-                    if (url.includes('instagram.com')) {
-                        finalUrl = url.replace(/https?:\/\//, 'intent://') + '#Intent;package=com.instagram.android;scheme=https;end;';
-                    } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                        finalUrl = url.replace(/https?:\/\//, 'intent://') + '#Intent;package=com.google.android.youtube;scheme=https;end;';
-                    }
+                    if (url.includes('instagram.com')) { finalUrl = url.replace(/https?:\/\//, 'intent://') + '#Intent;package=com.instagram.android;scheme=https;end;'; } 
+                    else if (url.includes('youtube.com') || url.includes('youtu.be')) { finalUrl = url.replace(/https?:\/\//, 'intent://') + '#Intent;package=com.google.android.youtube;scheme=https;end;'; }
                 }
-                
-                // Using window.open allows iOS to trigger Universal Links, and Android will fire the Intent.
                 window.open(finalUrl, '_blank');
             }, 400);
         }
@@ -703,6 +739,7 @@
             applyTiltEffect();
         }
 
+        // --- UPGRADED WEB SHARE API POSTCARD GENERATOR ---
         async function downloadPostcard(uid) {
             const player = globalPlayerData.find(p => p.Uid.toString() === uid.toString()); if(!player) return;
             const rankIndex = getPlayerRankIndex(player.Uid); const tierInfo = getTierInfo(rankIndex);
@@ -710,6 +747,7 @@
             const generator = document.getElementById('postcard-generator');
             const photoUrl = player.Photo || 'https://via.placeholder.css/1080';
             const brandLogoUrl = "https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-28-40-573.png?updatedAt=1774839553114";
+            const fileName = `${(player.GameName || 'Player').replace(/\s+/g, '_')}_Dragon_Rank.png`;
 
             generator.className = `tier-${tierInfo.name.toLowerCase()}`;
             generator.innerHTML = `
@@ -729,11 +767,37 @@
                 if(img.complete) return Promise.resolve();
                 return new Promise(resolve => { img.onload = img.onerror = resolve; });
             }));
+            
             try {
                 const canvas = await html2canvas(generator, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#000', width: 1080, height: 1080 });
-                const link = document.createElement('a'); link.download = `${(player.GameName || 'Player').replace(/\s+/g, '_')}_Dragon_Rank.png`;
-                link.href = canvas.toDataURL('image/png', 1.0); link.click();
-            } catch (e) { console.error("Could not generate postcard", e); alert("Sorry, an error occurred while creating the postcard."); }
+                const dataUrl = canvas.toDataURL('image/png', 1.0);
+                
+                // Attempt to use native mobile Web Share API for a seamless sharing experience
+                try {
+                    const blob = await (await fetch(dataUrl)).blob();
+                    const file = new File([blob], fileName, { type: 'image/png' });
+                    
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            title: 'Dragon Tournament Rank',
+                            text: `Check out my Dragon Tournament Rank: ${tierInfo.name}!`,
+                            files: [file]
+                        });
+                    } else {
+                        // Fallback to standard download for PC users
+                        const link = document.createElement('a'); link.download = fileName;
+                        link.href = dataUrl; link.click();
+                    }
+                } catch (shareErr) {
+                    console.log("Share failed or cancelled, falling back to traditional download.");
+                    const link = document.createElement('a'); link.download = fileName;
+                    link.href = dataUrl; link.click();
+                }
+
+            } catch (e) { 
+                console.error("Could not generate postcard", e); 
+                alert("Sorry, an error occurred while creating the postcard."); 
+            }
             btn.innerHTML = oldText; btn.style.pointerEvents = 'auto';
         }
 
@@ -757,7 +821,6 @@
             
             const isPremium = player.Subscription && player.Subscription.trim().toLowerCase() === 'premium';
 
-            // DYNAMIC SLEEK VIDEO GRID (Only renders if link exists)
             let videoButtonsHTML = '';
             if (player.YoutubeVideo || player.InstaShort1 || player.InstaShort2) {
                 videoButtonsHTML += `<div class="video-grid">`;
@@ -828,7 +891,4 @@
         }
     </script>
 </body>
-<script src="auth.js"></script>
-</body>
-</html>
 </html>
