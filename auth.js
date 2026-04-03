@@ -1,329 +1,279 @@
-// --- auth.js (Master Controller) ---
+// --- UNIVERSAL SECURE AUTHENTICATION & UI CONTROLLER --- //
 
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz4arq66EEVVkiNDuCrPLfwzmgmvfEvhELtF7gKU4Kv9PGTaMUpLeQNITua-n9X7hdP/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4arq66EEVVkiNDuCrPLfwzmgmvfEvhELtF7gKU4Kv9PGTaMUpLeQNITua-n9X7hdP/exec";
 
-// Global States
-let authCreds = JSON.parse(localStorage.getItem('dragonAuth')) || null;
-let currentUser = null; 
+// Safe Event Listener Helper (Prevents errors if an element is missing on a specific page)
+function addEvent(id, eventType, callback) {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener(eventType, callback);
+}
 
-// Make functions global so inline HTML can access them
-window.cyberAlert = function(msg, title = "SYSTEM MESSAGE") {
-    return new Promise(resolve => {
-        document.getElementById('alert-title').innerText = title;
-        document.getElementById('alert-msg').innerText = msg;
-        document.getElementById('dialog-overlay').classList.add('active');
-        document.getElementById('cyber-alert').classList.add('active');
-        
-        document.getElementById('alert-ok-btn').onclick = () => {
-            document.getElementById('cyber-alert').classList.remove('active');
-            document.getElementById('dialog-overlay').classList.remove('active');
-            resolve();
-        };
-    });
-};
+// UI Elements (Safe Fetch)
+const uiOverlay = document.getElementById('ui-overlay');
+const modalOverlay = document.getElementById('modal-overlay');
+const dialogOverlay = document.getElementById('dialog-overlay');
 
-window.cyberConfirm = function(msg, title = "CONFIRMATION") {
-    return new Promise(resolve => {
-        document.getElementById('confirm-title').innerText = title;
-        document.getElementById('confirm-msg').innerText = msg;
-        document.getElementById('dialog-overlay').classList.add('active');
-        document.getElementById('cyber-confirm').classList.add('active');
-        
-        document.getElementById('confirm-yes-btn').onclick = () => {
-            document.getElementById('cyber-confirm').classList.remove('active');
-            document.getElementById('dialog-overlay').classList.remove('active');
-            resolve(true);
-        };
-        document.getElementById('confirm-no-btn').onclick = () => {
-            document.getElementById('cyber-confirm').classList.remove('active');
-            document.getElementById('dialog-overlay').classList.remove('active');
-            resolve(false);
-        };
-    });
-};
+// --- OVERLAY & MODAL CONTROLLERS --- //
+function openModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.add('active');
+    if (modalOverlay) modalOverlay.classList.add('active');
+}
+function closeModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.remove('active');
+    if (modalOverlay) modalOverlay.classList.remove('active');
+}
 
-window.cyberPrompt = function(msg, defaultVal, title = "UPDATE DATA") {
-    return new Promise(resolve => {
-        document.getElementById('prompt-title').innerText = title;
-        document.getElementById('prompt-msg').innerText = msg;
-        const input = document.getElementById('prompt-input');
-        input.value = defaultVal || '';
-        
-        document.getElementById('dialog-overlay').classList.add('active');
-        document.getElementById('cyber-prompt').classList.add('active');
-        
-        document.getElementById('prompt-save-btn').onclick = () => {
-            document.getElementById('cyber-prompt').classList.remove('active');
-            document.getElementById('dialog-overlay').classList.remove('active');
-            resolve(input.value);
-        };
-        document.getElementById('prompt-cancel-btn').onclick = () => {
-            document.getElementById('cyber-prompt').classList.remove('active');
-            document.getElementById('dialog-overlay').classList.remove('active');
-            resolve(null);
-        };
-    });
-};
-
-window.renderUI = function() {
-    // Top bar checks
-    const userIcon = document.getElementById('header-user-icon');
-    const userImg = document.getElementById('header-user-img');
+// Cyber Alert System
+window.showAlert = function(title, msg) {
+    const alertBox = document.getElementById('cyber-alert');
+    if (!alertBox) return alert(title + ": " + msg); // Fallback for pages without modal
     
-    if (currentUser) {
-        if(userIcon) userIcon.style.display = 'none';
-        if(userImg) {
-            userImg.src = currentUser.ProfilePic || 'https://via.placeholder.com/150';
-            userImg.style.display = 'block';
-        }
+    document.getElementById('alert-title').innerText = title;
+    document.getElementById('alert-msg').innerText = msg;
+    alertBox.classList.add('active');
+    if (dialogOverlay) dialogOverlay.classList.add('active');
+}
 
-        // Safe updates for Full Profile
-        const setTxt = (id, val) => { let el = document.getElementById(id); if(el) el.innerText = val; };
-        
-        let fpImg = document.getElementById('fp-avatar-img');
-        if(fpImg) fpImg.src = currentUser.ProfilePic || 'https://via.placeholder.com/150';
-        
-        setTxt('fp-uid-txt', `UID: ${currentUser.GameUid}`);
-        setTxt('fp-name-txt', currentUser.GameName);
-        setTxt('fp-coin', currentUser.Coin || 0);
-        setTxt('fp-wcoin', currentUser.WCoin || 0);
-        setTxt('fp-win', currentUser.Win || 0);
-        setTxt('fp-kill', currentUser.Kill || 0);
-        setTxt('fp-matches', currentUser.MatchPlayed || 0);
-        setTxt('fp-top10', currentUser.Top10 || 0);
-        setTxt('fp-mobile', currentUser.MobileNumber);
-        setTxt('fp-role', currentUser.SquadRole || 'Unassigned');
-        setTxt('fp-bio', currentUser.Bio || 'No bio set.');
-        setTxt('fp-earnings', currentUser.TotalEarnings || 0);
-        setTxt('fp-sub', currentUser.Subscription || 'Free');
+addEvent('alert-ok-btn', 'click', () => {
+    document.getElementById('cyber-alert').classList.remove('active');
+    if (dialogOverlay) dialogOverlay.classList.remove('active');
+});
 
-        let igLink = document.getElementById('fp-ig-link');
-        let ytLink = document.getElementById('fp-yt-link');
-        if(igLink) igLink.href = currentUser.Instagram || '#';
-        if(ytLink) ytLink.href = currentUser.Youtube || '#';
+// Sidebar Logic
+addEvent('open-sidebar-btn', 'click', () => {
+    document.getElementById('sidebar').classList.add('active');
+    if (uiOverlay) uiOverlay.classList.add('active');
+});
 
+// Profile Sheet & Full Profile Logic
+addEvent('open-profile-btn', 'click', () => {
+    const user = JSON.parse(localStorage.getItem('dragonUser'));
+    if (user) {
+        populateFullProfile(user);
+        const fp = document.getElementById('full-profile-modal');
+        if (fp) fp.classList.add('active');
     } else {
-        if(userIcon) { userIcon.className = 'fas fa-user'; userIcon.style.display = 'block'; }
-        if(userImg) userImg.style.display = 'none';
-    }
-};
-
-window.closeAllUI = function() {
-    ['ui-overlay', 'modal-overlay', 'sidebar', 'profile-sheet', 'login-modal', 'withdraw-modal'].forEach(id => {
-        let el = document.getElementById(id);
-        if(el) el.classList.remove('active');
-    });
-};
-
-window.initiateEdit = async function(fieldKey, cost, displayName) {
-    if (!currentUser) return;
-    if (fieldKey === 'MobileNumber') return; 
-
-    let msg = cost > 0 ? `Update ${displayName} for ${cost} coins? (Bal: ${currentUser.Coin})` : `Update your ${displayName}?`;
-
-    if (await cyberConfirm(msg, "EDIT PROFILE")) {
-        if (currentUser.Coin < cost) return cyberAlert(`Insufficient coins! Need ${cost}.`, "ERROR");
-        
-        let newValue = await cyberPrompt(`Enter new ${displayName}:`, currentUser[fieldKey]);
-        if (newValue && newValue !== currentUser[fieldKey]) {
-            let prevCoin = currentUser.Coin; let prevVal = currentUser[fieldKey];
-            currentUser.Coin -= cost; currentUser[fieldKey] = newValue; window.renderUI();
-
-            try {
-                const res = await fetch(`${GAS_WEB_APP_URL}?action=updateProfile&uid=${currentUser.GameUid}&field=${fieldKey}&value=${encodeURIComponent(newValue)}&cost=${cost}`);
-                const data = await res.json();
-                
-                if(data.success) await cyberAlert(`${displayName} updated successfully!`, "SUCCESS");
-                else {
-                    currentUser.Coin = prevCoin; currentUser[fieldKey] = prevVal; window.renderUI();
-                    await cyberAlert("Failed: " + data.message, "ERROR");
-                }
-            } catch(e) {
-                currentUser.Coin = prevCoin; currentUser[fieldKey] = prevVal; window.renderUI();
-                await cyberAlert("Network error.", "ERROR");
-            }
+        const ps = document.getElementById('profile-sheet');
+        if (ps) {
+            ps.classList.add('active');
+            if (uiOverlay) uiOverlay.classList.add('active');
         }
     }
-};
+});
 
-// Wait for DOM to load before attaching events
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // Background Authentication
-    async function runBackgroundAuth() {
-        if (!authCreds) { window.renderUI(); return; }
-        const userIcon = document.getElementById('header-user-icon');
-        if(userIcon) { userIcon.className = 'fas fa-spinner fa-spin'; userIcon.style.color = '#66fcf1'; }
-        
-        try {
-            const res = await fetch(`${GAS_WEB_APP_URL}?action=login&mobile=${encodeURIComponent(authCreds.mobile)}&password=${encodeURIComponent(authCreds.password)}`);
-            const data = await res.json();
-            if (data.success) currentUser = data.user;
-            else { localStorage.removeItem('dragonAuth'); authCreds = null; }
-        } catch(e) { console.log("Background sync network error"); }
-        
-        if(userIcon) userIcon.style.color = '';
-        window.renderUI();
-    }
-    runBackgroundAuth();
+addEvent('close-fp-btn', 'click', () => {
+    document.getElementById('full-profile-modal').classList.remove('active');
+});
 
-    // Event Listeners (Safe Checks)
-    const addSafeListener = (id, event, callback) => {
-        let el = document.getElementById(id);
-        if(el) el.addEventListener(event, callback);
-    };
-
-    addSafeListener('open-sidebar-btn', 'click', () => { document.getElementById('ui-overlay').classList.add('active'); document.getElementById('sidebar').classList.add('active'); });
-    addSafeListener('close-fp-btn', 'click', () => document.getElementById('full-profile-modal').classList.remove('active'));
-    addSafeListener('ui-overlay', 'click', window.closeAllUI);
-    addSafeListener('modal-overlay', 'click', window.closeAllUI);
-    addSafeListener('close-wd-btn', 'click', window.closeAllUI);
-
-    addSafeListener('open-profile-btn', 'click', () => {
-        if (currentUser) {
-            document.getElementById('full-profile-modal').classList.add('active');
-        } else if (authCreds) {
-            window.cyberAlert("Syncing your profile data peacefully... Please wait a second.", "LOADING");
-        } else {
-            document.getElementById('ui-overlay').classList.add('active'); 
-            document.getElementById('profile-sheet').classList.add('active'); 
-        }
+// Global Overlay Click
+if (uiOverlay) {
+    uiOverlay.addEventListener('click', () => {
+        const sb = document.getElementById('sidebar');
+        const ps = document.getElementById('profile-sheet');
+        if (sb) sb.classList.remove('active');
+        if (ps) ps.classList.remove('active');
+        uiOverlay.classList.remove('active');
     });
+}
 
-    addSafeListener('trigger-login-btn', 'click', () => {
-        document.getElementById('profile-sheet').classList.remove('active');
-        document.getElementById('ui-overlay').classList.remove('active');
-        setTimeout(() => { 
-            document.getElementById('modal-overlay').classList.add('active'); 
-            document.getElementById('login-modal').classList.add('active'); 
-        }, 100);
-    });
-
-    // Login Form Submit
-    const loginForm = document.getElementById('login-form');
-    if(loginForm) {
-        loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const mobile = document.getElementById('login-mobile').value;
-            const password = document.getElementById('login-password').value;
-            
-            document.getElementById('login-btn-text').style.display = 'none';
-            document.getElementById('login-spinner').style.display = 'block';
-
-            try {
-                const res = await fetch(`${GAS_WEB_APP_URL}?action=login&mobile=${encodeURIComponent(mobile)}&password=${encodeURIComponent(password)}`);
-                const data = await res.json();
-                
-                document.getElementById('login-btn-text').style.display = 'inline';
-                document.getElementById('login-spinner').style.display = 'none';
-
-                if (data.success) {
-                    currentUser = data.user;
-                    authCreds = { mobile: mobile, password: password };
-                    localStorage.setItem('dragonAuth', JSON.stringify(authCreds));
-                    window.renderUI(); window.closeAllUI();
-                } else await window.cyberAlert(data.message || 'Invalid Credentials', "LOGIN FAILED");
-            } catch(err) {
-                document.getElementById('login-btn-text').style.display = 'inline';
-                document.getElementById('login-spinner').style.display = 'none';
-                await window.cyberAlert('Network error connecting to database.', 'ERROR');
-            }
-        });
-    }
-
-    addSafeListener('logout-btn', 'click', async () => {
-        if(await window.cyberConfirm("Are you sure you want to log out?", "LOGOUT")) {
-            localStorage.removeItem('dragonAuth'); authCreds = null; currentUser = null;
-            document.getElementById('full-profile-modal').classList.remove('active'); window.renderUI();
-        }
-    });
-
-    // Withdraw Trigger & Submit
-    addSafeListener('trigger-withdraw-btn', 'click', () => {
-        if (!currentUser) return;
-        document.getElementById('modal-overlay').classList.add('active');
-        document.getElementById('withdraw-modal').classList.add('active');
-    });
-
-    const withdrawForm = document.getElementById('withdraw-form');
-    if(withdrawForm) {
-        withdrawForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const amount = Number(document.getElementById('wd-amount').value);
-            const upi = document.getElementById('wd-upi').value;
-
-            if (amount < 50) return window.cyberAlert("Minimum withdrawal amount is ₹50.", "NOTICE");
-            if (currentUser.WCoin < amount) return window.cyberAlert("You don't have enough W-Coins.", "INSUFFICIENT FUNDS");
-
-            document.getElementById('wd-btn-text').style.display = 'none';
-            document.getElementById('wd-spinner').style.display = 'block';
-
-            try {
-                const res = await fetch(`${GAS_WEB_APP_URL}?action=withdraw&uid=${currentUser.GameUid}&amount=${amount}&upi=${encodeURIComponent(upi)}`);
-                const data = await res.json();
-
-                if (data.success) {
-                    try {
-                        const tgText = `🚨 <b>NEW WITHDRAWAL REQUEST</b> 🚨\n\n👤 <b>Player:</b> ${currentUser.GameName}\n🆔 <b>UID:</b> <code>${currentUser.GameUid}</code>\n💰 <b>Amount:</b> ₹${amount}\n🏦 <b>UPI ID:</b> <code>${upi}</code>`;
-                        await fetch(`https://api.telegram.org/bot${data.tgToken}/sendMessage`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ chat_id: data.tgChat, text: tgText, parse_mode: 'HTML' })
-                        });
-                    } catch (tgError) { console.error("TG Fail", tgError); }
-
-                    currentUser.WCoin -= amount; 
-                    window.renderUI();
-                    window.closeAllUI(); 
-                    document.getElementById('withdraw-form').reset();
-                    
-                    document.getElementById('wd-btn-text').style.display = 'inline';
-                    document.getElementById('wd-spinner').style.display = 'none';
-                    
-                    await window.cyberAlert("Request Sent! Admins will transfer your funds shortly.", "WITHDRAWAL SUCCESS");
-                } else {
-                    document.getElementById('wd-btn-text').style.display = 'inline';
-                    document.getElementById('wd-spinner').style.display = 'none';
-                    await window.cyberAlert(data.message, "ERROR");
-                }
-            } catch(e) {
-                document.getElementById('wd-btn-text').style.display = 'inline';
-                document.getElementById('wd-spinner').style.display = 'none';
-                await window.cyberAlert("Network Error processing withdrawal.", "ERROR");
-            }
-        });
-    }
-
-    // Navigation Redirect System
-    document.querySelectorAll('.nav-route').forEach(route => {
-        route.addEventListener('click', function(e) {
-            if(e.target.tagName.toLowerCase() === 'a') e.preventDefault();
-            const url = this.getAttribute('data-url');
-            if (url) {
-                window.closeAllUI(); 
-                const transitionOverlay = document.getElementById('app-transition-overlay');
-                if(transitionOverlay) {
-                    transitionOverlay.style.pointerEvents = 'auto';
-                    transitionOverlay.style.opacity = '1';
-                }
+// Navigation Transitions
+document.querySelectorAll('.nav-route').forEach(el => {
+    el.addEventListener('click', (e) => {
+        const url = el.getAttribute('data-url');
+        if(url) {
+            const transition = document.getElementById('app-transition-overlay');
+            if (transition) {
+                transition.style.opacity = '1';
                 setTimeout(() => window.location.href = url, 300);
+            } else {
+                window.location.href = url;
             }
-        });
+        }
     });
+});
 
-    window.addEventListener('pageshow', () => {
-        const transitionOverlay = document.getElementById('app-transition-overlay');
-        if(transitionOverlay) { transitionOverlay.style.opacity = '0'; transitionOverlay.style.pointerEvents = 'none'; }
-    });
-
-    // Ambient Lighting
-    const ambientLight = document.getElementById('ambient-light');
-    if(ambientLight) {
-        document.querySelectorAll('.hub-card').forEach(card => {
-            card.addEventListener('mouseenter', () => ambientLight.style.background = `radial-gradient(circle, ${card.getAttribute('data-color')} 0%, rgba(0,0,0,0) 70%)`);
-            card.addEventListener('mouseleave', () => ambientLight.style.background = 'radial-gradient(circle, rgba(102, 252, 241, 0.08) 0%, rgba(0,0,0,0) 60%)');
-        });
+// --- CORE SYSTEM: INITIALIZATION --- //
+function initApp() {
+    const user = JSON.parse(localStorage.getItem('dragonUser'));
+    if (user) {
+        const icon = document.getElementById('header-user-icon');
+        const img = document.getElementById('header-user-img');
+        if (icon) icon.style.display = 'none';
+        if (img) {
+            img.style.display = 'block';
+            img.src = user.ProfilePic || 'https://via.placeholder.css/40';
+        }
     }
+}
+initApp();
+
+// --- API ACTIONS --- //
+
+// 1. LOGIN
+addEvent('trigger-login-btn', 'click', () => {
+    document.getElementById('profile-sheet').classList.remove('active');
+    if (uiOverlay) uiOverlay.classList.remove('active');
+    setTimeout(() => openModal('login-modal'), 300);
+});
+
+addEvent('login-form', 'submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submit-login-btn');
+    const txt = document.getElementById('login-btn-text');
+    const spin = document.getElementById('login-spinner');
     
-    document.addEventListener('contextmenu', e => e.preventDefault());
+    btn.style.pointerEvents = 'none'; txt.innerText = 'VERIFYING...'; spin.style.display = 'block';
+
+    const mobile = document.getElementById('login-mobile').value;
+    const pass = document.getElementById('login-password').value;
+
+    try {
+        const res = await fetch(`${SCRIPT_URL}?action=login&mobile=${encodeURIComponent(mobile)}&password=${encodeURIComponent(pass)}`);
+        const data = await res.json();
+
+        if (data.success) {
+            localStorage.setItem('dragonUser', JSON.stringify(data.user));
+            closeModal('login-modal');
+            initApp();
+            showAlert('ACCESS GRANTED', `Welcome back, ${data.user.GameName}!`);
+        } else {
+            showAlert('ACCESS DENIED', data.message);
+        }
+    } catch (err) {
+        showAlert('SYSTEM ERROR', 'Network connection failed.');
+    } finally {
+        btn.style.pointerEvents = 'auto'; txt.innerText = 'VERIFY IDENTITY'; spin.style.display = 'none';
+    }
+});
+
+// 2. LOGOUT
+addEvent('logout-btn', 'click', () => {
+    localStorage.removeItem('dragonUser');
+    window.location.reload();
+});
+
+// 3. POPULATE FULL PROFILE
+function populateFullProfile(user) {
+    const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+    const setSrc = (id, val) => { const el = document.getElementById(id); if (el) el.src = val; };
+    
+    setSrc('fp-avatar-img', user.ProfilePic || 'https://via.placeholder.css/100');
+    setTxt('fp-uid-txt', `UID: ${user.GameUid}`);
+    setTxt('fp-name-txt', user.GameName);
+    setTxt('fp-coin', user.Coin || 0);
+    setTxt('fp-wcoin', user.WCoin || 0);
+    setTxt('fp-win', user.Win || 0);
+    setTxt('fp-kill', user.Kill || 0);
+    setTxt('fp-matches', user.MatchPlayed || 0);
+    setTxt('fp-top10', user.Top10 || 0);
+    setTxt('fp-mobile', user.MobileNumber);
+    setTxt('fp-role', user.SquadRole || 'None');
+    setTxt('fp-bio', user.Bio || 'No Bio');
+    setTxt('fp-earnings', user.TotalEarnings || 0);
+    setTxt('fp-sub', user.Subscription || 'Free');
+    
+    const igLink = document.getElementById('fp-ig-link'); if (igLink) igLink.href = user.Instagram || '#';
+    const ytLink = document.getElementById('fp-yt-link'); if (ytLink) ytLink.href = user.Youtube || '#';
+}
+
+// 4. WITHDRAWAL SYSTEM
+addEvent('trigger-withdraw-btn', 'click', () => {
+    const user = JSON.parse(localStorage.getItem('dragonUser'));
+    if (!user) return showAlert('ERROR', 'You must be logged in.');
+    if (Number(user.WCoin) < 50) return showAlert('INSUFFICIENT FUNDS', 'You need at least ₹50 to withdraw.');
+    
+    document.getElementById('wd-amount').max = user.WCoin;
+    openModal('withdraw-modal');
+});
+
+addEvent('close-wd-btn', 'click', () => closeModal('withdraw-modal'));
+
+addEvent('withdraw-form', 'submit', async (e) => {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem('dragonUser'));
+    const btn = document.getElementById('submit-wd-btn');
+    const txt = document.getElementById('wd-btn-text');
+    const spin = document.getElementById('wd-spinner');
+    
+    const amount = document.getElementById('wd-amount').value;
+    const upi = document.getElementById('wd-upi').value;
+
+    if (Number(amount) > Number(user.WCoin)) return showAlert('ERROR', 'You cannot withdraw more than you have.');
+
+    btn.style.pointerEvents = 'none'; txt.innerText = 'PROCESSING...'; spin.style.display = 'block';
+
+    try {
+        const res = await fetch(`${SCRIPT_URL}?action=withdraw&uid=${encodeURIComponent(user.GameUid)}&amount=${encodeURIComponent(amount)}&upi=${encodeURIComponent(upi)}`);
+        const data = await res.json();
+
+        if (data.success) {
+            user.WCoin = Number(user.WCoin) - Number(amount);
+            localStorage.setItem('dragonUser', JSON.stringify(user));
+            populateFullProfile(user);
+            closeModal('withdraw-modal');
+            showAlert('TRANSACTION SECURE', 'Your withdrawal request has been sent to admins.');
+        } else {
+            showAlert('TRANSACTION FAILED', data.message);
+        }
+    } catch (err) {
+        showAlert('SYSTEM ERROR', 'Network connection failed.');
+    } finally {
+        btn.style.pointerEvents = 'auto'; txt.innerText = 'SUBMIT REQUEST'; spin.style.display = 'none';
+    }
+});
+
+// 5. PROFILE EDIT SYSTEM
+let pendingEditField = ''; let pendingEditCost = 0;
+
+window.initiateEdit = function(field, cost, label) {
+    const user = JSON.parse(localStorage.getItem('dragonUser'));
+    if (!user) return;
+    if (Number(user.Coin) < cost) return showAlert('INSUFFICIENT COINS', `Updating ${label} costs ${cost} Coins. You have ${user.Coin}.`);
+
+    pendingEditField = field; pendingEditCost = cost;
+    
+    document.getElementById('prompt-title').innerText = `EDIT ${label.toUpperCase()}`;
+    document.getElementById('prompt-msg').innerText = cost > 0 ? `Cost: ${cost} Coins. Enter your new data below:` : `Enter your new ${label} below:`;
+    document.getElementById('prompt-input').value = user[field] || '';
+    
+    document.getElementById('cyber-prompt').classList.add('active');
+    if (dialogOverlay) dialogOverlay.classList.add('active');
+}
+
+addEvent('prompt-cancel-btn', 'click', () => {
+    document.getElementById('cyber-prompt').classList.remove('active');
+    if (dialogOverlay) dialogOverlay.classList.remove('active');
+});
+
+addEvent('prompt-save-btn', 'click', async () => {
+    const user = JSON.parse(localStorage.getItem('dragonUser'));
+    const newValue = document.getElementById('prompt-input').value.trim();
+    if (!newValue) return showAlert('ERROR', 'Field cannot be empty.');
+
+    const btn = document.getElementById('prompt-save-btn');
+    btn.innerText = 'SAVING...'; btn.style.pointerEvents = 'none';
+
+    try {
+        const res = await fetch(`${SCRIPT_URL}?action=updateProfile&uid=${encodeURIComponent(user.GameUid)}&field=${encodeURIComponent(pendingEditField)}&value=${encodeURIComponent(newValue)}&cost=${pendingEditCost}`);
+        const data = await res.json();
+
+        if (data.success) {
+            user.Coin = Number(user.Coin) - pendingEditCost;
+            user[pendingEditField] = newValue;
+            localStorage.setItem('dragonUser', JSON.stringify(user));
+            
+            populateFullProfile(user);
+            document.getElementById('cyber-prompt').classList.remove('active');
+            if (dialogOverlay) dialogOverlay.classList.remove('active');
+            showAlert('DATA UPDATED', `Your profile has been successfully modified.`);
+        } else {
+            showAlert('UPDATE FAILED', data.message);
+        }
+    } catch (err) {
+        showAlert('SYSTEM ERROR', 'Network connection failed.');
+    } finally {
+        btn.innerText = 'SAVE'; btn.style.pointerEvents = 'auto';
+    }
 });
