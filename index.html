@@ -3,7 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- PRIMARY META TAGS -->
     <title>Dragon Tournaments | Hall of Fame</title>
+    <meta name="description" content="Check out the top Elite players and Content Creators in the Dragon Tournaments Hall of Fame!">
+    
+    <!-- OPEN GRAPH / FACEBOOK / WHATSAPP / DISCORD -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/">
+    <meta property="og:title" content="Dragon Tournaments | Hall of Fame">
+    <meta property="og:description" content="Check out the top Elite players and Content Creators in the Dragon Tournaments Hall of Fame!">
+    <meta property="og:image" content="https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110">
+
+    <!-- TWITTER -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourwebsite.com/">
+    <meta property="twitter:title" content="Dragon Tournaments | Hall of Fame">
+    <meta property="twitter:description" content="Check out the top Elite players and Content Creators in the Dragon Tournaments Hall of Fame!">
+    <meta property="twitter:image" content="https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- External Libraries -->
@@ -154,7 +172,13 @@
         #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100%; z-index: 1000; background-color: #000000; background-size: cover; background-position: center; background-attachment: fixed; overflow-y: auto; overflow-x: hidden; padding-top: 70px; }
         .modal-header { position: fixed; top: 0; left: 0; width: 100%; height: 70px; padding: 0 20px; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center; z-index: 1001; }
         .modal-overlay { position: relative; width: 100%; min-height: calc(100% - 70px); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; padding: 40px 20px; overflow-x: hidden; box-sizing: border-box; }
-        .modal-content { width: 100%; max-width: 600px; padding: 40px 30px; display: flex; flex-direction: column; align-items: center; position: relative; border-radius: 16px; background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 40px rgba(0,0,0,0.8); box-sizing: border-box; overflow-x: hidden; }
+        .modal-content { width: 100%; max-width: 600px; padding: 40px 30px; display: flex; flex-direction: column; align-items: center; position: relative; border-radius: 16px; background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 40px rgba(0,0,0,0.8); box-sizing: border-box; overflow-x: hidden; min-height: 300px;}
+
+        /* Profile Preloader inside Modal */
+        .profile-preloader { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; color: #66fcf1; margin-top: 60px; }
+        .profile-preloader i { font-size: 40px; margin-bottom: 20px; animation: spin 1s linear infinite; }
+        .profile-preloader span { font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
         .modal-share-btn { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; z-index: 10; }
         .modal-share-btn:hover { background: rgba(102, 252, 241, 0.2); border-color: #66fcf1; color: #66fcf1; }
@@ -372,7 +396,7 @@
 
         <div class="modal-overlay">
             <div id="modal-inner-content" class="modal-content">
-                <!-- Injected dynamically -->
+                <!-- Data will be injected here -->
             </div>
         </div>
     </div>
@@ -438,15 +462,40 @@
                 lightbox.style.display = 'flex'; pfpLightbox.style.display = 'none'; document.body.style.overflow = 'hidden';
             } else if (hash === '#pfp') {
                 pfpLightbox.style.display = 'flex'; lightbox.style.display = 'none'; document.body.style.overflow = 'hidden';
-            } else if (hash.startsWith('#profile')) {
-                lightbox.style.display = 'none'; pfpLightbox.style.display = 'none'; profile.style.display = 'block'; search.style.display = 'none'; home.style.display = 'none'; document.body.style.overflow = 'hidden';
+            } else if (hash.startsWith('#profile-')) {
+                lightbox.style.display = 'none'; pfpLightbox.style.display = 'none'; 
+                profile.style.display = 'block'; search.style.display = 'none'; home.style.display = 'none'; 
+                document.body.style.overflow = 'hidden';
+                
+                const uid = hash.replace('#profile-', '');
+                
+                if (globalPlayerData.length === 0) {
+                    document.getElementById('modal-inner-content').className = 'modal-content';
+                    document.getElementById('modal-inner-content').innerHTML = `
+                        <div class="profile-preloader">
+                            <i class="fas fa-circle-notch"></i>
+                            <span>Fetching Data...</span>
+                        </div>
+                    `;
+                } else {
+                    const currentDisplayedUid = document.getElementById('modal-inner-content').getAttribute('data-current-uid');
+                    if(currentDisplayedUid !== uid) {
+                        openModal(uid, true); 
+                    }
+                }
             } else if (hash === '#search') {
+                // RESET META TAGS TO DEFAULT ON HOME/SEARCH
+                updateMetaTags("Dragon Tournaments | Hall of Fame", "Check out the top Elite players and Content Creators in the Dragon Tournaments Hall of Fame!", "https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110");
+                
                 document.body.className = ''; 
                 lightbox.style.display = 'none'; pfpLightbox.style.display = 'none'; profile.style.display = 'none'; search.style.display = 'flex'; home.style.display = 'none'; document.body.style.overflow = 'auto';
                 mainHeaderBtn.innerHTML = '<span class="header-action-text">Home</span><i class="fas fa-home"></i>';
                 mainHeaderBtn.onclick = () => location.hash = 'home';
                 document.getElementById('live-uid-input').focus();
             } else { 
+                // RESET META TAGS TO DEFAULT ON HOME/SEARCH
+                updateMetaTags("Dragon Tournaments | Hall of Fame", "Check out the top Elite players and Content Creators in the Dragon Tournaments Hall of Fame!", "https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110");
+                
                 document.body.className = ''; 
                 lightbox.style.display = 'none'; pfpLightbox.style.display = 'none'; profile.style.display = 'none'; search.style.display = 'none'; home.style.display = 'flex'; document.body.style.overflow = 'auto';
                 mainHeaderBtn.innerHTML = '<span class="header-action-text">Search</span><i class="fas fa-search"></i>';
@@ -455,7 +504,26 @@
                 autoOpenTriggeredFor = "";
             }
         }
+        
         handleRoute();
+
+        /* DYNAMIC META TAG UPDATER */
+        function updateMetaTags(title, desc, imageUrl) {
+            document.title = title;
+            const tagsToUpdate = [
+                { selector: 'meta[name="description"]', content: desc },
+                { selector: 'meta[property="og:title"]', content: title },
+                { selector: 'meta[property="og:description"]', content: desc },
+                { selector: 'meta[property="og:image"]', content: imageUrl },
+                { selector: 'meta[property="twitter:title"]', content: title },
+                { selector: 'meta[property="twitter:description"]', content: desc },
+                { selector: 'meta[property="twitter:image"]', content: imageUrl }
+            ];
+            tagsToUpdate.forEach(tag => {
+                const el = document.querySelector(tag.selector);
+                if(el) el.setAttribute("content", tag.content);
+            });
+        }
 
         /* Touch Zoom / Pan Controller */
         const zoomArea = document.getElementById('zoom-area');
@@ -643,6 +711,13 @@
                 observer.observe(document.getElementById('scroll-trigger'));
 
                 skeletonContainer.style.display = 'none'; document.getElementById('section-b').style.display = 'flex'; renderPage();
+
+                // If a user opened a deep-link like #profile-1234, instantly pop it open now that data is loaded
+                if (window.location.hash.startsWith('#profile-')) {
+                    const uid = window.location.hash.replace('#profile-', '');
+                    openModal(uid, true);
+                }
+
             }).catch(err => { skeletonContainer.style.display = 'none'; errorMsg.style.display = 'block'; errorMsg.innerText = "Failed to connect to server."; });
         });
 
@@ -761,16 +836,33 @@
             btn.innerHTML = oldText; btn.style.pointerEvents = 'auto';
         }
 
-        function openModal(uid) {
-            const player = globalPlayerData.find(p => p.Uid.toString() === uid.toString()); if(!player) return;
+        function openModal(uid, fromRoute = false) {
+            const player = globalPlayerData.find(p => p.Uid.toString() === uid.toString()); 
+            
+            if(!player) {
+                window.location.hash = 'home';
+                return;
+            }
 
-            window.location.hash = `profile-${uid}`;
-            const modal = document.getElementById('profile-modal'); const innerContent = document.getElementById('modal-inner-content');
+            if (!fromRoute) {
+                window.location.hash = `profile-${uid}`;
+            }
+
+            const modal = document.getElementById('profile-modal'); 
+            const innerContent = document.getElementById('modal-inner-content');
+            
+            // Set flag so we don't reload if already here
+            innerContent.setAttribute('data-current-uid', uid);
             
             if (player.Photo && player.Photo.trim() !== '') modal.style.backgroundImage = `url('${player.Photo}')`;
             else { modal.style.backgroundImage = 'none'; modal.style.backgroundColor = '#0b0c10'; }
 
             const isCreator = (player.Subscription || '').toLowerCase() === 'creator';
+
+            // --- DYNAMIC META TAG UPDATE FOR LINK PREVIEWS ---
+            const profileImageUrl = player.Photo && player.Photo.trim() !== '' ? player.Photo : "https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110";
+            let profileDesc = isCreator ? `Check out Content Creator ${player.GameName} on Dragon Tournaments!` : `Check out ${player.GameName}'s E-Sport profile on Dragon Tournaments!`;
+            updateMetaTags(`${player.GameName} | Dragon Tournaments`, profileDesc, profileImageUrl);
             
             let galleryHTML = '';
             const pics = [player.AlbumPic1, player.AlbumPic2, player.AlbumPic3, player.AlbumPic4, player.AlbumPic5];
