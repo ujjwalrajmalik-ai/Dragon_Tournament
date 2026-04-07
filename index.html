@@ -74,6 +74,19 @@
         .header-action-text { font-size: 14px; font-weight: bold; text-transform: uppercase; display: none; }
         @media(min-width: 400px) { .header-action-text { display: block; } }
 
+        /* THEME-BASED CUSTOM TOAST NOTIFICATION */
+        #custom-toast {
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            background: rgba(20, 10, 10, 0.95); border: 1px solid rgba(255, 76, 76, 0.6);
+            color: #ff4c4c; padding: 14px 28px; border-radius: 12px; font-size: 13px; font-weight: 800;
+            box-shadow: 0 10px 30px rgba(255, 76, 76, 0.3); backdrop-filter: blur(10px);
+            z-index: 10000; transition: top 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 1px;
+            pointer-events: none; text-align: center;
+        }
+        #custom-toast.show { top: 25px; }
+        #custom-toast i { font-size: 18px; }
+
         #home-view { width: 100%; display: flex; flex-direction: column; align-items: center; animation: fadeIn 0.4s ease; }
         .main-logo { width: 120px; height: auto; margin-top: 20px; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5)); animation: float 4s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
@@ -324,6 +337,9 @@
 </head>
 <body>
 
+    <!-- THE CUSTOM TOAST -->
+    <div id="custom-toast"><i class="fas fa-exclamation-circle"></i> <span id="toast-msg"></span></div>
+
     <div class="app-header" id="main-header">
         <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Title Image" class="header-title-img" draggable="false" onclick="window.location.href='index.html';">
         <button class="header-action-btn" onclick="location.hash='search'" id="header-toggle-btn">
@@ -443,9 +459,19 @@
         });
 
         const scriptUrl = 'https://script.google.com/macros/s/AKfycbz4arq66EEVVkiNDuCrPLfwzmgmvfEvhELtF7gKU4Kv9PGTaMUpLeQNITua-n9X7hdP/exec?action=getLeaderboard';
+        const DEFAULT_PFP = 'https://ik.imagekit.io/5lz94dan6e/Y2k%20PFP%20profile.jpeg';
 
         let globalPlayerData = []; let filteredData = []; let esportPool = []; let autoOpenTriggeredFor = "";
         let currentSort = 'desc'; let currentFilter = 'ESPORT'; let currentPage = 1; const itemsPerPage = 10;
+        let toastTimeout;
+
+        function showToast(message) {
+            const toast = document.getElementById('custom-toast');
+            document.getElementById('toast-msg').innerText = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
 
         window.addEventListener('hashchange', handleRoute);
 
@@ -484,18 +510,14 @@
                     }
                 }
             } else if (hash === '#search') {
-                // RESET META TAGS TO DEFAULT ON HOME/SEARCH
                 updateMetaTags("Dragon Tournaments | Hall of Fame", "Check out the top Elite players and Content Creators in the Dragon Tournaments Hall of Fame!", "https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110");
-                
                 document.body.className = ''; 
                 lightbox.style.display = 'none'; pfpLightbox.style.display = 'none'; profile.style.display = 'none'; search.style.display = 'flex'; home.style.display = 'none'; document.body.style.overflow = 'auto';
                 mainHeaderBtn.innerHTML = '<span class="header-action-text">Home</span><i class="fas fa-home"></i>';
                 mainHeaderBtn.onclick = () => location.hash = 'home';
                 document.getElementById('live-uid-input').focus();
             } else { 
-                // RESET META TAGS TO DEFAULT ON HOME/SEARCH
                 updateMetaTags("Dragon Tournaments | Hall of Fame", "Check out the top Elite players and Content Creators in the Dragon Tournaments Hall of Fame!", "https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110");
-                
                 document.body.className = ''; 
                 lightbox.style.display = 'none'; pfpLightbox.style.display = 'none'; profile.style.display = 'none'; search.style.display = 'none'; home.style.display = 'flex'; document.body.style.overflow = 'auto';
                 mainHeaderBtn.innerHTML = '<span class="header-action-text">Search</span><i class="fas fa-search"></i>';
@@ -576,8 +598,14 @@
         }
 
         /* NATIVE APP DEEP LINKING FOR SOCIAL PROFILES */
-        function openSocialApp(handle, platform) {
+        function openSocialApp(handle, platform, isFallback) {
             if(!handle) return;
+            
+            if(isFallback) {
+                if(platform === 'ig') showToast("Instagram not added.");
+                if(platform === 'yt') showToast("YouTube not added.");
+            }
+            
             let clean = handle.replace(/^@/, '').trim();
             let isAndroid = /android/i.test(navigator.userAgent);
             let finalUrl = '';
@@ -652,11 +680,12 @@
                 const isCreator = (player.Subscription || '').toLowerCase() === 'creator';
                 const originalUid = player.Uid.toString(); const matchedPart = originalUid.substring(0, query.length); const restPart = originalUid.substring(query.length);
                 const highlightedUID = `<span style="color:#ffffff;">${matchedPart}</span>${restPart}`;
+                const photoUrl = (player.Photo && player.Photo.trim() !== '') ? player.Photo : DEFAULT_PFP;
                 
                 if(isCreator) {
                     suggestionsContainer.innerHTML += `
                     <div class="player-card tier-creator" onclick="openModal('${player.Uid}')">
-                        <div class="player-card-photo-wrapper"><img src="${player.Photo || 'https://via.placeholder.css/70'}" class="player-card-photo" draggable="false"></div>
+                        <div class="player-card-photo-wrapper"><img src="${photoUrl}" class="player-card-photo" draggable="false"></div>
                         <div class="player-card-info">
                             <div class="player-card-name">${player.GameName || 'Unknown'}</div>
                             <div class="player-card-uid">UID: ${highlightedUID}</div>
@@ -670,7 +699,7 @@
                     suggestionsContainer.innerHTML += `
                     <div class="player-card ${tierInfo.class}" onclick="openModal('${player.Uid}')">
                         <div class="card-rank-badge">#${rankIndex + 1}</div>
-                        <div class="player-card-photo-wrapper"><img src="${player.Photo || 'https://via.placeholder.css/70'}" class="player-card-photo" draggable="false"></div>
+                        <div class="player-card-photo-wrapper"><img src="${photoUrl}" class="player-card-photo" draggable="false"></div>
                         <div class="player-card-info">
                             <div class="player-card-name">${player.GameName || 'Unknown'}</div>
                             <div class="player-card-uid">UID: ${highlightedUID}</div>
@@ -712,7 +741,6 @@
 
                 skeletonContainer.style.display = 'none'; document.getElementById('section-b').style.display = 'flex'; renderPage();
 
-                // If a user opened a deep-link like #profile-1234, instantly pop it open now that data is loaded
                 if (window.location.hash.startsWith('#profile-')) {
                     const uid = window.location.hash.replace('#profile-', '');
                     openModal(uid, true);
@@ -726,10 +754,12 @@
             const pageData = filteredData.slice(start, end);
             pageData.forEach(player => {
                 const isCreator = (player.Subscription || '').toLowerCase() === 'creator';
+                const photoUrl = (player.Photo && player.Photo.trim() !== '') ? player.Photo : DEFAULT_PFP;
+                
                 if (isCreator) {
                     container.innerHTML += `
                         <div class="player-card tier-creator" onclick="openModal('${player.Uid}')">
-                            <div class="player-card-photo-wrapper"><img src="${player.Photo || 'https://via.placeholder.css/70'}" class="player-card-photo" draggable="false" crossorigin="anonymous"></div>
+                            <div class="player-card-photo-wrapper"><img src="${photoUrl}" class="player-card-photo" draggable="false" crossorigin="anonymous"></div>
                             <div class="player-card-info">
                                 <div class="player-card-name">${player.GameName || 'Unknown'}</div>
                                 <div class="player-card-uid">UID: ${player.Uid}</div>
@@ -743,7 +773,7 @@
                     container.innerHTML += `
                         <div class="player-card ${tierInfo.class}" onclick="openModal('${player.Uid}')">
                             <div class="card-rank-badge">#${rankIndex + 1}</div>
-                            <div class="player-card-photo-wrapper"><img src="${player.Photo || 'https://via.placeholder.css/70'}" class="player-card-photo" draggable="false" crossorigin="anonymous"></div>
+                            <div class="player-card-photo-wrapper"><img src="${photoUrl}" class="player-card-photo" draggable="false" crossorigin="anonymous"></div>
                             <div class="player-card-info">
                                 <div class="player-card-name">${player.GameName || 'Unknown'}</div>
                                 <div class="player-card-uid">UID: ${player.Uid}</div>
@@ -760,16 +790,18 @@
             const player = globalPlayerData.find(p => p.Uid.toString() === uid.toString()); if(!player) return;
             const isCreator = (player.Subscription || '').toLowerCase() === 'creator';
             const generator = document.getElementById('postcard-generator');
-            const photoUrl = player.Photo || 'https://via.placeholder.css/1080';
+            const photoUrl = (player.Photo && player.Photo.trim() !== '') ? player.Photo : DEFAULT_PFP;
             const brandLogoUrl = "https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-28-40-573.png?updatedAt=1774839553114";
             const fileName = `${(player.GameName || 'Player').replace(/\s+/g, '_')}_Dragon_Profile.png`;
 
             if(isCreator) {
-                let igHandle = player.HisInstagram ? player.HisInstagram.trim() : '';
-                if(igHandle && !igHandle.startsWith('@')) igHandle = '@' + igHandle;
+                const hasIg = !!(player.HisInstagram && player.HisInstagram.trim() !== '');
+                let igHandle = hasIg ? player.HisInstagram.trim() : '@Dragontournament.xyz';
+                if(!igHandle.startsWith('@')) igHandle = '@' + igHandle;
                 
-                let ytHandle = player.HisYoutube ? player.HisYoutube.trim() : '';
-                if(ytHandle && !ytHandle.startsWith('@')) ytHandle = '@' + ytHandle;
+                const hasYt = !!(player.HisYoutube && player.HisYoutube.trim() !== '');
+                let ytHandle = hasYt ? player.HisYoutube.trim() : '@Dragontournament-xyz';
+                if(!ytHandle.startsWith('@')) ytHandle = '@' + ytHandle;
 
                 generator.className = `tier-creator`;
                 generator.innerHTML = `
@@ -780,8 +812,8 @@
                         <div class="pc-name">${player.GameName || 'Unknown'}</div>
                         <div class="pc-uid">UID: ${player.Uid}</div>
                         <div class="pc-socials-container">
-                            ${igHandle ? `<div class="pc-social-row"><i class="fab fa-instagram"></i> ${igHandle}</div>` : ''}
-                            ${ytHandle ? `<div class="pc-social-row"><i class="fab fa-youtube"></i> ${ytHandle}</div>` : ''}
+                            <div class="pc-social-row"><i class="fab fa-instagram"></i> ${igHandle}</div>
+                            <div class="pc-social-row"><i class="fab fa-youtube"></i> ${ytHandle}</div>
                         </div>
                         <div class="pc-brand"><img src="${brandLogoUrl}" crossorigin="anonymous"></div>
                     </div>`;
@@ -820,19 +852,15 @@
                         await navigator.share({ title: 'Dragon Tournament Profile', text: `Check out my Profile!`, files: [file] });
                     } else { throw new Error("Share not supported"); }
                 } catch (shareErr) {
-                    // Fallback Modal 
                     document.getElementById('fallback-generated-img').src = dataUrl;
-                    
-                    // Setup direct download button inside fallback modal
                     const dlBtn = document.getElementById('fallback-direct-download-btn');
                     dlBtn.onclick = function() {
                         const link = document.createElement('a'); link.download = fileName; link.href = dataUrl; link.click();
                     };
-
                     document.getElementById('share-fallback-modal').style.display = 'flex';
                 }
 
-            } catch (e) { console.error("Could not generate postcard", e); alert("Sorry, an error occurred while creating the postcard."); }
+            } catch (e) { console.error("Could not generate postcard", e); showToast("Error generating postcard."); }
             btn.innerHTML = oldText; btn.style.pointerEvents = 'auto';
         }
 
@@ -851,22 +879,26 @@
             const modal = document.getElementById('profile-modal'); 
             const innerContent = document.getElementById('modal-inner-content');
             
-            // Set flag so we don't reload if already here
             innerContent.setAttribute('data-current-uid', uid);
             
             if (player.Photo && player.Photo.trim() !== '') modal.style.backgroundImage = `url('${player.Photo}')`;
             else { modal.style.backgroundImage = 'none'; modal.style.backgroundColor = '#0b0c10'; }
 
             const isCreator = (player.Subscription || '').toLowerCase() === 'creator';
+            const photoUrl = (player.Photo && player.Photo.trim() !== '') ? player.Photo : DEFAULT_PFP;
 
-            // --- DYNAMIC META TAG UPDATE FOR LINK PREVIEWS ---
-            const profileImageUrl = player.Photo && player.Photo.trim() !== '' ? player.Photo : "https://ik.imagekit.io/5lz94dan6e/Picsart_26-02-26_14-18-51-931.png?updatedAt=1772095781110";
             let profileDesc = isCreator ? `Check out Content Creator ${player.GameName} on Dragon Tournaments!` : `Check out ${player.GameName}'s E-Sport profile on Dragon Tournaments!`;
-            updateMetaTags(`${player.GameName} | Dragon Tournaments`, profileDesc, profileImageUrl);
+            updateMetaTags(`${player.GameName} | Dragon Tournaments`, profileDesc, photoUrl);
             
             let galleryHTML = '';
             const pics = [player.AlbumPic1, player.AlbumPic2, player.AlbumPic3, player.AlbumPic4, player.AlbumPic5];
             pics.forEach(pic => { if(pic && pic.trim() !== "") galleryHTML += `<img src="${pic}" class="gallery-img" draggable="false" loading="lazy" style="border: 1px solid rgba(255,255,255,0.1);" onclick="openLightbox('${pic}')">`; });
+
+            const hasIg = !!(player.HisInstagram && player.HisInstagram.trim() !== '');
+            const cleanIg = hasIg ? player.HisInstagram.replace(/^@/, '').trim() : 'Dragontournament.xyz';
+            
+            const hasYt = !!(player.HisYoutube && player.HisYoutube.trim() !== '');
+            const cleanYt = hasYt ? player.HisYoutube.replace(/^@/, '').trim() : 'Dragontournament-xyz';
 
             if(isCreator) {
                 document.body.className = `scroll-creator`; innerContent.className = `modal-content tier-creator`;
@@ -879,15 +911,12 @@
                     videoButtonsHTML += `</div>`;
                 }
 
-                const cleanIg = player.HisInstagram ? player.HisInstagram.replace(/^@/, '').trim() : '';
-                const cleanYt = player.HisYoutube ? player.HisYoutube.replace(/^@/, '').trim() : '';
-
                 innerContent.innerHTML = `
                     <button class="modal-share-btn" onclick="downloadPostcard('${player.Uid}')"><i class="fas fa-share-alt"></i> Share Card</button>
                     
                     <div class="creator-header-section">
                         <div class="creator-photo-wrapper">
-                            <img src="${player.Photo || 'https://via.placeholder.css/150'}" alt="Photo" class="creator-photo" draggable="false" crossorigin="anonymous" onclick="openPfpLightbox('${player.Photo}')">
+                            <img src="${photoUrl}" alt="Photo" class="creator-photo" draggable="false" crossorigin="anonymous" onclick="openPfpLightbox('${photoUrl}')">
                         </div>
                         <div class="creator-info-wrapper">
                             <div class="creator-name">${player.GameName || 'Unknown'}</div>
@@ -901,10 +930,10 @@
 
                     ${player.Bio ? `<div class="creator-bio">"${player.Bio}"</div>` : ''}
 
-                    ${(cleanIg || cleanYt) ? `<div class="creator-social-header">${player.GameName} Social media 👇🏻</div>` : ''}
+                    <div class="creator-social-header">${player.GameName} Social media 👇🏻</div>
                     <div class="social-container" style="justify-content: center;">
-                        ${cleanIg ? `<div class="social-icon creator-red" onclick="openSocialApp('${cleanIg}', 'ig')"><i class="fab fa-instagram"></i></div>` : ''}
-                        ${cleanYt ? `<div class="social-icon creator-red" onclick="openSocialApp('${cleanYt}', 'yt')"><i class="fab fa-youtube"></i></div>` : ''}
+                        <div class="social-icon creator-red" onclick="openSocialApp('${cleanIg}', 'ig', ${!hasIg})"><i class="fab fa-instagram"></i></div>
+                        <div class="social-icon creator-red" onclick="openSocialApp('${cleanYt}', 'yt', ${!hasYt})"><i class="fab fa-youtube"></i></div>
                     </div>
                     
                     ${videoButtonsHTML}
@@ -926,15 +955,12 @@
                     videoButtonsHTML += `</div>`;
                 }
 
-                const cleanIg = player.HisInstagram ? player.HisInstagram.replace(/^@/, '').trim() : '';
-                const cleanYt = player.HisYoutube ? player.HisYoutube.replace(/^@/, '').trim() : '';
-
                 innerContent.innerHTML = `
                     <button class="modal-share-btn" onclick="downloadPostcard('${player.Uid}')"><i class="fas fa-share-alt"></i> Share Card</button>
                     <div class="modal-tier-box" style="color: ${tierInfo.color};">${tierInfo.name}</div>
                     
                     <div class="modal-photo-wrapper">
-                        <img src="${player.Photo || 'https://via.placeholder.css/150'}" alt="Photo" class="modal-photo" draggable="false" crossorigin="anonymous" onclick="openPfpLightbox('${player.Photo}')">
+                        <img src="${photoUrl}" alt="Photo" class="modal-photo" draggable="false" crossorigin="anonymous" onclick="openPfpLightbox('${photoUrl}')">
                         <div class="tier-icon-badge" style="color: ${tierInfo.color};"><i class="fas ${tierInfo.icon}"></i></div>
                     </div>
                     
@@ -959,8 +985,8 @@
                     ${player.Bio ? `<div class="modal-bio">"${player.Bio}"</div>` : ''}
 
                     <div class="social-container">
-                        ${cleanIg ? `<div class="social-icon insta" onclick="openSocialApp('${cleanIg}', 'ig')"><i class="fab fa-instagram"></i></div>` : ''}
-                        ${cleanYt ? `<div class="social-icon yt" onclick="openSocialApp('${cleanYt}', 'yt')"><i class="fab fa-youtube"></i></div>` : ''}
+                        <div class="social-icon insta" onclick="openSocialApp('${cleanIg}', 'ig', ${!hasIg})"><i class="fab fa-instagram"></i></div>
+                        <div class="social-icon yt" onclick="openSocialApp('${cleanYt}', 'yt', ${!hasYt})"><i class="fab fa-youtube"></i></div>
                     </div>
                     
                     ${galleryHTML ? `<div class="gallery-container">${galleryHTML}</div>` : ''}
