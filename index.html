@@ -47,11 +47,15 @@
         ::-webkit-scrollbar-track { background: rgba(5, 5, 5, 0.9); }
         ::-webkit-scrollbar-thumb { background: #66fcf1; border-radius: 10px; box-shadow: 0 0 10px rgba(102, 252, 241, 0.5); }
         
-        body.scroll-elite ::-webkit-scrollbar-thumb { background: #66fcf1; box-shadow: 0 0 10px #66fcf1; }
-        body.scroll-gold ::-webkit-scrollbar-thumb { background: #ffd700; box-shadow: 0 0 10px #ffd700; }
-        body.scroll-silver ::-webkit-scrollbar-thumb { background: #c0c0c0; box-shadow: 0 0 10px #c0c0c0; }
-        body.scroll-bronze ::-webkit-scrollbar-thumb { background: #cd7f32; box-shadow: 0 0 10px #cd7f32; }
-        body.scroll-creator ::-webkit-scrollbar-thumb { background: #ff4c4c; box-shadow: 0 0 10px #ff4c4c; }
+        /* NEW RANK SCROLLBARS */
+        body.scroll-tier-dragonking ::-webkit-scrollbar-thumb { background: #b026ff; box-shadow: 0 0 10px #b026ff; }
+        body.scroll-tier-reddragon ::-webkit-scrollbar-thumb { background: #ff1a1a; box-shadow: 0 0 10px #ff1a1a; }
+        body.scroll-tier-dragonball ::-webkit-scrollbar-thumb { background: #ff9900; box-shadow: 0 0 10px #ff9900; }
+        body.scroll-tier-diamond ::-webkit-scrollbar-thumb { background: #66fcf1; box-shadow: 0 0 10px #66fcf1; }
+        body.scroll-tier-gold ::-webkit-scrollbar-thumb { background: #ffd700; box-shadow: 0 0 10px #ffd700; }
+        body.scroll-tier-silver ::-webkit-scrollbar-thumb { background: #c0c0c0; box-shadow: 0 0 10px #c0c0c0; }
+        body.scroll-tier-bronze ::-webkit-scrollbar-thumb { background: #cd7f32; box-shadow: 0 0 10px #cd7f32; }
+        body.scroll-tier-creator ::-webkit-scrollbar-thumb { background: #ff4c4c; box-shadow: 0 0 10px #ff4c4c; }
 
         img { -webkit-touch-callout: none; -webkit-user-drag: none; }
         input { -webkit-user-select: text; -khtml-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
@@ -172,24 +176,56 @@
 
         .card-rank-badge { position: absolute; top: -10px; left: -10px; width: 32px; height: 32px; background: #000000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; z-index: 10; font-style: italic; }
 
-        .tier-bronze { border-color: rgba(205, 127, 50, 0.4); background: rgba(20, 20, 20, 0.6); }
-        .tier-bronze .player-card-photo { border-color: rgba(205, 127, 50, 0.3); }
-        .tier-bronze .card-rank-badge { color: #cd7f32; border: 2px solid #cd7f32; box-shadow: 0 0 10px rgba(205,127,50,0.5); }
+        /* ========================================= */
+        /* RANK TIER STYLES                          */
+        /* ========================================= */
 
-        .tier-silver { border-color: rgba(192, 192, 192, 0.4); background: linear-gradient(145deg, rgba(30, 30, 30, 0.8) 0%, rgba(15, 15, 15, 0.8) 100%); }
-        .tier-silver .player-card-name { color: #f5f5f5; }
-        .tier-silver .player-card-photo { border-color: #c0c0c0; }
-        .tier-silver .card-rank-badge { color: #c0c0c0; border: 2px solid #c0c0c0; box-shadow: 0 0 10px rgba(192,192,192,0.5); }
+        /* Rank 1: DRAGON KING (Purple) + GLOW ANIMATION */
+        @keyframes dragonKingPulse {
+            0% { box-shadow: 0 0 10px #b026ff, 0 0 15px #ffd700; }
+            50% { box-shadow: 0 0 25px #b026ff, 0 0 35px #ffd700, 0 0 50px #b026ff; }
+            100% { box-shadow: 0 0 10px #b026ff, 0 0 15px #ffd700; }
+        }
+        .tier-dragonking { border-color: rgba(176, 38, 255, 0.6); background: linear-gradient(145deg, rgba(40, 10, 60, 0.8) 0%, rgba(15, 5, 25, 0.9) 100%); box-shadow: 0 8px 30px rgba(176, 38, 255, 0.2); }
+        .tier-dragonking .player-card-name { color: #d580ff; text-shadow: 0 0 10px rgba(213, 128, 255, 0.5); font-weight: 800; }
+        .tier-dragonking .player-card-photo-wrapper { animation: dragonKingPulse 2s infinite ease-in-out; border: 2px solid #ffd700; }
+        .tier-dragonking .player-card-photo { border: none; }
+        .tier-dragonking .card-rank-badge { background: linear-gradient(135deg, #b026ff 0%, #ffd700 100%); border: 2px solid #fff; color: #fff; text-shadow: 0 0 5px rgba(0,0,0,0.8); box-shadow: 0 0 15px rgba(176, 38, 255, 0.8); }
 
+        /* Rank 2: RED DRAGON (Red) */
+        .tier-reddragon { border-color: rgba(255, 26, 26, 0.5); background: linear-gradient(145deg, rgba(50, 10, 10, 0.8) 0%, rgba(20, 5, 5, 0.9) 100%); box-shadow: 0 8px 25px rgba(255, 26, 26, 0.15); }
+        .tier-reddragon .player-card-name { color: #ff4d4d; text-shadow: 0 0 8px rgba(255, 77, 77, 0.4); }
+        .tier-reddragon .player-card-photo { border-color: #ff1a1a; }
+        .tier-reddragon .card-rank-badge { color: #ff1a1a; border: 2px solid #ff1a1a; box-shadow: 0 0 15px rgba(255, 26, 26, 0.6); background: #110000; }
+
+        /* Rank 3: DRAGON BALL (Orange) */
+        .tier-dragonball { border-color: rgba(255, 153, 0, 0.5); background: linear-gradient(145deg, rgba(50, 30, 5, 0.8) 0%, rgba(20, 10, 0, 0.9) 100%); box-shadow: 0 8px 25px rgba(255, 153, 0, 0.1); }
+        .tier-dragonball .player-card-name { color: #ffb84d; text-shadow: 0 0 8px rgba(255, 184, 77, 0.3);}
+        .tier-dragonball .player-card-photo { border-color: #ff9900; }
+        .tier-dragonball .card-rank-badge { color: #ff9900; border: 2px solid #ff9900; box-shadow: 0 0 15px rgba(255, 153, 0, 0.6); background: #1a1000;}
+
+        /* Rank 4: DIAMOND DRAGON */
+        .tier-diamond { border-color: rgba(102, 252, 241, 0.5); background: linear-gradient(145deg, rgba(10, 30, 35, 0.7) 0%, rgba(5, 10, 15, 0.9) 100%); box-shadow: 0 8px 25px rgba(102, 252, 241, 0.08); overflow: visible; } 
+        .tier-diamond .player-card-name { color: #66fcf1; }
+        .tier-diamond .player-card-photo { border-color: #66fcf1; }
+        .tier-diamond .card-rank-badge { color: #66fcf1; border: 2px solid #66fcf1; box-shadow: 0 0 15px rgba(102,252,241,0.6); }
+
+        /* Rank 5: SUN DRAGON */
         .tier-gold { border-color: rgba(255, 215, 0, 0.4); background: linear-gradient(145deg, rgba(40, 35, 10, 0.6) 0%, rgba(10, 10, 10, 0.8) 100%); box-shadow: 0 4px 15px rgba(255, 215, 0, 0.05); }
         .tier-gold .player-card-name { color: #ffd700; }
         .tier-gold .player-card-photo { border-color: #ffd700; }
         .tier-gold .card-rank-badge { color: #ffd700; border: 2px solid #ffd700; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
 
-        .tier-diamond { border-color: rgba(102, 252, 241, 0.5); background: linear-gradient(145deg, rgba(10, 30, 35, 0.7) 0%, rgba(5, 10, 15, 0.9) 100%); box-shadow: 0 8px 25px rgba(102, 252, 241, 0.08); overflow: visible; } 
-        .tier-diamond .player-card-name { color: #66fcf1; }
-        .tier-diamond .player-card-photo { border-color: #66fcf1; }
-        .tier-diamond .card-rank-badge { color: #66fcf1; border: 2px solid #66fcf1; box-shadow: 0 0 15px rgba(102,252,241,0.6); }
+        /* Rank 6: SILVER DRAGON */
+        .tier-silver { border-color: rgba(192, 192, 192, 0.4); background: linear-gradient(145deg, rgba(30, 30, 30, 0.8) 0%, rgba(15, 15, 15, 0.8) 100%); }
+        .tier-silver .player-card-name { color: #f5f5f5; }
+        .tier-silver .player-card-photo { border-color: #c0c0c0; }
+        .tier-silver .card-rank-badge { color: #c0c0c0; border: 2px solid #c0c0c0; box-shadow: 0 0 10px rgba(192,192,192,0.5); }
+
+        /* Rank 7+: DRAGON (Bronze) */
+        .tier-bronze { border-color: rgba(205, 127, 50, 0.4); background: rgba(20, 20, 20, 0.6); }
+        .tier-bronze .player-card-photo { border-color: rgba(205, 127, 50, 0.3); }
+        .tier-bronze .card-rank-badge { color: #cd7f32; border: 2px solid #cd7f32; box-shadow: 0 0 10px rgba(205,127,50,0.5); }
 
         /* CREATOR TIER STYLING */
         .tier-creator { border-color: rgba(255, 50, 50, 0.5); background: linear-gradient(145deg, rgba(35, 10, 10, 0.7) 0%, rgba(15, 5, 5, 0.9) 100%); box-shadow: 0 8px 25px rgba(255, 50, 50, 0.08); }
@@ -236,10 +272,13 @@
         .modal-photo:hover { transform: scale(1.05); }
         .tier-icon-badge { position: absolute; bottom: -5px; right: -5px; background: #000; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; z-index: 10; font-size: 20px; border: 3px solid #000; pointer-events: none;}
 
-        .tier-bronze.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #cd7f32 0%, #8b5a2b 100%); }
-        .tier-silver.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #e0e0e0 0%, #808080 100%); }
-        .tier-gold.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%); box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15); }
+        .tier-dragonking.modal-content .modal-photo-wrapper { animation: dragonKingPulse 2s infinite ease-in-out; border: 2px solid #ffd700; background: linear-gradient(135deg, #b026ff 0%, #4a0080 100%); }
+        .tier-reddragon.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #ff1a1a 0%, #800000 100%); box-shadow: 0 10px 30px rgba(255, 26, 26, 0.3); }
+        .tier-dragonball.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #ff9900 0%, #804000 100%); box-shadow: 0 10px 30px rgba(255, 153, 0, 0.25); }
         .tier-diamond.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #66fcf1 0%, #45a29e 100%); box-shadow: 0 10px 40px rgba(102, 252, 241, 0.2); }
+        .tier-gold.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%); box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15); }
+        .tier-silver.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #e0e0e0 0%, #808080 100%); }
+        .tier-bronze.modal-content .modal-photo-wrapper { background: linear-gradient(135deg, #cd7f32 0%, #8b5a2b 100%); }
 
         .name-copy-container { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 5px; width: 100%; }
         .modal-name { font-size: 32px; font-weight: 800; text-transform: none; text-align: center; letter-spacing: 1px; color: #fff; line-height: 1.4; word-break: break-word; }
@@ -362,24 +401,42 @@
         .pc-brand { margin-top: auto; padding-top: 20px; }
         .pc-brand img { width: 600px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9)); }
         
-        .tier-elite .pc-tier-title { color: #66fcf1; text-shadow: 0 0 30px #66fcf1; }
-        .tier-elite .pc-dp-wrapper { background: linear-gradient(135deg, #66fcf1, #45a29e); box-shadow: 0 0 80px rgba(102, 252, 241, 0.4); }
-        .tier-elite .pc-icon { color: #66fcf1; text-shadow: 0 0 20px #66fcf1; }
-        .tier-elite .pc-stat.pc-win { border-color: rgba(102, 252, 241, 0.4); }
+        /* POSTCARD NEW TIER STYLES */
+        .tier-dragonking .pc-tier-title { color: #d580ff; text-shadow: 0 0 30px #b026ff; }
+        .tier-dragonking .pc-dp-wrapper { background: linear-gradient(135deg, #b026ff, #4a0080); box-shadow: 0 0 100px rgba(176, 38, 255, 0.6); border: 4px solid #ffd700; }
+        .tier-dragonking .pc-icon { color: #d580ff; text-shadow: 0 0 20px #b026ff; }
+        .tier-dragonking .pc-stat.pc-win { border-color: rgba(176, 38, 255, 0.6); }
+
+        .tier-reddragon .pc-tier-title { color: #ff4d4d; text-shadow: 0 0 30px #ff1a1a; }
+        .tier-reddragon .pc-dp-wrapper { background: linear-gradient(135deg, #ff1a1a, #800000); box-shadow: 0 0 80px rgba(255, 26, 26, 0.5); }
+        .tier-reddragon .pc-icon { color: #ff4d4d; text-shadow: 0 0 20px #ff1a1a; }
+        .tier-reddragon .pc-stat.pc-win { border-color: rgba(255, 26, 26, 0.5); }
+
+        .tier-dragonball .pc-tier-title { color: #ffb84d; text-shadow: 0 0 30px #ff9900; }
+        .tier-dragonball .pc-dp-wrapper { background: linear-gradient(135deg, #ff9900, #804000); box-shadow: 0 0 80px rgba(255, 153, 0, 0.4); }
+        .tier-dragonball .pc-icon { color: #ffb84d; text-shadow: 0 0 20px #ff9900; }
+        .tier-dragonball .pc-stat.pc-win { border-color: rgba(255, 153, 0, 0.4); }
+
+        .tier-diamond .pc-tier-title { color: #66fcf1; text-shadow: 0 0 30px #66fcf1; }
+        .tier-diamond .pc-dp-wrapper { background: linear-gradient(135deg, #66fcf1, #45a29e); box-shadow: 0 0 80px rgba(102, 252, 241, 0.4); }
+        .tier-diamond .pc-icon { color: #66fcf1; text-shadow: 0 0 20px #66fcf1; }
+        .tier-diamond .pc-stat.pc-win { border-color: rgba(102, 252, 241, 0.4); }
         
         .tier-gold .pc-tier-title { color: #ffd700; text-shadow: 0 0 30px #ffd700; }
         .tier-gold .pc-dp-wrapper { background: linear-gradient(135deg, #ffd700, #b8860b); box-shadow: 0 0 80px rgba(255, 215, 0, 0.3); }
         .tier-gold .pc-icon { color: #ffd700; text-shadow: 0 0 20px #ffd700; }
+        .tier-gold .pc-stat.pc-win { border-color: rgba(255, 215, 0, 0.4); }
         
         .tier-silver .pc-tier-title { color: #c0c0c0; text-shadow: 0 0 30px #c0c0c0; }
         .tier-silver .pc-dp-wrapper { background: linear-gradient(135deg, #e0e0e0, #808080); box-shadow: 0 0 60px rgba(192, 192, 192, 0.2); }
         .tier-silver .pc-icon { color: #c0c0c0; text-shadow: 0 0 20px #c0c0c0; }
+        .tier-silver .pc-stat.pc-win { border-color: rgba(192, 192, 192, 0.4); }
         
         .tier-bronze .pc-tier-title { color: #cd7f32; text-shadow: 0 0 30px #cd7f32; }
         .tier-bronze .pc-dp-wrapper { background: linear-gradient(135deg, #cd7f32, #8b5a2b); box-shadow: 0 0 60px rgba(205, 127, 50, 0.2); }
         .tier-bronze .pc-icon { color: #cd7f32; text-shadow: 0 0 20px #cd7f32; }
+        .tier-bronze .pc-stat.pc-win { border-color: rgba(205, 127, 50, 0.4); }
 
-        /* Postcard Creator specific */
         .tier-creator .pc-tier-title { color: #ff4c4c; text-shadow: 0 0 30px #ff4c4c; }
         .tier-creator .pc-dp-wrapper { background: linear-gradient(135deg, #ff4c4c, #8b0000); box-shadow: 0 0 80px rgba(255, 50, 50, 0.4); }
         .tier-creator .pc-icon { color: #ff4c4c; text-shadow: 0 0 20px #ff4c4c; }
@@ -426,7 +483,6 @@
 
         <div id="section-b" style="display: none; width: 100%; flex-direction: column; align-items: center;">
             
-            <!-- STICKY FILTER BAR UPGRADE -->
             <div class="sticky-action-bar">
                 <div class="sticky-action-bar-inner">
                     <div class="pill-filters-container" id="pill-filters">
@@ -525,11 +581,10 @@
            ======================================================== */
         function checkInAppBrowser() {
             const ua = navigator.userAgent || navigator.vendor || window.opera;
-            // Detect Instagram, Facebook, Messenger, etc.
             if ((ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1)) {
                 document.getElementById('inapp-blocker').style.display = 'flex';
-                document.body.style.overflow = 'hidden'; // Stop scrolling
-                forceOpenSystemBrowser(); // Auto-attempt once on load
+                document.body.style.overflow = 'hidden'; 
+                forceOpenSystemBrowser(); 
                 return true;
             }
             return false;
@@ -540,18 +595,13 @@
             const isAndroid = /android/i.test(navigator.userAgent);
             
             if (isAndroid) {
-                // Android Deep Link Intent to force Chrome to open
                 const urlWithoutProtocol = currentUrl.replace(/^https?:\/\//, '');
                 window.location.href = `intent://${urlWithoutProtocol}#Intent;scheme=https;package=com.android.chrome;end`;
             } else {
-                // iOS logic - Instruct them, as Apple blocks direct deep linking from IG to Safari without user prompt
                 alert("iPhone Users: Tap the '...' icon in the top right/bottom right of the screen and select 'Open in System Browser' or 'Open in Safari'.");
             }
         }
-
-        // Run check instantly
         checkInAppBrowser();
-
 
         /* ========================================================
            MAIN WEBSITE LOGIC
@@ -634,7 +684,6 @@
         
         handleRoute();
 
-        /* DYNAMIC META TAG UPDATER */
         function updateMetaTags(title, desc, imageUrl) {
             document.title = title;
             const tagsToUpdate = [
@@ -652,7 +701,6 @@
             });
         }
 
-        /* Touch Zoom / Pan Controller */
         const zoomArea = document.getElementById('zoom-area');
         const lbImg = document.getElementById('lightbox-img');
         let lbScale = 1, lbPinchDist = 0, lbIsPanning = false, lbStartX, lbStartY, lbPanX = 0, lbPanY = 0, lbLastTap = 0;
@@ -686,7 +734,6 @@
             btn.innerHTML = originalHTML; btn.style.pointerEvents = 'auto';
         }
 
-        /* NATIVE APP DEEP LINKING FOR VIDEOS */
         function openDeepLinkApp(url, e) {
             if(!url) return;
             const rect = e.target.getBoundingClientRect(); const x = (rect.left + (rect.width / 2)) / window.innerWidth; const y = (rect.top + (rect.height / 2)) / window.innerHeight;
@@ -702,16 +749,13 @@
             }, 400);
         }
 
-        /* NATIVE APP DEEP LINKING FOR SOCIAL PROFILES */
         function openSocialApp(handle, platform, isFallback) {
             if(!handle) return;
-            
             if(isFallback) {
                 if(platform === 'ig') showToast("Instagram not added.");
                 if(platform === 'yt') showToast("YouTube not added.");
                 return;
             }
-            
             let clean = handle.replace(/^@/, '').trim();
             let isAndroid = /android/i.test(navigator.userAgent);
             let finalUrl = '';
@@ -732,11 +776,16 @@
         }
 
         function getPlayerRankIndex(playerUid) { return esportPool.findIndex(p => p.Uid.toString() === playerUid.toString()); }
+        
+        /* THE NEWLY COMMANDED RANK NOMENCLATURE AND HIERARCHY */
         function getTierInfo(rankIndex) {
-            if (rankIndex === 0) return { class: "tier-diamond", name: "ELITE", icon: "fa-gem", color: "#66fcf1" };
-            if (rankIndex === 1) return { class: "tier-gold", name: "GOLD", icon: "fa-crown", color: "#ffd700" };
-            if (rankIndex === 2) return { class: "tier-silver", name: "SILVER", icon: "fa-shield-alt", color: "#c0c0c0" };
-            return { class: "tier-bronze", name: "BRONZE", icon: "fa-medal", color: "#cd7f32" };
+            if (rankIndex === 0) return { class: "tier-dragonking", name: "DRAGON KING", icon: "fa-dragon", color: "#b026ff" };
+            if (rankIndex === 1) return { class: "tier-reddragon", name: "RED DRAGON", icon: "fa-fire", color: "#ff1a1a" };
+            if (rankIndex === 2) return { class: "tier-dragonball", name: "DRAGON BALL", icon: "fa-star", color: "#ff9900" };
+            if (rankIndex === 3) return { class: "tier-diamond", name: "DIAMOND DRAGON", icon: "fa-gem", color: "#66fcf1" };
+            if (rankIndex === 4) return { class: "tier-gold", name: "SUN DRAGON", icon: "fa-sun", color: "#ffd700" };
+            if (rankIndex === 5) return { class: "tier-silver", name: "SILVER DRAGON", icon: "fa-shield-alt", color: "#c0c0c0" };
+            return { class: "tier-bronze", name: "DRAGON", icon: "fa-medal", color: "#cd7f32" };
         }
 
         function applyTiltEffect() {
@@ -780,7 +829,6 @@
             if (globalPlayerData.length === 0) { statusText.innerText = "Data still loading..."; return; }
             const matches = globalPlayerData.filter(p => p.Uid.toString().toLowerCase().startsWith(query));
             
-            // POLISHED EMPTY STATE INJECTION
             if (matches.length === 0) { 
                 statusText.innerText = ''; 
                 suggestionsContainer.innerHTML = `
@@ -938,7 +986,10 @@
             } else {
                 const rankIndex = getPlayerRankIndex(player.Uid); const tierInfo = getTierInfo(rankIndex);
                 const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Kill) || 0;
-                generator.className = `tier-${tierInfo.name.toLowerCase()}`;
+                
+                // Set the exact CSS class returned by getTierInfo (e.g. tier-dragonking, tier-diamond, etc.)
+                generator.className = tierInfo.class;
+                
                 generator.innerHTML = `
                     <div class="pc-bg" style="background-image: url('${photoUrl}');"></div>
                     <div class="pc-content">
@@ -1019,7 +1070,7 @@
             const cleanYt = hasYt ? player.HisYoutube.replace(/^@/, '').trim() : 'Dragontournament-xyz';
 
             if(isCreator) {
-                document.body.className = `scroll-creator`; innerContent.className = `modal-content tier-creator`;
+                document.body.className = `scroll-tier-creator`; innerContent.className = `modal-content tier-creator`;
                 let videoButtonsHTML = '';
                 if (player.YoutubeVideo || player.InstaShort1 || player.InstaShort2) {
                     videoButtonsHTML += `<div class="video-grid">`;
@@ -1066,7 +1117,22 @@
             } else {
                 const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Kill) || 0; 
                 const rankIndex = getPlayerRankIndex(player.Uid); const tierInfo = getTierInfo(rankIndex);
-                document.body.className = `scroll-${tierInfo.name.toLowerCase()}`; innerContent.className = `modal-content ${tierInfo.class}`;
+                
+                // Add body scroll styling mapped to the class
+                document.body.className = `scroll-${tierInfo.class}`; 
+                innerContent.className = `modal-content ${tierInfo.class}`;
+
+                // Trigger Proactive Confetti for the Dragon King
+                if (rankIndex === 0) {
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 150,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                            colors: ['#b026ff', '#ffd700', '#ffffff']
+                        });
+                    }, 400); // Trigger just after the modal slides up
+                }
 
                 let videoButtonsHTML = '';
                 if (player.YoutubeVideo || player.InstaShort1 || player.InstaShort2) {
