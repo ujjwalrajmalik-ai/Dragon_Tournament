@@ -109,7 +109,6 @@
         .search-icon-inside { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #66fcf1; font-size: 18px; }
         .search-status { color: #888; font-size: 14px; margin-bottom: 20px; height: 20px; }
         
-        /* Polished Empty State for Search */
         .empty-search-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; text-align: center; }
         .empty-search-state i { font-size: 60px; margin-bottom: 20px; color: rgba(102, 252, 241, 0.2); filter: drop-shadow(0 0 10px rgba(102, 252, 241, 0.1)); }
         .empty-search-state .empty-title { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
@@ -267,7 +266,6 @@
         .social-icon-box { font-size: 28px; display: flex; align-items: center; justify-content: center; width: 40px; transition: 0.3s; }
         .social-text { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
 
-        /* Social Missing Tooltip */
         .social-row-v[data-tooltip]::after {
             content: attr(data-tooltip); position: absolute; bottom: 100%; left: 50px; transform: translateY(10px);
             background: rgba(255, 76, 76, 0.95); border: 1px solid #ff4c4c; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold;
@@ -337,6 +335,15 @@
         .share-fallback-title { color: #fff; font-size: 18px; font-weight: bold; text-align: center; margin-bottom: 25px; max-width: 80%; line-height: 1.5; }
         #fallback-generated-img { max-width: 85%; max-height: 60vh; border-radius: 15px; box-shadow: 0 0 30px rgba(102, 252, 241, 0.3); object-fit: contain; }
 
+        /* IN-APP BROWSER BLOCKER SCREEN */
+        #inapp-blocker {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000000; z-index: 100000; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;
+        }
+        .inapp-content { background: rgba(15, 15, 15, 0.9); border: 1px solid rgba(102, 252, 241, 0.3); border-radius: 15px; padding: 40px 20px; max-width: 400px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.8); animation: slideUpFade 0.4s ease forwards; }
+        .inapp-title { font-size: 26px; font-weight: bold; color: #fff; margin-bottom: 12px; letter-spacing: 1px; }
+        .inapp-desc { font-size: 15px; color: #aaa; margin-bottom: 30px; line-height: 1.6; }
+
         /* POSTCARD GENERATOR CANVAS */
         #postcard-generator { position: fixed; left: -9999px; top: -9999px; width: 1080px; height: 1080px; background: #000; display: flex; align-items: center; justify-content: center; z-index: -9999; }
         .pc-bg { position: absolute; top: -10%; left: -10%; width: 120%; height: 120%; background-size: cover; background-position: center; filter: blur(40px) grayscale(40%); opacity: 0.15; z-index: 1; }
@@ -382,6 +389,18 @@
     </style>
 </head>
 <body>
+
+    <!-- IN-APP BROWSER BLOCKER SCREEN -->
+    <div id="inapp-blocker">
+        <div class="inapp-content">
+            <i class="fas fa-external-link-alt" style="font-size: 55px; color: #66fcf1; margin-bottom: 25px; filter: drop-shadow(0 0 10px rgba(102,252,241,0.5));"></i>
+            <div class="inapp-title esport-font">SYSTEM BROWSER REQUIRED</div>
+            <div class="inapp-desc">To download images and copy UID/Usernames properly, you must open this page in your normal browser (Chrome, Safari, Brave, etc).</div>
+            <button class="rule-book-btn" onclick="forceOpenSystemBrowser()" style="width: 100%; justify-content: center; background: rgba(102, 252, 241, 0.1); border-color: #66fcf1; font-size: 15px; padding: 14px 20px;">
+                <i class="fab fa-chrome" style="font-size: 18px;"></i> Tap on see what inside this page
+            </button>
+        </div>
+    </div>
 
     <!-- THE CUSTOM TOAST -->
     <div id="custom-toast"><i class="fas fa-exclamation-circle"></i> <span id="toast-msg"></span></div>
@@ -501,6 +520,42 @@
     <div id="postcard-generator"></div>
 
     <script>
+        /* ========================================================
+           IN-APP BROWSER DETECTOR & REDIRECT LOGIC
+           ======================================================== */
+        function checkInAppBrowser() {
+            const ua = navigator.userAgent || navigator.vendor || window.opera;
+            // Detect Instagram, Facebook, Messenger, etc.
+            if ((ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1)) {
+                document.getElementById('inapp-blocker').style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Stop scrolling
+                forceOpenSystemBrowser(); // Auto-attempt once on load
+                return true;
+            }
+            return false;
+        }
+
+        function forceOpenSystemBrowser() {
+            const currentUrl = window.location.href;
+            const isAndroid = /android/i.test(navigator.userAgent);
+            
+            if (isAndroid) {
+                // Android Deep Link Intent to force Chrome to open
+                const urlWithoutProtocol = currentUrl.replace(/^https?:\/\//, '');
+                window.location.href = `intent://${urlWithoutProtocol}#Intent;scheme=https;package=com.android.chrome;end`;
+            } else {
+                // iOS logic - Instruct them, as Apple blocks direct deep linking from IG to Safari without user prompt
+                alert("iPhone Users: Tap the '...' icon in the top right/bottom right of the screen and select 'Open in System Browser' or 'Open in Safari'.");
+            }
+        }
+
+        // Run check instantly
+        checkInAppBrowser();
+
+
+        /* ========================================================
+           MAIN WEBSITE LOGIC
+           ======================================================== */
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('keydown', function(event) {
             if (event.keyCode === 123) event.preventDefault();
