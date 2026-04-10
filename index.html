@@ -134,13 +134,15 @@
 
         .section-container { width: 90%; max-width: 600px; margin-bottom: 40px; display: flex; flex-direction: column; gap: 15px; }
         
-        .pill-filters-container { display: flex; justify-content: center; gap: 15px; width: 100%; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        .pill-filters-container { display: flex; justify-content: flex-start; gap: 15px; width: 100%; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        @media (min-width: 500px) { .pill-filters-container { justify-content: center; } }
         .pill-filters-container::-webkit-scrollbar { display: none; }
         .filter-pill { background: rgba(15, 15, 15, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); color: #888; padding: 10px 20px; border-radius: 25px; font-size: 15px; font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
         .filter-pill:hover { border-color: #c5c6c7; color: #fff; }
         
         .filter-pill[data-filter="ESPORT"].active { background: rgba(102, 252, 241, 0.1); border-color: #66fcf1; color: #fff; box-shadow: 0 0 15px rgba(102, 252, 241, 0.3); }
         .filter-pill[data-filter="CREATOR"].active { background: rgba(255, 76, 76, 0.1); border-color: #ff4c4c; color: #fff; box-shadow: 0 0 15px rgba(255, 76, 76, 0.3); }
+        .filter-pill[data-filter="STAR"].active { background: rgba(176, 38, 255, 0.1); border-color: #b026ff; color: #fff; box-shadow: 0 0 15px rgba(176, 38, 255, 0.3); }
 
         .filter-container { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 5px; }
         
@@ -235,10 +237,20 @@
         .loading-spinner { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #66fcf1; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Full Profile Modal */
-        #profile-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100%; z-index: 1000; background-color: #000000; background-size: cover; background-position: center; background-attachment: fixed; overflow-y: auto; overflow-x: hidden; padding-top: 70px; }
+        /* Full Profile Modal - Background Fixed Scroll Bug Fix Applied */
+        #profile-modal { 
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; 
+            z-index: 1000; overflow-y: auto; overflow-x: hidden; padding-top: 70px; background-color: transparent; 
+        }
+        
+        #profile-bg-layer {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh;
+            background-color: #0b0c10; background-size: cover; background-position: center;
+            z-index: 0; pointer-events: none;
+        }
+
         .modal-header { position: fixed; top: 0; left: 0; width: 100%; height: 70px; padding: 0 20px; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center; z-index: 1001; }
-        .modal-overlay { position: relative; width: 100%; min-height: calc(100% - 70px); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; padding: 40px 20px; overflow-x: hidden; box-sizing: border-box; }
+        .modal-overlay { position: relative; width: 100%; min-height: calc(100vh - 70px); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; padding: 40px 20px; overflow-x: hidden; box-sizing: border-box; z-index: 2; }
         .modal-content { width: 100%; max-width: 600px; padding: 40px 30px; display: flex; flex-direction: column; align-items: center; position: relative; border-radius: 16px; background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 40px rgba(0,0,0,0.8); box-sizing: border-box; overflow-x: hidden; min-height: 300px;}
 
         /* --- Modal Animations & Watermark --- */
@@ -324,23 +336,50 @@
         .creator-bio { text-align: left; width: 100%; font-size: 14px; color: #ccc; font-style: italic; margin-bottom: 30px; line-height: 1.6; background: rgba(255,255,255,0.02); padding: 15px; border-left: 3px solid #ff4c4c; border-radius: 0 8px 8px 0; }
         .creator-social-header { width: 100%; text-align: center; color: #ff4c4c; font-size: 16px; font-weight: 800; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* VIDEOS */
-        .video-grid { display: flex; flex-wrap: wrap; gap: 12px; width: 100%; justify-content: center; margin-bottom: 35px; }
-        .cyber-video-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.2s ease; flex: 1; min-width: 110px; max-width: 160px; text-align: center; }
-        .cyber-video-btn i { font-size: 24px; transition: transform 0.2s; }
+        /* VIDEOS - NEW CONSOLIDATED BUTTON & MODAL */
+        .watch-videos-main-btn {
+            width: 100%; background: linear-gradient(135deg, rgba(102, 252, 241, 0.1), rgba(5,5,5,0.9));
+            border: 1px solid #66fcf1; color: #fff; padding: 16px; border-radius: 12px;
+            font-size: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.3s; box-shadow: 0 4px 15px rgba(102,252,241,0.2);
+            display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 35px;
+        }
+        .watch-videos-main-btn:hover { background: rgba(102,252,241,0.2); box-shadow: 0 4px 25px rgba(102,252,241,0.4); transform: translateY(-3px); }
         
-        .cyber-video-btn.yt { border-color: rgba(255, 0, 0, 0.3); color: #ddd; }
-        .cyber-video-btn.yt i { color: #ff0000; }
-        .cyber-video-btn.yt:hover { border-color: #ff0000; background: rgba(255, 0, 0, 0.1); color: #fff; transform: translateY(-3px); box-shadow: 0 5px 20px rgba(255,0,0,0.3); }
-        .cyber-video-btn.yt:hover i { transform: scale(1.1); }
-        
-        .cyber-video-btn.ig { border-color: rgba(225, 48, 108, 0.3); color: #ddd; }
-        .cyber-video-btn.ig i { color: #e1306c; }
-        .cyber-video-btn.ig:hover { border-color: #e1306c; background: rgba(225, 48, 108, 0.1); color: #fff; transform: translateY(-3px); box-shadow: 0 5px 20px rgba(225,48,108,0.3); }
-        .cyber-video-btn.ig:hover i { transform: scale(1.1); }
+        .tier-creator .watch-videos-main-btn { border-color: #ff4c4c; box-shadow: 0 4px 15px rgba(255,76,76,0.2); background: linear-gradient(135deg, rgba(255,76,76,0.1), rgba(5,5,5,0.9)); }
+        .tier-creator .watch-videos-main-btn:hover { background: rgba(255,76,76,0.2); box-shadow: 0 4px 25px rgba(255,76,76,0.4); }
 
-        .tier-creator .cyber-video-btn { border-color: rgba(255, 76, 76, 0.3); }
-        .tier-creator .cyber-video-btn:hover { border-color: #ff4c4c; background: rgba(255, 76, 76, 0.1); box-shadow: 0 5px 20px rgba(255, 76, 76, 0.3); }
+        #video-popup { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 5000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(10px); }
+        .video-popup-content { background: #0a0a0a; border: 1px solid rgba(102, 252, 241, 0.3); border-radius: 16px; width: 100%; max-width: 500px; max-height: 80vh; display: flex; flex-direction: column; overflow: hidden; animation: slideUpFade 0.3s ease; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        
+        /* Apply dynamic theming to video modal based on player */
+        #video-popup.theme-creator .video-popup-content { border-color: rgba(255, 76, 76, 0.3); }
+        #video-popup.theme-creator .vp-tab.active { color: #ff4c4c; border-bottom-color: #ff4c4c; background: rgba(255,76,76,0.05); }
+
+        .vp-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(5,5,5,0.9); }
+        .vp-title { font-size: 20px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 1px;}
+        .vp-close { color: #888; font-size: 22px; cursor: pointer; transition: 0.2s; background: rgba(255,255,255,0.05); width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%;}
+        .vp-close:hover { color: #fff; background: rgba(255,76,76,0.3); transform: scale(1.1); }
+        
+        .vp-tabs { display: flex; background: rgba(15,15,15,0.9); overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid rgba(255,255,255,0.05);}
+        .vp-tabs::-webkit-scrollbar { display: none; }
+        .vp-tab { flex: 1; padding: 15px 10px; text-align: center; color: #888; font-size: 12px; font-weight: 700; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.3s; text-transform: uppercase; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 6px; letter-spacing: 0.5px;}
+        .vp-tab i { font-size: 16px; }
+        .vp-tab.active { color: #66fcf1; border-bottom-color: #66fcf1; background: rgba(102,252,241,0.05); }
+        
+        .vp-body { padding: 20px; overflow-y: auto; flex-grow: 1; }
+        .vp-list { display: none; flex-direction: column; gap: 12px; }
+        .vp-list.active { display: flex; }
+        
+        .vp-item { background: rgba(20,20,20,0.8); border: 1px solid rgba(255,255,255,0.05); padding: 15px 20px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; color: #ddd; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;}
+        .vp-item:hover { background: rgba(30,30,30,0.9); transform: translateX(5px); border-color: rgba(255,255,255,0.2); color: #fff;}
+        .vp-item-left { display: flex; align-items: center; gap: 12px;}
+        .vp-item-left i { font-size: 22px; }
+        .vp-item.yt .vp-item-left i { color: #ff0000; }
+        .vp-item.ig .vp-item-left i { color: #e1306c; }
+        
+        .vp-empty { text-align: center; color: #888; padding: 40px 10px; font-size: 15px; font-weight: 600; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 15px;}
+        .vp-empty i { font-size: 40px; opacity: 0.3; }
 
         .social-container { display: flex; gap: 25px; margin-bottom: 35px; }
         .social-icon.creator-red { color: #ff4c4c; text-shadow: 0 0 10px rgba(255,76,76,0.6); font-size: 30px; cursor: pointer; transition: transform 0.2s, color 0.2s, text-shadow 0.2s;}
@@ -487,6 +526,7 @@
                 <div class="sticky-action-bar-inner">
                     <div class="pill-filters-container" id="pill-filters">
                         <div class="filter-pill active esport-font" data-filter="ESPORT"><i class="fas fa-trophy"></i> E-Sport Frame</div>
+                        <div class="filter-pill esport-font" data-filter="STAR"><i class="fas fa-star"></i> Mega Stars</div>
                         <div class="filter-pill esport-font" data-filter="CREATOR"><i class="fas fa-video"></i> Creator</div>
                     </div>
                     <div class="filter-container">
@@ -526,7 +566,9 @@
         </div>
     </div>
 
+    <!-- FULL PROFILE MODAL (SCROLL DETACHMENT BUG FIXED VIA BACKGROUND LAYER) -->
     <div id="profile-modal">
+        <div id="profile-bg-layer"></div> <!-- Always fixed position behind everything -->
         <div class="modal-header">
             <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Title Image" class="header-title-img" draggable="false" onclick="window.location.href='index.html';">
             <button class="header-action-btn" onclick="history.back()">
@@ -534,7 +576,6 @@
                 <i class="fas fa-times"></i>
             </button>
         </div>
-
         <div class="modal-overlay">
             <div id="modal-inner-content" class="modal-content">
                 <!-- Data will be injected here -->
@@ -571,6 +612,26 @@
         <button id="fallback-direct-download-btn" class="rule-book-btn" style="margin-top: 25px; border-color: #66fcf1; color: #000; background: #66fcf1; padding: 12px 25px; font-size: 15px;">
             <i class="fas fa-download"></i> Direct Download
         </button>
+    </div>
+
+    <!-- NEW MULTI-VIDEO MODAL POPUP -->
+    <div id="video-popup">
+        <div class="video-popup-content">
+            <div class="vp-header">
+                <div class="vp-title esport-font" id="vp-title-text">Player Videos</div>
+                <div class="vp-close" onclick="closeVideoPopup()"><i class="fas fa-times"></i></div>
+            </div>
+            <div class="vp-tabs esport-font">
+                <div class="vp-tab active" onclick="switchVpTab('yt')"><i class="fab fa-youtube"></i> YouTube</div>
+                <div class="vp-tab" onclick="switchVpTab('ig1')"><i class="fab fa-instagram"></i> Funny Reels</div>
+                <div class="vp-tab" onclick="switchVpTab('ig2')"><i class="fab fa-instagram"></i> Commentary</div>
+            </div>
+            <div class="vp-body">
+                <div class="vp-list active" id="vp-list-yt"></div>
+                <div class="vp-list" id="vp-list-ig1"></div>
+                <div class="vp-list" id="vp-list-ig2"></div>
+            </div>
+        </div>
     </div>
 
     <div id="postcard-generator"></div>
@@ -638,6 +699,10 @@
             const lightbox = document.getElementById('lightbox-modal');
             const pfpLightbox = document.getElementById('pfp-lightbox');
             const mainHeaderBtn = document.getElementById('header-toggle-btn');
+            
+            // Auto close video popup safely
+            const vp = document.getElementById('video-popup');
+            if(vp) vp.style.display = 'none';
 
             if (hash === '#lightbox') {
                 lightbox.style.display = 'flex'; pfpLightbox.style.display = 'none'; document.body.style.overflow = 'hidden';
@@ -734,6 +799,7 @@
             btn.innerHTML = originalHTML; btn.style.pointerEvents = 'auto';
         }
 
+        /* NEW VIDEO MODAL LOGIC */
         function openDeepLinkApp(url, e) {
             if(!url) return;
             const rect = e.target.getBoundingClientRect(); const x = (rect.left + (rect.width / 2)) / window.innerWidth; const y = (rect.top + (rect.height / 2)) / window.innerHeight;
@@ -747,6 +813,73 @@
                 }
                 window.open(finalUrl, '_blank');
             }, 400);
+        }
+
+        window.openVideoPopup = function(ytStr, ig1Str, ig2Str, nameStr, isCreator) {
+            const yt = JSON.parse(decodeURIComponent(ytStr));
+            const ig1 = JSON.parse(decodeURIComponent(ig1Str));
+            const ig2 = JSON.parse(decodeURIComponent(ig2Str));
+            const name = decodeURIComponent(nameStr);
+
+            const popup = document.getElementById('video-popup');
+            if(isCreator === 'true') popup.classList.add('theme-creator');
+            else popup.classList.remove('theme-creator');
+
+            document.getElementById('vp-title-text').innerText = `${name}'s Videos`;
+            
+            renderVpList('vp-list-yt', yt, 'yt', 'YouTube Video', 'fa-youtube', '#ff0000');
+            renderVpList('vp-list-ig1', ig1, 'ig', 'Funny Reel', 'fa-instagram', '#e1306c');
+            renderVpList('vp-list-ig2', ig2, 'ig', 'Commentary', 'fa-instagram', '#e1306c');
+
+            popup.style.display = 'flex';
+            switchVpTab('yt'); 
+        }
+
+        function renderVpList(containerId, links, type, defaultLabel, iconClass, iconColor) {
+            const container = document.getElementById(containerId);
+            if (links.length === 0) {
+                container.innerHTML = `
+                    <div class="vp-empty">
+                        <i class="fab ${iconClass}"></i>
+                        <span>No ${defaultLabel}s Available</span>
+                    </div>`;
+                return;
+            }
+            container.innerHTML = links.map((link, index) => `
+                <div class="vp-item ${type}" onclick="openDeepLinkApp('${link}', event)" style="animation: slideUpFade ${0.2 + (index * 0.05)}s ease forwards; opacity: 0;">
+                    <div class="vp-item-left">
+                        <i class="fab ${iconClass}" style="color: ${iconColor};"></i>
+                        <span>${defaultLabel} #${index + 1}</span>
+                    </div>
+                    <i class="fas fa-play-circle" style="font-size: 18px; color: #66fcf1;"></i>
+                </div>
+            `).join('');
+            
+            // Adjust right icon color for creator theme
+            if(document.getElementById('video-popup').classList.contains('theme-creator')) {
+                container.querySelectorAll('.fa-play-circle').forEach(icon => icon.style.color = '#ff4c4c');
+            }
+        }
+
+        window.switchVpTab = function(tabId) {
+            document.querySelectorAll('.vp-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.vp-list').forEach(l => l.classList.remove('active'));
+            
+            if(tabId === 'yt') {
+                document.querySelectorAll('.vp-tab')[0].classList.add('active');
+                document.getElementById('vp-list-yt').classList.add('active');
+            } else if (tabId === 'ig1') {
+                document.querySelectorAll('.vp-tab')[1].classList.add('active');
+                document.getElementById('vp-list-ig1').classList.add('active');
+            } else if (tabId === 'ig2') {
+                document.querySelectorAll('.vp-tab')[2].classList.add('active');
+                document.getElementById('vp-list-ig2').classList.add('active');
+            }
+        }
+
+        window.closeVideoPopup = function() {
+            const vp = document.getElementById('video-popup');
+            if(vp) vp.style.display = 'none';
         }
 
         function openSocialApp(handle, platform, isFallback) {
@@ -777,7 +910,6 @@
 
         function getPlayerRankIndex(playerUid) { return esportPool.findIndex(p => p.Uid.toString() === playerUid.toString()); }
         
-        /* THE NEWLY COMMANDED RANK NOMENCLATURE AND HIERARCHY */
         function getTierInfo(rankIndex) {
             if (rankIndex === 0) return { class: "tier-dragonking", name: "DRAGON KING", icon: "fa-dragon", color: "#b026ff" };
             if (rankIndex === 1) return { class: "tier-reddragon", name: "RED DRAGON", icon: "fa-fire", color: "#ff1a1a" };
@@ -816,8 +948,14 @@
 
         function applyFiltersAndSort() {
             let temp = [];
-            if(currentFilter === 'ESPORT') { temp = globalPlayerData.filter(p => (p.Subscription || '').toLowerCase() !== 'creator'); } 
+            if(currentFilter === 'ESPORT') { 
+                temp = globalPlayerData.filter(p => {
+                    const sub = (p.Subscription || '').toLowerCase();
+                    return sub !== 'creator' && sub !== 'star'; 
+                }); 
+            } 
             else if (currentFilter === 'CREATOR') { temp = globalPlayerData.filter(p => (p.Subscription || '').toLowerCase() === 'creator'); }
+            else if (currentFilter === 'STAR') { temp = globalPlayerData.filter(p => (p.Subscription || '').toLowerCase() === 'star'); }
             
             if (currentSort === 'asc') temp.reverse(); filteredData = temp;
         }
@@ -844,6 +982,7 @@
             statusText.innerText = `Found ${matches.length} player(s)`; suggestionsContainer.innerHTML = '';
             matches.forEach(player => {
                 const isCreator = (player.Subscription || '').toLowerCase() === 'creator';
+                const isStar = (player.Subscription || '').toLowerCase() === 'star';
                 const originalUid = player.Uid.toString(); const matchedPart = originalUid.substring(0, query.length); const restPart = originalUid.substring(query.length);
                 const highlightedUID = `<span style="color:#ffffff;">${matchedPart}</span>${restPart}`;
                 const photoUrl = (player.Photo && player.Photo.trim() !== '') ? player.Photo : DEFAULT_PFP;
@@ -858,6 +997,19 @@
                             <div class="badge-container"><div class="creator-badge-list esport-font">CONTENT CREATOR</div></div>
                         </div>
                         <div class="mini-tier-icon" style="color: #ff4c4c;"><i class="fas fa-video"></i></div>
+                    </div>`;
+                } else if (isStar) {
+                    const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Kill) || 0; 
+                    suggestionsContainer.innerHTML += `
+                    <div class="player-card tier-dragonking" onclick="openModal('${player.Uid}')">
+                        <div class="card-rank-badge esport-font" style="font-size:10px; width:40px; height:40px; left:-15px;">STAR</div>
+                        <div class="player-card-photo-wrapper"><img src="${photoUrl}" class="player-card-photo" draggable="false"></div>
+                        <div class="player-card-info">
+                            <div class="player-card-name esport-font">${player.GameName || 'Unknown'}</div>
+                            <div class="player-card-uid esport-font">UID: ${highlightedUID}</div>
+                            <div class="badge-container"><div class="win-badge esport-font">WINS: ${wins}</div><div class="kill-badge esport-font">KILLS: ${kills}</div></div>
+                        </div>
+                        <div class="mini-tier-icon" style="color: #b026ff;"><i class="fas fa-star"></i></div>
                     </div>`;
                 } else {
                     const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Kill) || 0; 
@@ -891,7 +1043,11 @@
                     const killA = parseInt(a.Kill) || 0; const killB = parseInt(b.Kill) || 0; return killB - killA; 
                 });
                 
-                esportPool = globalPlayerData.filter(p => (p.Subscription || '').toLowerCase() !== 'creator');
+                // Exclude creators and stars from the formal ranking pool
+                esportPool = globalPlayerData.filter(p => {
+                    const sub = (p.Subscription || '').toLowerCase();
+                    return sub !== 'creator' && sub !== 'star';
+                });
                 applyFiltersAndSort();
 
                 const spinner = document.getElementById('loading-spinner');
@@ -920,12 +1076,13 @@
             const pageData = filteredData.slice(start, end);
             pageData.forEach(player => {
                 const isCreator = (player.Subscription || '').toLowerCase() === 'creator';
+                const isStar = (player.Subscription || '').toLowerCase() === 'star';
                 const photoUrl = (player.Photo && player.Photo.trim() !== '') ? player.Photo : DEFAULT_PFP;
                 
                 if (isCreator) {
                     container.innerHTML += `
                         <div class="player-card tier-creator" onclick="openModal('${player.Uid}')">
-                            <div class="player-card-photo-wrapper"><img src="${photoUrl}" class="player-card-photo" draggable="false" crossorigin="anonymous"></div>
+                            <div class="player-card-photo-wrapper"><img src="${photoUrl}" class="player-card-photo" draggable="false"></div>
                             <div class="player-card-info">
                                 <div class="player-card-name esport-font">${player.GameName || 'Unknown'}</div>
                                 <div class="player-card-uid esport-font">UID: ${player.Uid}</div>
@@ -933,13 +1090,26 @@
                             </div>
                             <div class="mini-tier-icon" style="color: #ff4c4c;"><i class="fas fa-video"></i></div>
                         </div>`;
+                } else if (isStar) {
+                    const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Kill) || 0; 
+                    container.innerHTML += `
+                        <div class="player-card tier-dragonking" onclick="openModal('${player.Uid}')">
+                            <div class="card-rank-badge esport-font" style="font-size:10px; width:40px; height:40px; left:-15px;">STAR</div>
+                            <div class="player-card-photo-wrapper"><img src="${photoUrl}" class="player-card-photo" draggable="false"></div>
+                            <div class="player-card-info">
+                                <div class="player-card-name esport-font">${player.GameName || 'Unknown'}</div>
+                                <div class="player-card-uid esport-font">UID: ${player.Uid}</div>
+                                <div class="badge-container"><div class="win-badge esport-font">WINS: ${wins}</div><div class="kill-badge esport-font">KILLS: ${kills}</div></div>
+                            </div>
+                            <div class="mini-tier-icon" style="color: #b026ff;"><i class="fas fa-star"></i></div>
+                        </div>`;
                 } else {
                     const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Kill) || 0; 
                     const rankIndex = getPlayerRankIndex(player.Uid); const tierInfo = getTierInfo(rankIndex);
                     container.innerHTML += `
                         <div class="player-card ${tierInfo.class}" onclick="openModal('${player.Uid}')">
                             <div class="card-rank-badge esport-font">#${rankIndex + 1}</div>
-                            <div class="player-card-photo-wrapper"><img src="${photoUrl}" class="player-card-photo" draggable="false" crossorigin="anonymous"></div>
+                            <div class="player-card-photo-wrapper"><img src="${photoUrl}" class="player-card-photo" draggable="false"></div>
                             <div class="player-card-info">
                                 <div class="player-card-name esport-font">${player.GameName || 'Unknown'}</div>
                                 <div class="player-card-uid esport-font">UID: ${player.Uid}</div>
@@ -955,6 +1125,7 @@
         async function downloadPostcard(uid) {
             const player = globalPlayerData.find(p => p.Uid.toString() === uid.toString()); if(!player) return;
             const isCreator = (player.Subscription || '').toLowerCase() === 'creator';
+            const isStar = (player.Subscription || '').toLowerCase() === 'star';
             const generator = document.getElementById('postcard-generator');
             const photoUrl = (player.Photo && player.Photo.trim() !== '') ? player.Photo : DEFAULT_PFP;
             const brandLogoUrl = "https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-28-40-573.png?updatedAt=1774839553114";
@@ -983,17 +1154,34 @@
                         </div>
                         <div class="pc-brand"><img src="${brandLogoUrl}" crossorigin="anonymous"></div>
                     </div>`;
+            } else if (isStar) {
+                const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Kill) || 0;
+                
+                generator.className = 'tier-dragonking';
+                generator.innerHTML = `
+                    <div class="pc-bg" style="background-image: url('${photoUrl}');"></div>
+                    <div class="pc-content">
+                        <div class="pc-tier-title esport-font">MEGA STAR</div>
+                        <div class="pc-dp-wrapper"><img class="pc-dp" src="${photoUrl}" crossorigin="anonymous"><div class="pc-icon"><i class="fas fa-star"></i></div></div>
+                        <div class="pc-name esport-font">${player.GameName || 'Unknown'}</div>
+                        <div class="pc-uid esport-font">UID: ${player.Uid}</div>
+                        <div class="pc-stats-container"><div class="pc-stat pc-win">WINS<span class="esport-font">${wins}</span></div><div class="pc-stat pc-kill">KILLS<span class="esport-font">${kills}</span></div></div>
+                        <div class="pc-brand"><img src="${brandLogoUrl}" crossorigin="anonymous"></div>
+                    </div>`;
             } else {
                 const rankIndex = getPlayerRankIndex(player.Uid); const tierInfo = getTierInfo(rankIndex);
                 const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Kill) || 0;
                 
-                // Set the exact CSS class returned by getTierInfo (e.g. tier-dragonking, tier-diamond, etc.)
-                generator.className = tierInfo.class;
+                let titleText = `${tierInfo.name} RANK #${rankIndex + 1}`;
+                if (tierInfo.class === "tier-bronze") {
+                    titleText = `${tierInfo.name}`; // Hide the # rank for base Dragon rank
+                }
                 
+                generator.className = tierInfo.class;
                 generator.innerHTML = `
                     <div class="pc-bg" style="background-image: url('${photoUrl}');"></div>
                     <div class="pc-content">
-                        <div class="pc-tier-title esport-font">${tierInfo.name} RANK #${rankIndex + 1}</div>
+                        <div class="pc-tier-title esport-font">${titleText}</div>
                         <div class="pc-dp-wrapper"><img class="pc-dp" src="${photoUrl}" crossorigin="anonymous"><div class="pc-icon"><i class="fas ${tierInfo.icon}"></i></div></div>
                         <div class="pc-name esport-font">${player.GameName || 'Unknown'}</div>
                         <div class="pc-uid esport-font">UID: ${player.Uid}</div>
@@ -1045,15 +1233,19 @@
                 window.location.hash = `profile-${uid}`;
             }
 
-            const modal = document.getElementById('profile-modal'); 
             const innerContent = document.getElementById('modal-inner-content');
-            
             innerContent.setAttribute('data-current-uid', uid);
             
-            if (player.Photo && player.Photo.trim() !== '') modal.style.backgroundImage = `url('${player.Photo}')`;
-            else { modal.style.backgroundImage = 'none'; modal.style.backgroundColor = '#0b0c10'; }
+            const modalBgLayer = document.getElementById('profile-bg-layer');
+            if (player.Photo && player.Photo.trim() !== '') {
+                modalBgLayer.style.backgroundImage = `url('${player.Photo}')`;
+            } else { 
+                modalBgLayer.style.backgroundImage = 'none'; 
+                modalBgLayer.style.backgroundColor = '#0b0c10'; 
+            }
 
             const isCreator = (player.Subscription || '').toLowerCase() === 'creator';
+            const isStar = (player.Subscription || '').toLowerCase() === 'star';
             const photoUrl = (player.Photo && player.Photo.trim() !== '') ? player.Photo : DEFAULT_PFP;
 
             let profileDesc = isCreator ? `Check out Content Creator ${player.GameName} on Dragon Tournaments!` : `Check out ${player.GameName}'s E-Sport profile on Dragon Tournaments!`;
@@ -1069,16 +1261,27 @@
             const hasYt = !!(player.HisYoutube && player.HisYoutube.trim() !== '');
             const cleanYt = hasYt ? player.HisYoutube.replace(/^@/, '').trim() : 'Dragontournament-xyz';
 
+            // SAFELY PARSE MULTIPLE VIDEO LINKS (Prevents .split crash)
+            let ytLinks = player.YoutubeVideo ? String(player.YoutubeVideo).split(/,|\n/).map(s => s.trim()).filter(Boolean) : [];
+            let ig1Links = player.InstaShort1 ? String(player.InstaShort1).split(/,|\n/).map(s => s.trim()).filter(Boolean) : [];
+            let ig2Links = player.InstaShort2 ? String(player.InstaShort2).split(/,|\n/).map(s => s.trim()).filter(Boolean) : [];
+
+            let videoMainBtnHTML = '';
+            if (ytLinks.length > 0 || ig1Links.length > 0 || ig2Links.length > 0) {
+                const safeYt = encodeURIComponent(JSON.stringify(ytLinks));
+                const safeIg1 = encodeURIComponent(JSON.stringify(ig1Links));
+                const safeIg2 = encodeURIComponent(JSON.stringify(ig2Links));
+                const safeName = encodeURIComponent(player.GameName || 'Unknown');
+                
+                videoMainBtnHTML = `
+                    <button class="watch-videos-main-btn esport-font" onclick="openVideoPopup('${safeYt}', '${safeIg1}', '${safeIg2}', '${safeName}', '${isCreator}')">
+                        <i class="fas fa-play-circle"></i> Watch Videos of ${player.GameName || 'Unknown'}
+                    </button>
+                `;
+            }
+
             if(isCreator) {
                 document.body.className = `scroll-tier-creator`; innerContent.className = `modal-content tier-creator`;
-                let videoButtonsHTML = '';
-                if (player.YoutubeVideo || player.InstaShort1 || player.InstaShort2) {
-                    videoButtonsHTML += `<div class="video-grid">`;
-                    if (player.YoutubeVideo) videoButtonsHTML += `<div class="cyber-video-btn yt" onclick="openDeepLinkApp('${player.YoutubeVideo}', event)"><i class="fab fa-youtube"></i><span>Must To Watch</span></div>`;
-                    if (player.InstaShort1) videoButtonsHTML += `<div class="cyber-video-btn ig" onclick="openDeepLinkApp('${player.InstaShort1}', event)"><i class="fab fa-instagram"></i><span>Must To Watch</span></div>`;
-                    if (player.InstaShort2) videoButtonsHTML += `<div class="cyber-video-btn ig" onclick="openDeepLinkApp('${player.InstaShort2}', event)"><i class="fab fa-instagram"></i><span>Must To Watch</span></div>`;
-                    videoButtonsHTML += `</div>`;
-                }
 
                 innerContent.innerHTML = `
                     <button class="modal-share-btn animate-item delay-1" onclick="downloadPostcard('${player.Uid}')"><i class="fas fa-share-alt"></i> Share Card</button>
@@ -1106,10 +1309,86 @@
                     </div>
                     
                     <div class="animate-item delay-3">
-                        ${videoButtonsHTML}
+                        ${videoMainBtnHTML}
                     </div>
                     
                     <div class="animate-item delay-4">
+                        ${galleryHTML ? `<div class="gallery-container">${galleryHTML}</div>` : ''}
+                    </div>
+                `;
+
+            } else if (isStar) {
+                const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Kill) || 0; 
+                const tierClass = 'tier-dragonking';
+                const tierColor = '#b026ff';
+                
+                document.body.className = `scroll-${tierClass}`; 
+                innerContent.className = `modal-content ${tierClass}`;
+
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#b026ff', '#ffd700', '#ffffff']
+                    });
+                }, 400); 
+
+                innerContent.innerHTML = `
+                    <i class="fas fa-star modal-watermark" style="color: ${tierColor};"></i>
+                    <button class="modal-share-btn animate-item delay-1" onclick="downloadPostcard('${player.Uid}')"><i class="fas fa-share-alt"></i> Share Card</button>
+                    <div class="modal-tier-box animate-item delay-1 esport-font" style="color: ${tierColor};">MEGA STAR</div>
+                    
+                    <div class="esport-top-section animate-item delay-1">
+                        <div class="modal-photo-wrapper">
+                            <img src="${photoUrl}" alt="Photo" class="modal-photo" draggable="false" crossorigin="anonymous" onclick="openPfpLightbox('${photoUrl}')">
+                            <div class="tier-icon-badge" style="color: ${tierColor};"><i class="fas fa-star"></i></div>
+                        </div>
+                        <div class="esport-info-wrapper">
+                            ${player.Bio ? `<div class="esport-bio">"${player.Bio}"</div>` : ''}
+                            ${player.SquadRole ? `<div class="modal-squadrole esport-font" style="margin-bottom: 0; width: fit-content; padding: 4px 12px; font-size: 11px;"><i class="fas fa-crosshairs"></i> ROLE: ${player.SquadRole}</div>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="name-copy-container animate-item delay-2">
+                        <div class="modal-name esport-font">${player.GameName || 'Unknown'}</div>
+                        <i class="fas fa-copy copy-btn" title="Copy Name" onclick="copyText('${player.GameName || ''}', this)"></i>
+                    </div>
+                    <div class="uid-copy-container animate-item delay-2 esport-font" style="margin-bottom: 25px;">
+                        <span>UID: ${player.Uid}</span>
+                        <i class="fas fa-copy copy-btn" title="Copy UID" onclick="copyText('${player.Uid}', this)"></i>
+                    </div>
+                    
+                    <div class="detail-badges-container animate-item delay-3">
+                        <div class="detail-win-badge esport-font">WINS: ${wins}</div>
+                        <div class="detail-kill-badge esport-font">KILLS: ${kills}</div>
+                    </div>
+
+                    <div class="animate-item delay-3">
+                        ${videoMainBtnHTML}
+                    </div>
+
+                    <div class="social-vertical-container animate-item delay-4">
+                        <div class="social-row-v" ${!hasIg ? `data-tooltip="Contact admin to update profile"` : `onclick="openSocialApp('${cleanIg}', 'ig', false)"`} style="${hasIg ? `border-color: ${tierColor}40; background: ${tierColor}10;` : ''}">
+                            <div class="social-icon-box" style="color: ${hasIg ? tierColor : '#444'}; text-shadow: ${hasIg ? `0 0 15px ${tierColor}` : 'none'};">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div class="social-text" style="color: ${hasIg ? '#fff' : '#666'};">
+                                ${hasIg ? 'Player Social Media Is Here' : 'Player Social Media Is Not Added'}
+                            </div>
+                        </div>
+                        
+                        <div class="social-row-v" ${!hasYt ? `data-tooltip="Contact admin to update profile"` : `onclick="openSocialApp('${cleanYt}', 'yt', false)"`} style="${hasYt ? `border-color: ${tierColor}40; background: ${tierColor}10;` : ''}">
+                            <div class="social-icon-box" style="color: ${hasYt ? tierColor : '#444'}; text-shadow: ${hasYt ? `0 0 15px ${tierColor}` : 'none'};">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="social-text" style="color: ${hasYt ? '#fff' : '#666'};">
+                                ${hasYt ? 'Player Social Media Is Here' : 'Player Social Media Is Not Added'}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="animate-item delay-5">
                         ${galleryHTML ? `<div class="gallery-container">${galleryHTML}</div>` : ''}
                     </div>
                 `;
@@ -1118,11 +1397,9 @@
                 const wins = parseInt(player.Win) || 0; const kills = parseInt(player.Kill) || 0; 
                 const rankIndex = getPlayerRankIndex(player.Uid); const tierInfo = getTierInfo(rankIndex);
                 
-                // Add body scroll styling mapped to the class
                 document.body.className = `scroll-${tierInfo.class}`; 
                 innerContent.className = `modal-content ${tierInfo.class}`;
 
-                // Trigger Proactive Confetti for the Dragon King
                 if (rankIndex === 0) {
                     setTimeout(() => {
                         confetti({
@@ -1131,16 +1408,7 @@
                             origin: { y: 0.6 },
                             colors: ['#b026ff', '#ffd700', '#ffffff']
                         });
-                    }, 400); // Trigger just after the modal slides up
-                }
-
-                let videoButtonsHTML = '';
-                if (player.YoutubeVideo || player.InstaShort1 || player.InstaShort2) {
-                    videoButtonsHTML += `<div class="video-grid">`;
-                    if (player.YoutubeVideo) videoButtonsHTML += `<div class="cyber-video-btn yt" onclick="openDeepLinkApp('${player.YoutubeVideo}', event)"><i class="fab fa-youtube"></i><span>Tournament</span></div>`;
-                    if (player.InstaShort1) videoButtonsHTML += `<div class="cyber-video-btn ig" onclick="openDeepLinkApp('${player.InstaShort1}', event)"><i class="fab fa-instagram"></i><span>Funny Reel</span></div>`;
-                    if (player.InstaShort2) videoButtonsHTML += `<div class="cyber-video-btn ig" onclick="openDeepLinkApp('${player.InstaShort2}', event)"><i class="fab fa-instagram"></i><span>Commentary</span></div>`;
-                    videoButtonsHTML += `</div>`;
+                    }, 400); 
                 }
 
                 innerContent.innerHTML = `
@@ -1174,7 +1442,7 @@
                     </div>
 
                     <div class="animate-item delay-3">
-                        ${videoButtonsHTML}
+                        ${videoMainBtnHTML}
                     </div>
 
                     <div class="social-vertical-container animate-item delay-4">
@@ -1206,3 +1474,4 @@
     </script>
 </body>
 </html>
+```
