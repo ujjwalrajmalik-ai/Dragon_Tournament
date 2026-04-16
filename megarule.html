@@ -132,7 +132,7 @@
             width: 28px; height: 28px; background-color: #fff; color: #000;
             border: 3px solid var(--timeline-base); border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            font-size: 0.9rem; font-weight: 900; z-index: 2; cursor: pointer;
+            font-size: 0.8rem; font-weight: 900; z-index: 2; cursor: pointer;
             transition: all 0.4s ease;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
@@ -173,7 +173,7 @@
         }
         #active-rule-text ul { padding-left: 18px; margin: 8px 0; }
         #active-rule-text li { margin-bottom: 8px; }
-        #active-rule-text strong { font-weight: 900; text-decoration: underline; }
+        #active-rule-text strong { font-weight: 900; }
 
         #active-rule-text table {
             width: 100%; border-collapse: collapse; margin-top: 10px;
@@ -239,7 +239,7 @@
             <h2>E-sport Protection</h2>
             
             <div id="point-header-box" class="ph-box">
-                <h3 id="point-header">Introduction</h3>
+                <h3 id="point-header">On Going Mega Tournament</h3>
             </div>
         </div>
 
@@ -252,7 +252,9 @@
                     <div class="timeline-line">
                         <div class="timeline-progress" id="timeline-progress"></div>
                     </div>
-                    <div class="point selected" id="pt-1" onclick="showRule(1)">1</div>
+                    <!-- Added Star Point here -->
+                    <div class="point selected" id="pt-star" onclick="showRule('star')">⭐</div>
+                    <div class="point" id="pt-1" onclick="showRule(1)">1</div>
                     <div class="point" id="pt-2" onclick="showRule(2)">2</div>
                     <div class="point" id="pt-3" onclick="showRule(3)">3</div>
                     <div class="point" id="pt-4" onclick="showRule(4)">4</div>
@@ -288,6 +290,41 @@
 
         /* === RULES DATA === */
         const rulesData = {
+            'star': {
+                header: "On Going Mega Tournament",
+                text: `<div style="font-size: 0.9rem; line-height: 1.5; color: #1f2937;">
+                         <p style="color: #b91c1c; font-weight: 900; font-size: 1.05rem; margin-bottom: 5px;">📢 MEGA TOURNAMENT OFFICIAL NOTICE 📢</p>
+                         <p style="margin-bottom: 12px; font-weight: 700;">Dragon Tournaments presents the biggest Free Fire challenge! Agar aapki squad mein dum hai, toh register karein aur jeetein <span style="color: #047857; text-decoration: underline;">S24 for the whole team!</span></p>
+
+                         <span style="display: inline-block; background: #312e81; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 900; margin-top: 5px;">🏆 TOURNAMENT STRUCTURE & RULES</span>
+                         <ul style="margin-top: 5px; list-style-type: square;">
+                             <li>Is tournament mein total <strong>3 Rounds</strong> honge. Jo 3 Round win karegi wahi ek perfect E-sport team hogi.</li>
+                             <li><strong style="color: #b91c1c;">Round 1 & 2 (Elimination):</strong> Aapko dono rounds win karne honge. Jeetne ke liye Booyah mandatory nahi hai; yeh <strong style="color: #c026d3;">Point System (Details on Point 5 📍)</strong> par base hoga.</li>
+                             <li><strong style="color: #047857;">Skill Matters:</strong> Camp karke khelne ka koi fayda nahi. Kills aur aggressive gameplay se hi points milenge.</li>
+                             <li><strong style="color: #d97706;">Schedule:</strong> R1 aur R2 ki date & timing IGL ko WhatsApp par milegi.</li>
+                             <li><strong style="color: #b91c1c;">Round 3 (Finale) - 20 May:</strong> Sirf Top 4 Teams Finale khelenge Kalahari (Big Map) par.</li>
+                         </ul>
+
+                         <span style="display: inline-block; background: #831843; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 900; margin-top: 15px;">📝 REGISTRATION PROCESS (FREE)</span>
+                         <ul style="margin-top: 5px; list-style-type: square;">
+                             <li><strong style="color: #b91c1c;">Deadline:</strong> April ke end tak.</li>
+                             <li><strong>Steps:</strong> Squad ke 4 players ko hamari "Announcement" reel apni Insta Story par lagani hogi. Likhna hai: <em>"Free Tournament hai, Prize pool S24 puri team ko"</em> aur hamare handle ko MENTION karna hai.</li>
+                             <li><span style="background: #fef08a; padding: 2px 4px; color: #854d0e; font-weight: 900;">Note:</span> Story upload karne ke <strong style="color: #b91c1c; text-decoration: underline;">6 ghante baad hi</strong> aap slot ke liye message kar sakte hain.</li>
+                             <li><strong>Message Here:</strong> Chat Telegram par hogi. DM karein 👉 <a href="https://t.me/Dragontournament_xyz" target="_blank" style="color: #2563eb; font-weight: 900; text-decoration: underline;">@Dragontournament_xyz</a></li>
+                         </ul>
+
+                         <div style="background: #e2e8f0; padding: 8px; border-left: 4px solid #312e81; font-size: 0.8rem; margin-bottom: 10px;">
+                             <strong>Required Details (Agar 6hr target pura ho gaya):</strong> Exact Game Name, Game UID, Player Role, Insta ID, aur IGL WhatsApp Number.
+                         </div>
+
+                         <span style="display: inline-block; background: #064e3b; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 900; margin-top: 10px;">🎁 WINNER PRIZE & DELIVERY</span>
+                         <ul style="margin-top: 5px; list-style-type: square;">
+                             <li><strong>Direct Amazon Delivery:</strong> Hum aapke address par Amazon se direct order karenge.</li>
+                             <li><strong>Home Visit:</strong> Agar aap hamari winner announcement video mein face show karne ko ready hain, toh hum khud aakar prize denge!</li>
+                         </ul>
+                         <p style="text-align: center; color: #b91c1c; font-weight: 900; margin-top: 10px; font-style: italic;">Dragon Tournaments - Play with Skills, Win with Pride!</p>
+                       </div>`
+            },
             1: {
                 header: "Introduction",
                 text: `<ul>
@@ -363,7 +400,9 @@
         const ruleTextDisplay = document.getElementById('active-rule-text');
         const timelineProgress = document.getElementById('timeline-progress');
         const ruleLoadBar = document.getElementById('rule-load-bar');
-        const totalPoints = Object.keys(rulesData).length;
+        
+        // Ordered array to handle 'star' and numbers easily for timeline
+        const pointKeys = ['star', 1, 2, 3, 4, 5, 6, 7];
 
         function typeWriterHTML(element, htmlString, speed) {
             clearTimeout(typingTimeout);
@@ -396,12 +435,14 @@
         }
 
         function showRule(pointId) {
-            document.querySelectorAll('.point').forEach((pt, index) => {
+            const index = pointKeys.indexOf(pointId);
+            
+            document.querySelectorAll('.point').forEach((pt, idx) => {
                 pt.classList.remove('selected');
-                if (index + 1 <= pointId) pt.classList.add('selected');
+                if (idx <= index) pt.classList.add('selected');
             });
             
-            const progressPercentage = ((pointId - 1) / (totalPoints - 1)) * 100;
+            const progressPercentage = (index / (pointKeys.length - 1)) * 100;
             timelineProgress.style.width = progressPercentage + '%';
 
             pointHeader.style.opacity = '0';
@@ -417,7 +458,9 @@
             setTimeout(() => {
                 ruleLoadBar.style.width = '100%';
                 setTimeout(() => {
-                    typeWriterHTML(ruleTextDisplay, rulesData[pointId].text, 10);
+                    // Type speed remains 10 for normal points, but slightly faster (5) for the massive Star point
+                    const speed = pointId === 'star' ? 5 : 10; 
+                    typeWriterHTML(ruleTextDisplay, rulesData[pointId].text, speed);
                 }, 250);
             }, 50); 
         }
@@ -426,7 +469,7 @@
             setTimeout(() => {
                 ruleLoadBar.style.width = '100%';
                 setTimeout(() => {
-                    typeWriterHTML(ruleTextDisplay, rulesData[1].text, 10);
+                    typeWriterHTML(ruleTextDisplay, rulesData['star'].text, 5);
                 }, 250);
             }, 50);
         };
