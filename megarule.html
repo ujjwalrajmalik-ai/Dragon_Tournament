@@ -170,6 +170,7 @@
         #active-rule-text {
             font-size: 0.95rem; font-weight: 700; line-height: 1.4; color: #000; 
             margin: 0;
+            width: 100%;
         }
         #active-rule-text ul { padding-left: 18px; margin: 8px 0; }
         #active-rule-text li { margin-bottom: 8px; }
@@ -216,6 +217,18 @@
             animation: blink 0.8s step-end infinite;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Instagram Embed Container */
+        .ig-embed-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #000;
+            background: #fff;
+        }
 
     </style>
 </head>
@@ -292,38 +305,11 @@
         const rulesData = {
             'star': {
                 header: "On Going Mega Tournament",
-                text: `<div style="font-size: 0.9rem; line-height: 1.5; color: #1f2937;">
-                         <p style="color: #b91c1c; font-weight: 900; font-size: 1.05rem; margin-bottom: 5px;">📢 MEGA TOURNAMENT OFFICIAL NOTICE 📢</p>
-                         <p style="margin-bottom: 12px; font-weight: 700;">Dragon Tournaments presents the biggest Free Fire challenge! Agar aapki squad mein dum hai, toh register karein aur jeetein <span style="color: #047857; text-decoration: underline;">S24 for the whole team!</span></p>
-
-                         <span style="display: inline-block; background: #312e81; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 900; margin-top: 5px;">🏆 TOURNAMENT STRUCTURE & RULES</span>
-                         <ul style="margin-top: 5px; list-style-type: square;">
-                             <li>Is tournament mein total <strong>3 Rounds</strong> honge. Jo 3 Round win karegi wahi ek perfect E-sport team hogi.</li>
-                             <li><strong style="color: #b91c1c;">Round 1 & 2 (Elimination):</strong> Aapko dono rounds win karne honge. Jeetne ke liye Booyah mandatory nahi hai; yeh <strong style="color: #c026d3;">Point System (Details on Point 5 📍)</strong> par base hoga.</li>
-                             <li><strong style="color: #047857;">Skill Matters:</strong> Camp karke khelne ka koi fayda nahi. Kills aur aggressive gameplay se hi points milenge.</li>
-                             <li><strong style="color: #d97706;">Schedule:</strong> R1 aur R2 ki date & timing IGL ko WhatsApp par milegi.</li>
-                             <li><strong style="color: #b91c1c;">Round 3 (Finale) - 20 May:</strong> Sirf Top 4 Teams Finale khelenge Kalahari (Big Map) par.</li>
-                         </ul>
-
-                         <span style="display: inline-block; background: #831843; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 900; margin-top: 15px;">📝 REGISTRATION PROCESS (FREE)</span>
-                         <ul style="margin-top: 5px; list-style-type: square;">
-                             <li><strong style="color: #b91c1c;">Deadline:</strong> April ke end tak.</li>
-                             <li><strong>Steps:</strong> Squad ke igl ko hamari "Announcement" reel apni Insta Story par lagani hogi. Likhna hai: <em>"Free Tournament hai, Prize pool S24 puri team ko"</em> aur hamare handle ko MENTION karna hai.</li>
-                             <li><span style="background: #fef08a; padding: 2px 4px; color: #854d0e; font-weight: 900;">Note:</span> Story upload karne ke <strong style="color: #b91c1c; text-decoration: underline;">6 ghante baad hi</strong> aap slot ke liye message kar sakte hain.</li>
-                             <li><strong>Message Here:</strong> Chat Telegram par hogi. DM karein 👉 <a href="https://t.me/Dragontournament_xyz" target="_blank" style="color: #2563eb; font-weight: 900; text-decoration: underline;">@Dragontournament_xyz</a></li>
-                         </ul>
-
-                         <div style="background: #e2e8f0; padding: 8px; border-left: 4px solid #312e81; font-size: 0.8rem; margin-bottom: 10px;">
-                             <strong>Required Details (Agar 6hr target pura ho gaya):</strong> Exact Game Name, Game UID, Player Role, Insta ID, aur IGL WhatsApp Number.
-                         </div>
-
-                         <span style="display: inline-block; background: #064e3b; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 900; margin-top: 10px;">🎁 WINNER PRIZE & DELIVERY</span>
-                         <ul style="margin-top: 5px; list-style-type: square;">
-                             <li><strong>Direct Amazon Delivery:</strong> Hum aapke address par Amazon se direct order karenge.</li>
-                             <li><strong>Home Visit:</strong> Agar aap hamari winner announcement video mein face show karne ko ready hain, toh hum khud aakar prize denge!</li>
-                         </ul>
-                         <p style="text-align: center; color: #b91c1c; font-weight: 900; margin-top: 10px; font-style: italic;">Dragon Tournaments - Play with Skills, Win with Pride!</p>
-                       </div>`
+                // Added /embed to the Instagram URL to ensure iframe playability
+                text: `<div class="ig-embed-container">
+                         <iframe src="https://www.instagram.com/reel/DXM6BmKkz3s/embed" width="100%" height="450" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+                       </div>
+                       <p style="text-align:center; font-size: 0.8rem; margin-top:10px; color:#b91c1c; font-weight:800;">🎥 Watch the Reel above for details!</p>`
             },
             1: {
                 header: "Introduction",
@@ -458,9 +444,13 @@
             setTimeout(() => {
                 ruleLoadBar.style.width = '100%';
                 setTimeout(() => {
-                    // Type speed remains 10 for normal points, but slightly faster (5) for the massive Star point
-                    const speed = pointId === 'star' ? 5 : 10; 
-                    typeWriterHTML(ruleTextDisplay, rulesData[pointId].text, speed);
+                    // Logic: If it's the video (star point), inject immediately to avoid glitching the iframe.
+                    // If it's a normal text rule, use the typewriter effect.
+                    if (pointId === 'star') {
+                        ruleTextDisplay.innerHTML = rulesData[pointId].text;
+                    } else {
+                        typeWriterHTML(ruleTextDisplay, rulesData[pointId].text, 10);
+                    }
                 }, 250);
             }, 50); 
         }
@@ -469,7 +459,8 @@
             setTimeout(() => {
                 ruleLoadBar.style.width = '100%';
                 setTimeout(() => {
-                    typeWriterHTML(ruleTextDisplay, rulesData['star'].text, 5);
+                    // Load the Star video immediately on page load
+                    ruleTextDisplay.innerHTML = rulesData['star'].text;
                 }, 250);
             }, 50);
         };
