@@ -1,435 +1,483 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mega Tournament Rules</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* === RESTRICTIONS & BASE STYLES === */
-        :root {
-            --bg-color: #000000; 
-            --text-color: #ffffff; 
-            --header-bg: #000000;
-            --timeline-base: #d1d5db;
-            --card-grey: #e5e7eb; 
-        }
-        
-        body, html {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0; padding: 0;
-            width: 100%; 
-            overflow-x: hidden; 
-            overflow-y: auto; 
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-            touch-action: pan-y; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Tournament System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --neon-cyan: #00f3ff;
+      --neon-green: #00ff88;
+    }
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: radial-gradient(circle at top, #111827 0%, #030712 100%);
+      color: #e5e7eb;
+      min-height: 100vh;
+    }
+    
+    .glass-card {
+      background: rgba(17, 25, 40, 0.6);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #030712; }
+    ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
 
-        #landscape-blocker {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; color: #fff; z-index: 99999;
-            align-items: center; justify-content: center;
-            text-align: center; font-size: 1.5rem; font-weight: bold; padding: 20px;
-        }
-        @media screen and (orientation: landscape) {
-            #landscape-blocker { display: flex; }
-            #app-content { display: none; }
-        }
+    .cyber-input {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid #374151;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+    .cyber-input:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+      outline: none;
+    }
 
-        /* === HEADER === */
-        .header {
-            background-color: var(--header-bg);
-            height: 60px;
-            display: flex; justify-content: center; align-items: center;
-            position: fixed; top: 0; left: 0; width: 100%;
-            z-index: 100;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-        .header a { height: 100%; display: block; }
-        .header img { height: 100%; width: auto; object-fit: contain; }
-
-        /* === MAIN SCROLLABLE LAYOUT === */
-        .content-wrapper {
-            margin-top: 60px; 
-            width: 100%; 
-            display: flex; flex-direction: column;
-            min-height: calc(100vh - 60px);
-        }
-
-        /* === COMMAND MODULE (Top Section - Solid Black) === */
-        .command-module {
-            background-color: #000000; 
-            border-bottom: 4px solid #333333; 
-            padding: 30px 15px;
-            text-align: center;
-            position: relative; z-index: 20;
-        }
-        .command-module h1 {
-            font-size: 1.6rem; font-weight: 900; text-transform: uppercase;
-            letter-spacing: 0.5px; margin: 0; line-height: 1.2;
-            color: #ffffff;
-        }
-        .command-module h2 {
-            font-size: 0.85rem; font-weight: 800; color: #aaaaaa; 
-            margin: 5px 0 20px 0; text-transform: uppercase; letter-spacing: 2px;
-        }
-        
-        .ph-box {
-            background: #ffffff; 
-            color: #000000; 
-            padding: 12px 20px; border-radius: 4px;
-            box-shadow: 6px 6px 0px #333333; 
-            display: inline-block;
-        }
-        .ph-box h3 {
-            font-size: 1.1rem; font-weight: 900; text-transform: uppercase;
-            letter-spacing: 1px; margin: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        /* === ARENA (Bottom Section - Image Background) === */
-        .arena {
-            position: relative; width: 100%;
-            flex-grow: 1; 
-            background-image: url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202510/704e9a06ea98cbb26cedc03b8ce96375.jpg');
-            background-size: cover;
-            background-position: center top;
-            padding: 30px 0 80px 0; 
-            z-index: 10;
-        }
-
-        /* === DYNAMIC HORIZONTAL TIMELINE === */
-        .timeline-wrapper {
-            width: 90%;
-            margin: 0 auto 40px auto; 
-            position: relative;
-            z-index: 50;
-        }
-        .timeline {
-            position: relative;
-            display: flex; 
-            flex-direction: row; 
-            justify-content: space-between; 
-            align-items: center;
-            width: 100%;
-        }
-        .timeline-line {
-            position: absolute; top: 50%; left: 0; right: 0;
-            transform: translateY(-50%); height: 4px; width: 100%;
-            background-color: var(--timeline-base); z-index: 1; border-radius: 2px;
-        }
-        .timeline-progress {
-            position: absolute; top: 0; left: 0; height: 100%;
-            background-color: #000; width: 0%; 
-            transition: width 0.6s cubic-bezier(0.25, 1, 0.2, 1); border-radius: 2px;
-        }
-        .point {
-            width: 28px; height: 28px; background-color: #fff; color: #000;
-            border: 3px solid var(--timeline-base); border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 0.9rem; font-weight: 900; z-index: 2; cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .point.selected {
-            background-color: #000; color: #fff; border-color: #000; transform: scale(1.2);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        /* === CARD & CHARACTER CONTAINER === */
-        .card-container {
-            position: relative;
-            width: 82%;
-            margin-left: 3%;
-        }
-
-        .rule-card {
-            width: 100%; 
-            background-color: var(--card-grey);
-            border: 3px solid #000;
-            box-shadow: 8px 8px 0px #000000; 
-            border-radius: 6px;
-            padding: 20px 105px 20px 15px; 
-            position: relative;
-            overflow: hidden; 
-            min-height: 250px;
-            display: flex; flex-direction: column; justify-content: center;
-        }
-
-        .rule-load-bar {
-            position: absolute; top: 0; left: 0;
-            width: 0%; height: 4px; background-color: #000000;
-            transition: width 0.25s linear;
-        }
-
-        #active-rule-text {
-            font-size: 0.95rem; font-weight: 700; line-height: 1.4; color: #000; 
-            margin: 0;
-        }
-        #active-rule-text ul { padding-left: 18px; margin: 8px 0; }
-        #active-rule-text li { margin-bottom: 8px; }
-        #active-rule-text strong { font-weight: 900; text-decoration: underline; }
-
-        #active-rule-text table {
-            width: 100%; border-collapse: collapse; margin-top: 10px;
-            background: #fff; border: 2px solid #000; font-size: 0.85rem;
-        }
-        #active-rule-text th, #active-rule-text td {
-            border: 1px solid #000; padding: 4px 8px; text-align: left;
-            font-weight: 800;
-        }
-        #active-rule-text th {
-            background: #000; color: #fff; text-transform: uppercase;
-        }
-
-        .character {
-            position: absolute;
-            left: 100%; 
-            transform: translateX(-100%);
-            bottom: -3px; 
-            height: 240px; 
-            object-fit: contain; transform-origin: bottom right;
-            z-index: 15;
-            pointer-events: none;
-            filter: drop-shadow(-4px 4px 6px rgba(0,0,0,0.4));
-        }
-
-        .disq-block {
-            margin-top: 15px; padding: 10px;
-            background: #ffcccc; 
-            border-left: 4px solid #dc2626;
-            font-weight: 800; font-size: 0.85rem; color: #000;
-        }
-        .disq-title {
-            text-transform: uppercase; display: block; margin-bottom: 3px;
-            color: #dc2626; font-weight: 900;
-        }
-
-        .typing-cursor {
-            display: inline-block; width: 8px; height: 1em;
-            background-color: #000; vertical-align: text-bottom; margin-left: 3px;
-            animation: blink 0.8s step-end infinite;
-        }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-    </style>
+    .glow-cyan { text-shadow: 0 0 10px rgba(0, 243, 255, 0.5); }
+    
+    .team-row:hover {
+      background: rgba(31, 41, 55, 0.8);
+      transform: translateY(-2px);
+      border-color: rgba(0, 243, 255, 0.4);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    .modal-enter { animation: fadeUp 0.3s ease-out forwards; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    
+    .toast-enter { transform: translateY(0); opacity: 1; }
+  </style>
 </head>
-<body>
+<body class="antialiased overflow-x-hidden">
 
-    <div id="landscape-blocker">
-        <span>Portrait Mode Only.<br>Please rotate your device.</span>
+  <!-- HUD Header -->
+  <header class="glass-card sticky top-0 z-40 border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="w-2 h-8 bg-cyan-400 rounded-sm animate-pulse"></div>
+        <h1 class="text-2xl font-bold tracking-widest uppercase glow-cyan">Apex T-Manager</h1>
+      </div>
+      <button onclick="toggleModal('addTeamModal')" class="relative group overflow-hidden bg-transparent border border-cyan-400 text-cyan-400 hover:text-gray-900 px-6 py-1.5 rounded font-bold uppercase tracking-wider transition-all duration-300">
+        <span class="absolute inset-0 bg-cyan-400 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out z-0"></span>
+        <span class="relative z-10 flex items-center space-x-2">
+          <span>+ Deploy Squad</span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Arena -->
+  <main class="p-4 md:p-8 max-w-7xl mx-auto" id="app">
+    
+    <!-- Tab Navigation -->
+    <div id="tabsContainer" class="flex overflow-x-auto space-x-4 pb-4 mb-6 border-b border-gray-800">
+      <!-- Tabs injected via JS -->
     </div>
 
-    <!-- Fixed Header -->
-    <header class="header">
-        <a href="index.html">
-            <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-28-40-573.png?updatedAt=1774839553114" alt="Main Logo" draggable="false">
-        </a>
-    </header>
+    <!-- Active Zone -->
+    <div class="glass-card rounded-2xl p-6 relative overflow-hidden" id="tabContent">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 pointer-events-none"></div>
 
-    <main class="content-wrapper">
-        <!-- COMMAND MODULE -->
-        <div class="command-module">
-            <h1>Mega Tournament Rule</h1>
-            <h2>E-sport Protection</h2>
-            
-            <div id="point-header-box" class="ph-box">
-                <h3 id="point-header">Introduction</h3>
-            </div>
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 relative z-10">
+        <div>
+          <h2 id="currentGroupTitle" class="text-3xl font-bold uppercase tracking-widest text-white">System Init</h2>
+          <p id="groupStatusText" class="text-gray-400 text-sm tracking-wide mt-1">Establishing Secure Connection...</p>
         </div>
-
-        <!-- ARENA -->
-        <div class="arena">
-
-            <!-- HORIZONTAL TIMELINE -->
-            <div class="timeline-wrapper">
-                <div class="timeline">
-                    <div class="timeline-line">
-                        <div class="timeline-progress" id="timeline-progress"></div>
-                    </div>
-                    <div class="point selected" id="pt-1" onclick="showRule(1)">1</div>
-                    <div class="point" id="pt-2" onclick="showRule(2)">2</div>
-                    <div class="point" id="pt-3" onclick="showRule(3)">3</div>
-                    <div class="point" id="pt-4" onclick="showRule(4)">4</div>
-                    <div class="point" id="pt-5" onclick="showRule(5)">5</div>
-                    <div class="point" id="pt-6" onclick="showRule(6)">6</div>
-                    <div class="point" id="pt-7" onclick="showRule(7)">7</div>
-                </div>
-            </div>
-
-            <!-- Card & Character Relative Wrapper -->
-            <div class="card-container">
-                <img id="character" class="character" src="https://freefiremobile-a.akamaihd.net/common/web_event/official2.ff.garena.all/img/20228/181faa683450fa82e5b7ffe068a9c7f9.png" alt="Character" draggable="false">
-
-                <!-- Grey Rule Card -->
-                <div id="rule-card" class="rule-card">
-                    <div id="rule-load-bar" class="rule-load-bar"></div>
-                    <div id="active-rule-text"></div>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <script>
-        /* === RESTRICTIONS ENFORCEMENT === */
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'F12' || event.keyCode === 123) event.preventDefault();
-            if ((event.ctrlKey || event.metaKey) && event.shiftKey && (event.key === 'I' || event.key === 'i')) event.preventDefault();
-            if ((event.ctrlKey || event.metaKey) && event.shiftKey && (event.key === 'J' || event.key === 'j')) event.preventDefault();
-            if ((event.ctrlKey || event.metaKey) && (event.key === 'U' || event.key === 'u')) event.preventDefault();
-        });
-
-        /* === RULES DATA === */
-        const rulesData = {
-            1: {
-                header: "Introduction",
-                text: `<ul>
-                         <li><strong>Tournament Structure:</strong> Yeh tournament 2 ya 3 rounds mein conduct kiya jayega, jo ek <strong>Pyramid Structure</strong> (Qualifiers to Finals) follow karega.</li>
-                         <li><strong>Fixed Slots:</strong> Har team ko isme fixed slots diye jayenge.</li>
-                         <li><strong>Punctuality:</strong> Match exact time par start hoga. Time se pehle start nahi kiya jayega, aur time khatam hone ke baad join karne ka koi moka nahi milega.</li>
-                       </ul>`
-            },
-            2: {
-                header: "Team Composition",
-                text: `<ul>
-                         <li>Har team mein exactly 4 players hone chahiye (1 substitute optional).</li>
-                         <li>Match start karne ke liye kam se kam 3 registered players ka lobby mein aana zaroori hai.</li>
-                         <li>Ek player team ka <strong>Captain (IGL)</strong> hona chahiye jo officials ya admins se communication handle karega.</li>
-                       </ul>`
-            },
-            3: {
-                header: "Devices & Accounts",
-                text: `<ul>
-                         <li><strong>Sirf Mobile Allowed:</strong> Esports matches strictly smartphones par khele jaate hain. Emulators/PCs/Tablets ka use disqualification laata hai.</li>
-                         <li><strong>No Triggers:</strong> External hardware ya triggers mana hai.</li>
-                         <li>Account sharing allowed nahi hai. Har player sirf apne registered UID se khelega.</li>
-                       </ul>`
-            },
-            4: {
-                header: "Match Rules & Format",
-                text: `<ul>
-                         <li>Matches Custom Rooms mein khele jaate hain. ID/Password 10-15 min pehle diya jata hai.</li>
-                         <li><strong>Time Value:</strong> Agar team time par join nahi karti, toh bina unke match start ho jayega.</li>
-                         <li>Maps randomly select hote hain (Bermuda, Purgatory, Kalahari, Alpine).</li>
-                         <li>Network connection player ki zimmedari hai. Net jane par restart nahi hoga.</li>
-                       </ul>`
-            },
-            5: {
-                header: "Official Scoring System",
-                text: `Placement aur Kills milakar standings banti hain. <strong>Har Kill = 1 Point</strong>.
-                       <table>
-                           <tr><th>Placement</th><th>Points</th></tr>
-                           <tr><td>1st (Booyah)</td><td>12</td></tr>
-                           <tr><td>2nd</td><td>9</td></tr>
-                           <tr><td>3rd</td><td>8</td></tr>
-                           <tr><td>4th</td><td>7</td></tr>
-                           <tr><td>5th - 6th</td><td>6 - 5</td></tr>
-                           <tr><td>7th - 8th</td><td>4 - 3</td></tr>
-                           <tr><td>9th - 10th</td><td>2 - 1</td></tr>
-                           <tr><td>11th - 12th</td><td>0</td></tr>
-                       </table>`
-            },
-            6: {
-                header: "Fair Play Rules",
-                text: `<ul>
-                         <li><strong>Bug Abuse:</strong> Game ke in-game glitch ka fayda uthana allowed nahi hai.</li>
-                         <li><strong>Teaming/Ghosting:</strong> Dusri teams ke sath milkar khelna ya stream sniping strictly prohibited hai.</li>
-                       </ul>
-                       <div class="disq-block">
-                           <span class="disq-title">DISQUALIFICATION:</span>
-                           Kisi bhi tarah ka Hack, Script, Skin Mod, ya 3rd-party app use karna <strong>PERMANENT BAN</strong> laata hai.
-                       </div>`
-            },
-            7: {
-                header: "Player Conduct",
-                text: `<ul>
-                         <li>Kisi bhi tarah ka toxic behavior, gaali-galoch, ya discrimination bilkul bardasht nahi kiya jata.</li>
-                         <li>Team ka naam aur players ke IGNs clean hone chahiye, usme koi bhi offensive ya abusive word nahi hona chahiye.</li>
-                       </ul>`
-            }
-        };
-
-        /* === INTERACTION LOGIC === */
-        let typingTimeout = null;
         
-        const pointHeader = document.getElementById('point-header');
-        const ruleTextDisplay = document.getElementById('active-rule-text');
-        const timelineProgress = document.getElementById('timeline-progress');
-        const ruleLoadBar = document.getElementById('rule-load-bar');
-        const totalPoints = Object.keys(rulesData).length;
+        <button id="startMatchBtn" onclick="toggleMatchMode()" class="mt-4 md:mt-0 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-gray-900 px-8 py-2.5 rounded shadow-[0_0_15px_rgba(234,179,8,0.4)] font-bold uppercase tracking-widest transition-all transform hover:scale-105 hidden">
+          Init Match
+        </button>
+      </div>
+      
+      <!-- Dynamic Data Container -->
+      <div id="viewContainer" class="space-y-3 relative z-10">
+        <!-- Skeleton Loaders -->
+        <div class="space-y-4 animate-pulse">
+          <div class="h-20 bg-gray-800/50 border border-gray-700/50 rounded-xl w-full"></div>
+          <div class="h-20 bg-gray-800/50 border border-gray-700/50 rounded-xl w-full"></div>
+          <div class="h-20 bg-gray-800/50 border border-gray-700/50 rounded-xl w-full"></div>
+        </div>
+      </div>
+    </div>
+  </main>
 
-        function typeWriterHTML(element, htmlString, speed) {
-            clearTimeout(typingTimeout);
-            element.innerHTML = "";
-            let i = 0;
-            let currentHTML = "";
+  <!-- Add Team Form -->
+  <div id="addTeamModal" class="hidden fixed inset-0 bg-black/90 z-50 flex justify-center items-center p-4 backdrop-blur-sm">
+    <div class="glass-card p-8 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto modal-enter border border-cyan-500/30 shadow-[0_0_30px_rgba(0,243,255,0.1)]">
+      <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
+        <h2 class="text-2xl font-bold uppercase tracking-widest text-cyan-400">Register New Squad</h2>
+        <button onclick="toggleModal('addTeamModal')" class="text-gray-500 hover:text-white transition-colors text-3xl">&times;</button>
+      </div>
+      
+      <form id="addTeamForm" onsubmit="handleFormSubmit(event)">
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+          <div>
+            <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2">Squad Designation</label>
+            <input type="text" id="f_teamName" placeholder="e.g. Apex Predators" required class="w-full cyber-input rounded-lg p-3">
+          </div>
+          <div>
+            <label class="block text-xs uppercase tracking-widest text-gray-400 mb-2">Comms (WhatsApp)</label>
+            <input type="tel" id="f_whatsapp" pattern="[0-9]{10}" placeholder="10-digit number" required class="w-full cyber-input rounded-lg p-3">
+          </div>
+        </div>
 
-            function type() {
-                if (i < htmlString.length) {
-                    if (htmlString[i] === '<') {
-                        let tag = "";
-                        while (htmlString[i] !== '>' && i < htmlString.length) {
-                            tag += htmlString[i]; i++;
-                        }
-                        tag += '>';
-                        currentHTML += tag;
-                        element.innerHTML = currentHTML + '<span class="typing-cursor"></span>';
-                        i++; type(); 
-                    } else {
-                        currentHTML += htmlString[i];
-                        element.innerHTML = currentHTML + '<span class="typing-cursor"></span>';
-                        i++;
-                        typingTimeout = setTimeout(type, speed);
-                    }
-                } else {
-                    element.innerHTML = currentHTML; 
-                }
-            }
-            type();
+        <h3 class="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4 border-b border-gray-800 pb-2">Roster Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="playersFormContainer"></div>
+
+        <button type="submit" id="submitBtn" class="w-full mt-8 bg-cyan-500 hover:bg-cyan-400 text-gray-900 font-bold py-4 rounded-lg uppercase tracking-widest shadow-[0_0_20px_rgba(0,243,255,0.3)] transition-all">
+          Upload Roster to Database
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Detailed Team Intel Modal -->
+  <div id="teamProfileModal" class="hidden fixed inset-0 bg-black/90 z-50 flex justify-center items-center p-4 backdrop-blur-sm">
+    <div class="glass-card p-0 rounded-2xl w-full max-w-2xl overflow-hidden modal-enter border border-gray-700">
+      <div class="bg-gradient-to-r from-gray-900 to-gray-800 p-6 border-b border-gray-700 flex justify-between items-start">
+        <div>
+          <span id="p_slotBadge" class="bg-cyan-500/20 text-cyan-400 text-xs font-bold px-2 py-1 rounded uppercase tracking-wider border border-cyan-500/30">Slot X</span>
+          <h2 id="p_teamName" class="text-3xl font-bold uppercase tracking-wider text-white mt-2">Team Name</h2>
+          
+          <!-- Direct WhatsApp Link Button -->
+          <a href="#" id="p_whatsappLink" target="_blank" class="mt-3 inline-flex items-center space-x-2 bg-green-500/20 hover:bg-green-500/40 text-green-400 border border-green-500/50 text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span>Contact Leader</span>
+          </a>
+        </div>
+        <button onclick="toggleModal('teamProfileModal')" class="text-gray-500 hover:text-white transition text-3xl">&times;</button>
+      </div>
+      
+      <div class="p-6">
+        <div id="p_playersList" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 z-[100] glass-card px-6 py-4 rounded-xl border border-green-500/50 flex items-center gap-4 shadow-[0_0_20px_rgba(0,255,136,0.2)] pointer-events-none">
+    <div class="w-3 h-3 rounded-full bg-green-500 animate-ping"></div>
+    <span id="toastMsg" class="font-bold text-green-400 uppercase tracking-widest text-sm">Squad Deployed Successfully</span>
+  </div>
+
+  <script>
+    // Exact API URL
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwjgqRfqZFMoVCMVBC8iTfXTfAVwBJxL_puzPTLTZS7zXjqNRuupcc-F6ULTtQvA1w/exec'; 
+
+    let state = {
+      teams: [],
+      grouped: [],
+      activeTabIndex: 0,
+      isMatchMode: false 
+    };
+
+    async function init() {
+      generatePlayerInputs();
+      await fetchTeams();
+    }
+
+    function generatePlayerInputs() {
+      const container = document.getElementById('playersFormContainer');
+      const roles = ['Rusher', 'Sniper', 'IGL', 'Assaulter'];
+      
+      for(let i=1; i<=4; i++) {
+        container.innerHTML += `
+          <div class="bg-gray-900/50 p-4 rounded-xl border border-gray-800 relative">
+            <div class="absolute -top-2 left-4 bg-gray-800 px-2 text-xs font-bold text-gray-400 uppercase tracking-wider rounded border border-gray-700">Operator ${i}</div>
+            <div class="space-y-3 mt-2">
+              <input type="text" id="p${i}_name" placeholder="In-Game Name" required class="w-full cyber-input rounded p-2 text-sm">
+              <div class="grid grid-cols-2 gap-3">
+                <input type="text" id="p${i}_uid" placeholder="UID" pattern="[0-9]+" required class="cyber-input rounded p-2 text-sm">
+                <select id="p${i}_role" required class="cyber-input rounded p-2 text-sm appearance-none">
+                  ${roles.map(r => `<option value="${r}">${r}</option>`).join('')}
+                </select>
+              </div>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 font-bold">@</span>
+                <input type="text" id="p${i}_insta" placeholder="Instagram ID" required class="w-full cyber-input rounded p-2 pl-8 text-sm">
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    async function fetchTeams() {
+      try {
+        const response = await fetch(`${API_URL}?action=getData`);
+        state.teams = await response.json();
+        
+        if (state.teams.length === 0) {
+          document.getElementById('currentGroupTitle').innerText = "Database Empty";
+          document.getElementById('groupStatusText').innerText = "Awaiting first squad deployment.";
+          document.getElementById('viewContainer').innerHTML = '<div class="text-center py-10 text-gray-500 font-bold uppercase tracking-widest">No Active Squads</div>';
+          return;
         }
 
-        function showRule(pointId) {
-            document.querySelectorAll('.point').forEach((pt, index) => {
-                pt.classList.remove('selected');
-                if (index + 1 <= pointId) pt.classList.add('selected');
-            });
-            
-            const progressPercentage = ((pointId - 1) / (totalPoints - 1)) * 100;
-            timelineProgress.style.width = progressPercentage + '%';
+        groupTeams();
+        renderTabs();
+        renderContent();
+      } catch (error) {
+        console.error("Fetch Error:", error);
+        document.getElementById('currentGroupTitle').innerText = "Connection Failed";
+        document.getElementById('groupStatusText').innerText = "Unable to sync with master database.";
+        document.getElementById('viewContainer').innerHTML = `
+          <div class="text-center py-10 bg-red-900/20 border border-red-500/30 rounded-xl">
+            <p class="text-red-500 font-bold uppercase tracking-widest">Network Anomaly Detected</p>
+            <p class="text-gray-400 text-sm mt-2">Check Apps Script CORS/Deployment rules.</p>
+          </div>
+        `;
+      }
+    }
 
-            pointHeader.style.opacity = '0';
-            setTimeout(() => {
-                pointHeader.innerHTML = rulesData[pointId].header;
-                pointHeader.style.opacity = '1';
-            }, 200);
+    function groupTeams() {
+      state.grouped = [];
+      for (let i = 0; i < state.teams.length; i += 12) {
+        state.grouped.push(state.teams.slice(i, i + 12));
+      }
+    }
 
-            clearTimeout(typingTimeout);
-            ruleLoadBar.style.width = '0%'; 
-            ruleTextDisplay.innerHTML = ""; 
-            
-            setTimeout(() => {
-                ruleLoadBar.style.width = '100%';
-                setTimeout(() => {
-                    typeWriterHTML(ruleTextDisplay, rulesData[pointId].text, 10);
-                }, 250);
-            }, 50); 
+    function renderTabs() {
+      const tabsDiv = document.getElementById('tabsContainer');
+      tabsDiv.innerHTML = '';
+      
+      state.grouped.forEach((group, index) => {
+        const hasWinner = group.some(t => t.status && t.status.toLowerCase() === 'win');
+        let baseClass = "px-6 py-3 rounded-lg font-bold uppercase tracking-widest text-sm transition-all duration-300 border cursor-pointer whitespace-nowrap flex items-center gap-2 ";
+        
+        if (hasWinner) {
+          baseClass += state.activeTabIndex === index 
+            ? "bg-green-500/20 border-green-500 text-green-400 shadow-[0_0_15px_rgba(0,255,136,0.3)]" 
+            : "bg-transparent border-gray-800 text-green-600 hover:border-green-800";
+        } else {
+          baseClass += state.activeTabIndex === index 
+            ? "bg-cyan-500/10 border-cyan-500 text-cyan-400 shadow-[0_0_15px_rgba(0,243,255,0.2)]" 
+            : "bg-transparent border-gray-800 text-gray-500 hover:border-gray-600 hover:text-gray-300";
         }
 
-        window.onload = () => {
-            setTimeout(() => {
-                ruleLoadBar.style.width = '100%';
-                setTimeout(() => {
-                    typeWriterHTML(ruleTextDisplay, rulesData[1].text, 10);
-                }, 250);
-            }, 50);
-        };
-    </script>
+        const iconColor = hasWinner ? 'bg-green-500' : 'bg-red-500';
+
+        tabsDiv.innerHTML += `
+          <button onclick="switchTab(${index})" class="${baseClass}">
+            <span class="w-2 h-2 rounded-full ${iconColor} animate-pulse"></span>
+            Group ${index + 1}
+          </button>
+        `;
+      });
+    }
+
+    function switchTab(index) {
+      state.activeTabIndex = index;
+      state.isMatchMode = false;
+      renderTabs();
+      renderContent();
+    }
+
+    function toggleMatchMode() {
+      state.isMatchMode = !state.isMatchMode;
+      renderContent();
+    }
+
+    function renderContent() {
+      if (state.grouped.length === 0) return;
+      
+      const currentGroup = state.grouped[state.activeTabIndex];
+      const container = document.getElementById('viewContainer');
+      const startBtn = document.getElementById('startMatchBtn');
+      const statusText = document.getElementById('groupStatusText');
+      
+      document.getElementById('currentGroupTitle').innerText = `Group ${state.activeTabIndex + 1}`;
+
+      const winner = currentGroup.find(t => t.status && t.status.toLowerCase() === 'win');
+
+      if (winner) {
+        startBtn.classList.add('hidden');
+        statusText.innerHTML = `<span class="text-green-400 font-bold">MATCH CONCLUDED // WINNER DECLARED</span>`;
+      } else {
+        startBtn.classList.remove('hidden');
+        startBtn.innerText = state.isMatchMode ? 'ABORT MATCH VIEW' : 'INIT MATCH VIEW';
+        statusText.innerHTML = `<span class="text-gray-400 font-medium">${currentGroup.length}/12 Squads Deployed</span>`;
+      }
+
+      container.innerHTML = '';
+
+      if (winner && !state.isMatchMode) {
+        container.innerHTML = generateListTile(winner, true);
+      } 
+      else if (state.isMatchMode) {
+        const gridWrapper = document.createElement('div');
+        gridWrapper.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+        
+        currentGroup.forEach(team => {
+          const players = [team.p1, team.p2, team.p3, team.p4].map(p => (p ? p.split(',')[0] : 'N/A'));
+          
+          gridWrapper.innerHTML += `
+            <div onclick="openProfile(${team.globalUid})" class="bg-[#0a0f1a] rounded-xl border border-gray-800 p-4 cursor-pointer hover:border-yellow-500 hover:shadow-[0_0_20px_rgba(234,179,8,0.15)] transition-all group">
+              <div class="flex justify-between items-center mb-3 border-b border-gray-800 pb-2">
+                <span class="text-yellow-500 font-bold text-xs uppercase tracking-widest bg-yellow-500/10 px-2 py-1 rounded">Slot ${team.slotNumber}</span>
+                <span class="text-white font-bold tracking-wide truncate ml-2">${team.teamName}</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2 text-xs font-medium uppercase tracking-wider text-gray-400">
+                ${players.map(p => `<div class="bg-gray-900/80 p-2 rounded text-center truncate group-hover:text-yellow-100 transition">${p}</div>`).join('')}
+              </div>
+            </div>
+          `;
+        });
+        container.appendChild(gridWrapper);
+      } 
+      else {
+        currentGroup.forEach(team => {
+          container.innerHTML += generateListTile(team, false);
+        });
+      }
+    }
+
+    function generateListTile(team, isWinner) {
+      const borderTheme = isWinner 
+        ? 'border-green-500/50 bg-green-900/10 shadow-[0_0_15px_rgba(0,255,136,0.1)]' 
+        : 'border-gray-800 bg-gray-900/40 team-row';
+        
+      const badge = isWinner 
+        ? '<span class="ml-4 bg-green-500 text-gray-900 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest animate-pulse">Champions</span>' 
+        : '';
+      
+      return `
+        <div onclick="openProfile(${team.globalUid})" class="flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${borderTheme}">
+          <div class="flex items-center space-x-4">
+            <div class="bg-gray-800 text-gray-500 border border-gray-700 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest w-16 text-center">ID: ${team.globalUid}</div>
+            <div class="bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold px-3 py-1.5 rounded uppercase tracking-widest w-20 text-center">Slot ${team.slotNumber}</div>
+            <div class="font-bold text-lg md:text-xl tracking-wide text-white flex items-center">${team.teamName} ${badge}</div>
+          </div>
+          <div class="text-gray-600 text-2xl group-hover:text-cyan-400 transition transform group-hover:translate-x-2">&rarr;</div>
+        </div>
+      `;
+    }
+
+    function toggleModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.toggle('hidden');
+    }
+
+    function openProfile(globalUid) {
+      const team = state.teams.find(t => t.globalUid === globalUid);
+      if(!team) return;
+
+      document.getElementById('p_teamName').innerText = team.teamName;
+      document.getElementById('p_slotBadge').innerText = `Slot ${team.slotNumber} | Global ID: ${team.globalUid}`;
+      
+      // WhatsApp Integration
+      const waLink = document.getElementById('p_whatsappLink');
+      waLink.href = `https://wa.me/91${team.whatsapp}`; // Assumes India (+91), adjust if needed
+      
+      const listContainer = document.getElementById('p_playersList');
+      listContainer.innerHTML = '';
+
+      const players = [team.p1, team.p2, team.p3, team.p4];
+      
+      players.forEach((pStr, i) => {
+        if(!pStr) return;
+        const [name, uid, role, insta] = pStr.split(',');
+        listContainer.innerHTML += `
+          <div class="bg-gray-900/80 rounded-xl p-4 border border-gray-800 relative overflow-hidden group hover:border-cyan-500/50 transition">
+            <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-gray-800 to-transparent rounded-bl-full z-0 group-hover:from-cyan-900/40 transition"></div>
+            <div class="relative z-10">
+              <div class="flex justify-between items-start">
+                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Opr ${i+1}</span>
+                <span class="bg-gray-800 text-cyan-400 border border-gray-700 text-[10px] px-2 py-0.5 rounded uppercase font-bold">${role}</span>
+              </div>
+              <p class="font-bold text-xl text-white mt-1">${name}</p>
+              <p class="text-xs text-gray-500 font-mono mt-1 mb-4">UID: ${uid}</p>
+              
+              <a href="https://instagram.com/${insta}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider transition transform hover:scale-105 shadow-lg">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <span>@${insta}</span>
+              </a>
+            </div>
+          </div>
+        `;
+      });
+
+      toggleModal('teamProfileModal');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('toast-enter');
+      setTimeout(() => {
+        toast.classList.remove('toast-enter');
+      }, 3000);
+    }
+
+    // Auto-strip '@' from Insta ID inputs to prevent broken URLs
+    function formatInsta(val) {
+      return val.replace(/^@+/, '').trim();
+    }
+
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      const btn = document.getElementById('submitBtn');
+      const originalText = btn.innerText;
+      btn.innerHTML = '<span class="animate-pulse">UPLOADING DATA TO MAINFRAME...</span>';
+      btn.disabled = true;
+
+      const payload = {
+        teamName: document.getElementById('f_teamName').value.trim(),
+        whatsapp: document.getElementById('f_whatsapp').value.trim(),
+        p1: `${document.getElementById('p1_name').value.trim()},${document.getElementById('p1_uid').value.trim()},${document.getElementById('p1_role').value},${formatInsta(document.getElementById('p1_insta').value)}`,
+        p2: `${document.getElementById('p2_name').value.trim()},${document.getElementById('p2_uid').value.trim()},${document.getElementById('p2_role').value},${formatInsta(document.getElementById('p2_insta').value)}`,
+        p3: `${document.getElementById('p3_name').value.trim()},${document.getElementById('p3_uid').value.trim()},${document.getElementById('p3_role').value},${formatInsta(document.getElementById('p3_insta').value)}`,
+        p4: `${document.getElementById('p4_name').value.trim()},${document.getElementById('p4_uid').value.trim()},${document.getElementById('p4_role').value},${formatInsta(document.getElementById('p4_insta').value)}`
+      };
+
+      try {
+        // CORS BYPASS Fix: text/plain prevents the blocked preflight check
+        await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        
+        document.getElementById('addTeamForm').reset();
+        toggleModal('addTeamModal');
+        
+        // Render skeletons again to show data is reloading
+        document.getElementById('viewContainer').innerHTML = `
+          <div class="space-y-4 animate-pulse">
+            <div class="h-20 bg-gray-800/50 border border-gray-700/50 rounded-xl w-full"></div>
+            <div class="h-20 bg-gray-800/50 border border-gray-700/50 rounded-xl w-full"></div>
+          </div>
+        `;
+        
+        await fetchTeams(); 
+        showToast(`Squad [${payload.teamName}] Deployed`);
+        
+      } catch(err) {
+        console.error("Submission Error:", err);
+        alert("System Error: Ensure you have followed the Apps Script Deployment steps exactly.");
+      } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    window.onload = init;
+  </script>
 </body>
 </html>
