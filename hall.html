@@ -2,104 +2,118 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Dragon Tournaments | Admin Panel</title>
+  <!-- FIX: Mobile App Meta Tags & Safe Area -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Dragon Tournaments | Command Center</title>
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --dt-cyan: #66fcf1;
-      --dt-cyan-dim: rgba(102, 252, 241, 0.2);
-      --dt-red: #ff4c4c;
-      --dt-green: #00ff88;
-      --dt-bg: #000000;
-      --dt-glass: rgba(15, 15, 15, 0.85);
-      --dt-border: rgba(255, 255, 255, 0.05);
+      --dt-cyan: #66fcf1; --dt-cyan-dim: rgba(102, 252, 241, 0.2);
+      --dt-red: #ff4c4c; --dt-green: #00ff88; --dt-bg: #000000;
+      --dt-glass: rgba(15, 15, 15, 0.85); --dt-border: rgba(255, 255, 255, 0.08);
     }
     
-    * { -webkit-tap-highlight-color: transparent; font-family: 'Rajdhani', sans-serif; }
+    * { -webkit-tap-highlight-color: transparent; font-family: 'Rajdhani', sans-serif; box-sizing: border-box; }
     body { background-color: var(--dt-bg); color: #ffffff; min-height: 100vh; overflow-x: hidden; }
     
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: rgba(5, 5, 5, 0.9); }
     ::-webkit-scrollbar-thumb { background: var(--dt-cyan); border-radius: 10px; box-shadow: 0 0 10px rgba(102, 252, 241, 0.5); }
-    ::-webkit-scrollbar-thumb:hover { background: #fff; }
-
-    .glass-card { background: var(--dt-glass); backdrop-filter: blur(15px); border: 1px solid var(--dt-border); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+    
+    .glass-card { background: var(--dt-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--dt-border); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
 
     .rule-book-btn { 
       background: rgba(15, 15, 15, 0.8); border: 1px solid var(--dt-cyan-dim); color: var(--dt-cyan); 
-      padding: 10px 18px; border-radius: 20px; font-size: 14px; font-weight: 700; text-transform: uppercase;
+      padding: 10px 18px; border-radius: 25px; font-size: 14px; font-weight: 700; text-transform: uppercase;
       display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); cursor: pointer;
     }
-    .rule-book-btn:hover { background: rgba(102, 252, 241, 0.15); border-color: var(--dt-cyan); box-shadow: 0 4px 20px rgba(102, 252, 241, 0.2); color: #fff; transform: translateY(-2px); }
+    .rule-book-btn:hover { background: rgba(102, 252, 241, 0.15); border-color: var(--dt-cyan); box-shadow: 0 4px 20px rgba(102, 252, 241, 0.3); color: #fff; transform: translateY(-2px); }
 
-    .live-search-bar { width: 100%; padding: 18px 25px 18px 50px; font-size: 16px; font-weight: 600; color: #fff; background: rgba(15, 15, 15, 0.8); border: 1px solid var(--dt-cyan-dim); border-radius: 12px; outline: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); transition: all 0.3s ease; }
-    .live-search-bar:focus { border-color: var(--dt-cyan); background: rgba(20, 20, 20, 1); box-shadow: 0 0 15px rgba(102, 252, 241, 0.3); }
+    .live-search-bar { width: 100%; padding: 18px 25px 18px 50px; font-size: 16px; font-weight: 600; color: #fff; background: rgba(15, 15, 15, 0.9); border: 1px solid var(--dt-border); border-radius: 15px; outline: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); transition: all 0.3s ease; }
+    .live-search-bar:focus { border-color: var(--dt-cyan); background: rgba(20, 20, 20, 1); box-shadow: 0 0 20px rgba(102, 252, 241, 0.2); }
 
-    .cyber-input { background: rgba(10, 10, 10, 0.8); border: 1px solid var(--dt-border); color: #fff; padding: 12px 15px; border-radius: 8px; transition: all 0.3s ease; font-weight: 600; }
-    .cyber-input:focus { border-color: var(--dt-cyan); box-shadow: 0 0 10px rgba(102, 252, 241, 0.3); outline: none; }
+    .cyber-input { background: rgba(10, 10, 10, 0.8); border: 1px solid var(--dt-border); color: #fff; padding: 14px 16px; border-radius: 10px; transition: all 0.3s ease; font-weight: 600; font-size: 15px; }
+    .cyber-input:focus { border-color: var(--dt-cyan); box-shadow: 0 0 15px rgba(102, 252, 241, 0.2); outline: none; }
     .input-error { border-color: var(--dt-red) !important; box-shadow: 0 0 10px rgba(255, 76, 76, 0.3) !important; color: #ff8a8a; }
 
-    .player-card { display: flex; align-items: center; justify-content: space-between; background: rgba(15, 15, 15, 0.8); backdrop-filter: blur(10px); padding: 16px; cursor: pointer; position: relative; color: #fff; border-radius: 12px; border: 1px solid var(--dt-border); transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
-    .player-card:hover { transform: translateY(-3px); border-color: var(--dt-cyan-dim); box-shadow: 0 8px 25px rgba(102, 252, 241, 0.1); }
-    .player-card.winner { border-color: rgba(0, 255, 136, 0.4); background: linear-gradient(145deg, rgba(0, 50, 25, 0.6) 0%, rgba(5, 15, 10, 0.8) 100%); }
+    .player-card { display: flex; align-items: center; justify-content: space-between; background: rgba(20, 20, 20, 0.7); backdrop-filter: blur(10px); padding: 18px; cursor: pointer; position: relative; color: #fff; border-radius: 15px; border: 1px solid var(--dt-border); transition: all 0.2s ease; }
+    .player-card:hover { transform: translateY(-3px) scale(1.01); border-color: var(--dt-cyan-dim); box-shadow: 0 10px 30px rgba(102, 252, 241, 0.1); background: rgba(25, 25, 25, 0.9); }
+    .player-card.winner { border-color: rgba(0, 255, 136, 0.4); background: linear-gradient(145deg, rgba(0, 50, 25, 0.8) 0%, rgba(5, 15, 10, 0.9) 100%); }
+    .player-card.winner:hover { box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2); }
 
-    .watch-videos-main-btn { width: 100%; background: linear-gradient(135deg, rgba(102, 252, 241, 0.1), rgba(5,5,5,0.9)); border: 1px solid var(--dt-cyan); color: #fff; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; box-shadow: 0 4px 15px rgba(102,252,241,0.2); display: flex; justify-content: center; align-items: center; gap: 10px; }
-    .watch-videos-main-btn:hover { background: rgba(102,252,241,0.2); box-shadow: 0 4px 25px rgba(102,252,241,0.4); transform: translateY(-3px); }
+    .watch-videos-main-btn { width: 100%; background: linear-gradient(135deg, rgba(102, 252, 241, 0.1), rgba(10,10,10,0.9)); border: 1px solid var(--dt-cyan); color: #fff; padding: 18px; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; box-shadow: 0 4px 20px rgba(102,252,241,0.2); display: flex; justify-content: center; align-items: center; gap: 10px; }
+    .watch-videos-main-btn:hover { background: rgba(102,252,241,0.25); box-shadow: 0 4px 30px rgba(102,252,241,0.5); transform: translateY(-3px); }
 
-    .glow-cyan { text-shadow: 0 0 10px rgba(102, 252, 241, 0.5); }
-    .fade-enter { animation: fadeIn 0.4s ease-out forwards; }
-    @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+    .glow-cyan { text-shadow: 0 0 12px rgba(102, 252, 241, 0.6); }
+    .fade-enter { animation: fadeIn 0.3s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .bar-fill { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
 
-    #custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: rgba(20, 10, 10, 0.95); border: 1px solid rgba(0, 255, 136, 0.6); color: var(--dt-green); padding: 14px 28px; border-radius: 12px; font-size: 14px; font-weight: 800; box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2); backdrop-filter: blur(10px); z-index: 10000; transition: top 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 1px; }
-    #custom-toast.show { top: 25px; }
+    #custom-toast { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: rgba(10, 20, 15, 0.95); border: 1px solid rgba(0, 255, 136, 0.6); color: var(--dt-green); padding: 14px 28px; border-radius: 12px; font-size: 14px; font-weight: 800; box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3); backdrop-filter: blur(10px); z-index: 10000; transition: top 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 1px; }
+    #custom-toast.show { top: max(25px, env(safe-area-inset-top)); }
+
+    /* HEADER FIX FOR MOBILE NOTCH */
+    .app-header {
+      padding-top: max(0.75rem, env(safe-area-inset-top));
+      padding-bottom: 0.75rem;
+    }
   </style>
 </head>
 <body class="antialiased">
 
   <div id="custom-toast"><i class="fas fa-check-circle"></i> <span id="toast-msg"></span></div>
 
-  <header class="fixed top-0 left-0 w-full h-[70px] z-40 bg-[rgba(5,5,5,0.9)] backdrop-blur-[15px] border-b border-[rgba(255,255,255,0.05)] shadow-[0_4px_20px_rgba(0,0,0,0.8)] flex justify-between items-center px-4 md:px-8">
-    <div class="flex items-center space-x-3 cursor-pointer" onclick="goHome()">
-      <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Logo" class="h-[40px] rounded object-contain">
-      <h1 class="text-xl md:text-2xl font-bold tracking-widest uppercase glow-cyan hidden sm:block text-[var(--dt-cyan)]">Admin Panel</h1>
+  <!-- FIXED HEADER WITH SAFE AREA INSET -->
+  <header class="fixed top-0 left-0 w-full z-40 bg-[rgba(5,5,5,0.95)] backdrop-blur-[20px] border-b border-[rgba(255,255,255,0.05)] shadow-[0_10px_30px_rgba(0,0,0,0.8)] flex justify-between items-center px-4 md:px-8 app-header">
+    <div class="flex items-center space-x-3 cursor-pointer" onclick="location.hash='home'">
+      <img src="https://ik.imagekit.io/Rajmalik99/Picsart_26-03-04_21-46-15-352.png" alt="Logo" class="h-[40px] md:h-[45px] rounded object-contain shadow-lg">
+      <div class="flex flex-col">
+        <h1 class="text-xl md:text-2xl font-bold tracking-widest uppercase glow-cyan text-[var(--dt-cyan)] leading-none">Admin Panel</h1>
+        <!-- BACKGROUND SYNC INDICATOR -->
+        <span id="syncStatus" class="text-[10px] text-gray-500 font-bold tracking-widest uppercase mt-1 flex items-center gap-1">
+          <i class="fas fa-database text-gray-600"></i> Local Cache
+        </span>
+      </div>
     </div>
-    <button onclick="toggleModal('addTeamModal')" class="rule-book-btn">
+    <button onclick="location.hash='deploy'" class="rule-book-btn">
       <i class="fas fa-plus"></i> <span class="hidden sm:inline">Deploy Squad</span><span class="sm:hidden">Deploy</span>
     </button>
   </header>
 
-  <main class="p-4 md:p-8 max-w-7xl mx-auto mt-[70px]" id="app">
+  <!-- MAIN ARENA (Padded to account for header) -->
+  <main class="p-4 md:p-8 max-w-7xl mx-auto mt-[95px] md:mt-[100px]" id="app">
     <div id="mainViewContainer" class="fade-enter">
       <div class="space-y-4 animate-pulse pt-10">
-        <div class="h-20 bg-[#141414] border border-[#222] rounded-xl w-full"></div>
-        <div class="h-20 bg-[#141414] border border-[#222] rounded-xl w-full"></div>
+        <div class="h-24 bg-[#141414] border border-[#222] rounded-xl w-full"></div>
+        <div class="h-24 bg-[#141414] border border-[#222] rounded-xl w-full"></div>
       </div>
     </div>
   </main>
 
-  <!-- ADD TEAM MODAL -->
-  <div id="addTeamModal" class="hidden fixed inset-0 bg-black/90 z-50 flex justify-center items-center p-4 backdrop-blur-sm">
-    <div class="glass-card p-8 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto fade-enter">
+  <!-- ADD TEAM MODAL (Routed via #deploy) -->
+  <div id="addTeamModal" class="hidden fixed inset-0 bg-black/95 z-50 flex justify-center items-start pt-[env(safe-area-inset-top)] px-4 pb-4 backdrop-blur-md overflow-y-auto">
+    <div class="glass-card p-6 md:p-8 rounded-2xl w-full max-w-4xl my-auto fade-enter mt-10 md:mt-auto mb-10">
       <div class="flex justify-between items-center mb-6 border-b border-[rgba(255,255,255,0.05)] pb-4">
         <h2 class="text-2xl font-bold uppercase tracking-widest text-[var(--dt-cyan)]"><i class="fas fa-shield-alt mr-2"></i> Register Squad</h2>
-        <button onclick="toggleModal('addTeamModal')" class="text-gray-500 hover:text-white transition text-3xl"><i class="fas fa-times"></i></button>
+        <button onclick="history.back()" class="text-gray-500 hover:text-[var(--dt-red)] transition text-3xl bg-[rgba(255,255,255,0.05)] w-[45px] h-[45px] rounded-full flex justify-center items-center"><i class="fas fa-times"></i></button>
       </div>
 
-      <!-- MAGIC JSON AUTO-FILL SECTION -->
-      <div class="mb-6 bg-[rgba(10,10,10,0.8)] border border-[var(--dt-cyan-dim)] rounded-xl p-4 transition-all">
+      <!-- MAGIC JSON AUTO-FILL -->
+      <div class="mb-8 bg-[rgba(15,15,15,0.8)] border border-[var(--dt-cyan-dim)] rounded-xl p-5 transition-all shadow-[0_0_20px_rgba(102,252,241,0.05)]">
         <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleAutoFill()">
           <h3 class="text-sm font-bold uppercase tracking-widest text-[var(--dt-cyan)]"><i class="fas fa-robot mr-2"></i>AI Auto-Fill (1-Click)</h3>
           <i class="fas fa-chevron-down text-gray-500 transition-transform" id="autoFillIcon"></i>
         </div>
         <div id="autoFillArea" class="hidden mt-4">
-          <p class="text-xs text-gray-400 mb-3 font-mono">Paste the JSON code generated by ChatGPT here to auto-fill the entire form below instantly.</p>
-          <textarea id="jsonInput" rows="5" class="w-full cyber-input text-xs font-mono mb-3" placeholder='{\n  "teamName": "FLAME ESP",\n  "whatsapp": "9119872364",\n  "players": [...]\n}'></textarea>
-          <button type="button" onclick="processJSON()" class="w-full bg-[rgba(102,252,241,0.1)] border border-[var(--dt-cyan)] text-[var(--dt-cyan)] px-4 py-2.5 rounded font-bold uppercase tracking-widest hover:bg-[var(--dt-cyan)] hover:text-black transition flex justify-center items-center gap-2">
+          <p class="text-[11px] text-gray-400 mb-3 font-mono">Paste ChatGPT JSON here to instantly populate all 18 fields.</p>
+          <textarea id="jsonInput" rows="5" class="w-full cyber-input text-[11px] font-mono mb-4 leading-relaxed" placeholder='{\n  "teamName": "FLAME ESP",\n  "whatsapp": "9119872364",\n  "players": [...]\n}'></textarea>
+          <button type="button" onclick="processJSON()" class="w-full bg-[rgba(102,252,241,0.1)] border border-[var(--dt-cyan)] text-[var(--dt-cyan)] px-4 py-3 rounded-lg font-bold uppercase tracking-widest hover:bg-[var(--dt-cyan)] hover:text-black transition flex justify-center items-center gap-2 shadow-[0_0_15px_rgba(102,252,241,0.2)]">
             <i class="fas fa-bolt"></i> Execute Auto-Fill
           </button>
         </div>
@@ -121,7 +135,7 @@
           <span><i class="fas fa-crosshairs mr-1"></i> Roster Details</span>
           <span class="text-[10px] text-[var(--dt-red)] animate-pulse hidden" id="rosterWarning">Verifying UIDs...</span>
         </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="playersFormContainer"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="playersFormContainer"></div>
 
         <button type="submit" id="submitBtn" class="watch-videos-main-btn mt-8">
           <i class="fas fa-upload"></i> Upload to Master Database
@@ -130,19 +144,22 @@
     </div>
   </div>
 
-  <div id="teamProfileModal" class="hidden fixed inset-0 bg-black/90 z-50 flex justify-center items-center p-4 backdrop-blur-sm">
+  <!-- DETAILED TEAM PROFILE MODAL (Routed via #profile) -->
+  <div id="teamProfileModal" class="hidden fixed inset-0 bg-black/95 z-50 flex justify-center items-center p-4 backdrop-blur-md">
     <div class="glass-card p-0 rounded-2xl w-full max-w-2xl overflow-hidden fade-enter border-t-4 border-t-[var(--dt-cyan)]">
-      <div class="bg-[rgba(10,10,10,0.9)] p-6 border-b border-[rgba(255,255,255,0.05)] flex justify-between items-start">
+      <div class="bg-[rgba(15,15,15,0.9)] p-6 border-b border-[rgba(255,255,255,0.08)] flex justify-between items-start pt-[max(1.5rem,env(safe-area-inset-top))]">
         <div>
-          <span id="p_slotBadge" class="bg-[rgba(102,252,241,0.1)] text-[var(--dt-cyan)] border border-[rgba(102,252,241,0.3)] text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">Slot X</span>
-          <h2 id="p_teamName" class="text-3xl font-bold uppercase tracking-wider text-white mt-2">Team Name</h2>
-          <a href="#" id="p_whatsappLink" target="_blank" class="mt-3 inline-flex items-center space-x-2 bg-[rgba(0,255,136,0.1)] hover:bg-[rgba(0,255,136,0.2)] text-[var(--dt-green)] border border-[rgba(0,255,136,0.4)] text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider transition">
+          <span id="p_slotBadge" class="bg-[rgba(102,252,241,0.1)] text-[var(--dt-cyan)] border border-[rgba(102,252,241,0.3)] text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Slot X</span>
+          <h2 id="p_teamName" class="text-3xl font-bold uppercase tracking-wider text-white mt-3">Team Name</h2>
+          <a href="#" id="p_whatsappLink" target="_blank" class="mt-4 inline-flex items-center space-x-2 bg-[rgba(0,255,136,0.1)] hover:bg-[rgba(0,255,136,0.2)] text-[var(--dt-green)] border border-[rgba(0,255,136,0.4)] text-xs font-bold px-4 py-2 rounded-lg uppercase tracking-wider transition shadow-[0_0_15px_rgba(0,255,136,0.1)]">
             <i class="fab fa-whatsapp text-lg"></i> <span>Contact Leader</span>
           </a>
         </div>
-        <button onclick="toggleModal('teamProfileModal')" class="text-gray-500 hover:text-white transition text-2xl bg-[rgba(255,255,255,0.05)] w-[40px] h-[40px] rounded-full flex justify-center items-center"><i class="fas fa-times"></i></button>
+        <button onclick="history.back()" class="text-gray-400 hover:text-white transition text-2xl bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,76,76,0.2)] hover:border-[var(--dt-red)] border border-transparent w-[45px] h-[45px] rounded-full flex justify-center items-center"><i class="fas fa-times"></i></button>
       </div>
-      <div class="p-6"><div id="p_playersList" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div></div>
+      <div class="p-6 bg-[#080808]">
+        <div id="p_playersList" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+      </div>
     </div>
   </div>
 
@@ -151,140 +168,187 @@
 
     let state = { teams: [], grouped: [], registeredUids: new Set(), currentView: 'home', activeTabIndex: 0, isMatchMode: false };
 
-    async function init() { generatePlayerInputs(); await fetchTeams(); }
+    async function init() { 
+      generatePlayerInputs(); 
+      setupRouter();
+      await fetchTeams(); 
+    }
 
+    /* -----------------------------------------------------
+       ROUTING SYSTEM (BACK BUTTON SUPPORT)
+       ----------------------------------------------------- */
+    function setupRouter() {
+      window.addEventListener('hashchange', handleRoute);
+      if(!window.location.hash) window.location.hash = 'home';
+      else handleRoute();
+    }
+
+    function handleRoute() {
+      const hash = window.location.hash;
+      
+      // Close Modals by default
+      document.getElementById('addTeamModal').classList.add('hidden');
+      document.getElementById('teamProfileModal').classList.add('hidden');
+
+      if (hash === '#deploy') {
+        document.getElementById('addTeamModal').classList.remove('hidden');
+      } else if (hash.startsWith('#profile-')) {
+        const uid = parseInt(hash.replace('#profile-', ''));
+        renderProfileModal(uid);
+      } else if (hash.startsWith('#group-')) {
+        const index = parseInt(hash.replace('#group-', ''));
+        state.activeTabIndex = index;
+        state.currentView = 'group';
+        renderView();
+      } else {
+        state.currentView = 'home';
+        renderView();
+      }
+    }
+
+    /* -----------------------------------------------------
+       LOCAL STORAGE CACHE & SYNC LOGIC
+       ----------------------------------------------------- */
+    async function fetchTeams() {
+      const syncStatus = document.getElementById('syncStatus');
+      
+      // 1. INSTANT LOAD FROM CACHE
+      const cachedData = localStorage.getItem('dt_teams');
+      if (cachedData) {
+        state.teams = JSON.parse(cachedData);
+        cacheRegisteredUIDs(); groupTeams(); renderView();
+        syncStatus.innerHTML = `<i class="fas fa-sync fa-spin text-[var(--dt-cyan)]"></i> <span class="text-[var(--dt-cyan)]">Syncing DB...</span>`;
+      }
+
+      // 2. BACKGROUND FETCH TO UPDATE
+      try {
+        const response = await fetch(`${API_URL}?action=getData`);
+        const freshData = await response.json();
+        
+        // Save to cache
+        localStorage.setItem('dt_teams', JSON.stringify(freshData));
+        state.teams = freshData;
+        cacheRegisteredUIDs(); groupTeams(); renderView();
+        
+        syncStatus.innerHTML = `<i class="fas fa-check-circle text-[var(--dt-green)]"></i> <span class="text-[var(--dt-green)]">Live DB</span>`;
+        setTimeout(() => { syncStatus.innerHTML = `<i class="fas fa-database text-gray-600"></i> Local Cache`; }, 3000);
+
+      } catch (error) {
+        if (!cachedData) {
+          document.getElementById('mainViewContainer').innerHTML = `<div class="text-center py-10 bg-[rgba(255,76,76,0.1)] border border-[var(--dt-red)] rounded-xl mt-10"><i class="fas fa-wifi text-4xl text-[var(--dt-red)] mb-3"></i><p class="text-[var(--dt-red)] font-bold uppercase tracking-widest text-2xl">Network Anomaly</p></div>`;
+        }
+        syncStatus.innerHTML = `<i class="fas fa-exclamation-triangle text-[var(--dt-red)]"></i> <span class="text-[var(--dt-red)]">Offline Mode</span>`;
+      }
+    }
+
+    function cacheRegisteredUIDs() {
+      state.registeredUids.clear();
+      state.teams.forEach(t => { [t.p1, t.p2, t.p3, t.p4].forEach(p => { if (p) { const uid = p.split(',')[1]; if (uid) state.registeredUids.add(uid.trim()); } }); });
+    }
+
+    /* -----------------------------------------------------
+       UI RENDER LOGIC
+       ----------------------------------------------------- */
+    function groupTeams() { state.grouped = []; for (let i = 0; i < state.teams.length; i += 12) { state.grouped.push(state.teams.slice(i, i + 12)); } }
+
+    function renderView() {
+      if (state.teams.length === 0 && !localStorage.getItem('dt_teams')) return;
+      const container = document.getElementById('mainViewContainer');
+      container.classList.remove('fade-enter'); void container.offsetWidth; container.classList.add('fade-enter');
+      if (state.currentView === 'home') renderHomeDashboard(container); else renderGroupDetails(container);
+    }
+
+    function renderHomeDashboard(container) {
+      let html = `<div class="mb-10 relative z-30 flex justify-center"><div class="relative w-full max-w-2xl"><i class="fas fa-search absolute left-[20px] top-1/2 -translate-y-1/2 text-[var(--dt-cyan)] text-lg"></i><input type="text" id="globalSearch" onkeyup="handleSearch()" placeholder="Search intel (Squad, Player, UID)..." autocomplete="off" class="live-search-bar"><div id="searchResults" class="hidden absolute top-[calc(100%+10px)] left-0 w-full bg-[rgba(15,15,15,0.95)] backdrop-blur-md border border-[var(--dt-cyan-dim)] rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.9)] max-h-64 overflow-y-auto z-50"></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">`;
+      state.grouped.forEach((group, index) => {
+        const hasWinner = group.some(t => t.status && t.status.toLowerCase() === 'win'); const slotsFilled = group.length; const fillPercentage = Math.min((slotsFilled / 12) * 100, 100);
+        const themeClass = hasWinner ? 'border-[rgba(0,255,136,0.3)] bg-[rgba(0,50,25,0.4)] shadow-[0_0_15px_rgba(0,255,136,0.1)]' : 'border-[var(--dt-border)] bg-[rgba(20,20,20,0.7)] hover:border-[var(--dt-cyan)] hover:shadow-[0_0_20px_rgba(102,252,241,0.15)]';
+        const badgeClass = hasWinner ? 'text-[var(--dt-green)] bg-[rgba(0,255,136,0.1)] border border-[rgba(0,255,136,0.2)]' : 'text-[var(--dt-cyan)] bg-[rgba(102,252,241,0.1)] border border-[var(--dt-cyan-dim)]';
+        const barColor = hasWinner ? 'bg-[var(--dt-green)] shadow-[0_0_10px_#00ff88]' : 'bg-[var(--dt-cyan)] shadow-[0_0_10px_#66fcf1]';
+        html += `<div onclick="location.hash='group-${index}'" class="glass-card ${themeClass} p-6 cursor-pointer transition-all duration-300 relative flex flex-col justify-between min-h-[170px] group rounded-2xl"><div class="flex justify-between items-start w-full"><h3 class="text-2xl font-bold uppercase tracking-widest text-white group-hover:text-[var(--dt-cyan)] transition-colors"><i class="fas fa-folder-open text-sm mr-2 opacity-50"></i> Group ${index + 1}</h3><div class="${badgeClass} text-[9px] font-bold px-2 py-1.5 rounded uppercase tracking-widest flex items-center gap-1">${hasWinner ? '<i class="fas fa-trophy"></i> DONE' : '<i class="fas fa-circle text-[6px] animate-pulse"></i> LIVE'}</div></div><div class="mt-8 w-full"><div class="flex justify-between text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2"><span>Capacity</span><span class="${hasWinner ? 'text-[var(--dt-green)]' : 'text-[var(--dt-cyan)]'}">${slotsFilled} / 12</span></div><div class="w-full bg-[#0a0a0a] rounded-full h-2 border border-[rgba(255,255,255,0.05)] overflow-hidden"><div class="h-2 rounded-full ${barColor} bar-fill" style="width: ${fillPercentage}%"></div></div></div></div>`;
+      });
+      html += `</div>`; container.innerHTML = html;
+    }
+
+    function renderGroupDetails(container) {
+      const currentGroup = state.grouped[state.activeTabIndex]; const winner = currentGroup.find(t => t.status && t.status.toLowerCase() === 'win');
+      let html = `<div class="glass-card rounded-2xl p-6 md:p-8 relative overflow-hidden"><div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 relative z-10 border-b border-[rgba(255,255,255,0.05)] pb-6"><div><button onclick="location.hash='home'" class="text-gray-400 hover:text-[var(--dt-cyan)] text-xs font-bold uppercase tracking-widest mb-4 flex items-center transition bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(102,252,241,0.1)] px-4 py-2 rounded-lg w-fit"><i class="fas fa-arrow-left mr-2"></i> Dashboard</button><h2 class="text-3xl md:text-4xl font-bold uppercase tracking-widest text-white"><i class="fas fa-layer-group text-[var(--dt-cyan)] mr-3"></i> Group ${state.activeTabIndex + 1}</h2></div>${winner ? '' : `<button onclick="toggleMatchMode()" class="mt-4 md:mt-0 rule-book-btn px-6 py-3 bg-[rgba(102,252,241,0.05)]"><i class="fas ${state.isMatchMode ? 'fa-list' : 'fa-th-large'}"></i> ${state.isMatchMode ? 'List View' : 'Match Grid'}</button>`}</div><div class="space-y-4 relative z-10">`;
+      
+      if (winner && !state.isMatchMode) { html += generateListTile(winner, true); } else if (state.isMatchMode) {
+        html += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+        currentGroup.forEach(t => {
+          const p = [t.p1, t.p2, t.p3, t.p4].map(x => (x ? x.split(',')[0] : 'N/A'));
+          html += `<div onclick="location.hash='profile-${t.globalUid}'" class="bg-[rgba(15,15,15,0.8)] rounded-xl border border-[rgba(255,255,255,0.05)] p-5 cursor-pointer hover:border-[var(--dt-cyan)] hover:shadow-[0_0_20px_rgba(102,252,241,0.1)] transition-all group"><div class="flex justify-between items-center mb-4 border-b border-[rgba(255,255,255,0.05)] pb-3"><span class="text-[var(--dt-cyan)] font-bold text-[10px] uppercase tracking-widest bg-[rgba(102,252,241,0.1)] border border-[var(--dt-cyan-dim)] px-2 py-1 rounded">Slot ${t.slotNumber}</span><span class="text-white font-bold tracking-wide truncate ml-2 text-lg">${t.teamName}</span></div><div class="grid grid-cols-2 gap-3 text-[11px] font-bold uppercase tracking-wider text-gray-400">${p.map(x => `<div class="bg-[rgba(0,0,0,0.6)] p-2.5 rounded border border-[rgba(255,255,255,0.03)] text-center truncate group-hover:text-white transition"><i class="fas fa-user-alt text-[8px] mr-1 opacity-50"></i> ${x}</div>`).join('')}</div></div>`;
+        });
+        html += `</div>`;
+      } else { currentGroup.forEach(t => html += generateListTile(t, false)); }
+      html += `</div></div>`; container.innerHTML = html;
+    }
+
+    function generateListTile(team, isWinner) {
+      const extraClass = isWinner ? 'winner' : ''; const badge = isWinner ? `<span class="ml-4 bg-[var(--dt-green)] text-black text-[10px] font-bold px-3 py-1 rounded uppercase tracking-widest shadow-[0_0_10px_#00ff88]"><i class="fas fa-crown mr-1"></i> Winner</span>` : '';
+      return `<div onclick="location.hash='profile-${team.globalUid}'" class="player-card ${extraClass}"><div class="flex items-center space-x-3 md:space-x-5 overflow-hidden"><div class="hidden md:flex flex-col items-center justify-center bg-black border border-[rgba(255,255,255,0.08)] text-gray-500 text-[10px] font-bold rounded-lg p-1.5 w-14"><span class="opacity-50">ID</span><span class="text-white text-sm">${team.globalUid}</span></div><div class="bg-[rgba(102,252,241,0.1)] border border-[var(--dt-cyan-dim)] text-[var(--dt-cyan)] text-xs font-bold px-3 py-2 rounded-lg uppercase tracking-widest w-16 md:w-20 text-center flex-shrink-0">Slt ${team.slotNumber}</div><div class="font-bold text-lg md:text-xl tracking-wide text-white flex items-center truncate">${team.teamName} ${badge}</div></div><div class="text-gray-600 text-xl transition transform group-hover:text-[var(--dt-cyan)] group-hover:translate-x-2"><i class="fas fa-chevron-right"></i></div></div>`;
+    }
+
+    function renderProfileModal(uid) {
+      const team = state.teams.find(t => t.globalUid === uid); if(!team) return;
+      document.getElementById('p_teamName').innerText = team.teamName; document.getElementById('p_slotBadge').innerHTML = `<i class="fas fa-hashtag"></i> Slot ${team.slotNumber} &nbsp;|&nbsp; ID: ${team.globalUid}`; document.getElementById('p_whatsappLink').href = `https://wa.me/91${team.whatsapp}`;
+      const listContainer = document.getElementById('p_playersList'); listContainer.innerHTML = '';
+      [team.p1, team.p2, team.p3, team.p4].forEach((pStr, i) => {
+        if(!pStr) return; const [name, id, role, insta] = pStr.split(',');
+        listContainer.innerHTML += `<div class="bg-[rgba(10,10,10,0.8)] rounded-xl p-5 border border-[rgba(255,255,255,0.05)] relative overflow-hidden hover:border-[var(--dt-cyan-dim)] transition shadow-lg"><div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-[rgba(102,252,241,0.08)] to-transparent rounded-bl-full z-0"></div><div class="relative z-10"><div class="flex justify-between items-start mb-3"><span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest"><i class="fas fa-headset mr-1"></i> Opr ${i+1}</span><span class="bg-[rgba(102,252,241,0.1)] text-[var(--dt-cyan)] border border-[var(--dt-cyan-dim)] text-[9px] px-2 py-1 rounded uppercase font-bold tracking-widest"><i class="fas fa-crosshairs"></i> ${role}</span></div><p class="font-bold text-2xl text-white mb-2 tracking-wide">${name}</p><p class="text-xs text-gray-400 font-medium mb-5 bg-black w-fit px-3 py-1.5 rounded border border-[rgba(255,255,255,0.05)] shadow-inner">UID: <span class="text-white tracking-widest">${id}</span></p><a href="https://instagram.com/${insta}" target="_blank" class="inline-flex items-center space-x-2 bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.1)] text-white text-[11px] font-bold px-4 py-2 rounded-lg uppercase transition shadow-md"><i class="fab fa-instagram text-[#e1306c] text-sm"></i> <span>${insta}</span></a></div></div>`;
+      });
+      document.getElementById('teamProfileModal').classList.remove('hidden');
+    }
+
+    /* -----------------------------------------------------
+       FORM & AUTO-FILL LOGIC
+       ----------------------------------------------------- */
+    function toggleMatchMode() { state.isMatchMode = !state.isMatchMode; renderView(); }
+    
     function generatePlayerInputs() {
       const container = document.getElementById('playersFormContainer');
       const roles = ['Rusher', 'Sniper', 'IGL', 'Assaulter'];
       for(let i=1; i<=4; i++) {
-        container.innerHTML += `
-          <div class="bg-[rgba(10,10,10,0.5)] p-4 rounded-xl border border-[rgba(255,255,255,0.05)] relative">
-            <div class="absolute -top-3 left-4 bg-[#0a0a0a] px-3 py-1 text-[10px] font-bold text-[var(--dt-cyan)] uppercase tracking-wider rounded border border-[var(--dt-cyan-dim)] shadow-[0_0_10px_rgba(102,252,241,0.1)]"><i class="fas fa-user-ninja mr-1"></i> Operator ${i}</div>
-            <div class="space-y-3 mt-2">
-              <input type="text" id="p${i}_name" placeholder="In-Game Name" required class="w-full cyber-input text-sm">
-              <div class="grid grid-cols-2 gap-3 items-start">
-                <div class="relative">
-                  <input type="text" id="p${i}_uid" oninput="validateUID(this, ${i})" placeholder="Game UID" pattern="[0-9]+" required class="w-full cyber-input text-sm">
-                  <p id="p${i}_uid_error" class="text-[10px] text-[var(--dt-red)] font-bold uppercase tracking-widest absolute top-full left-1 mt-1 hidden"><i class="fas fa-exclamation-triangle"></i> Deployed</p>
-                </div>
-                <select id="p${i}_role" required class="cyber-input text-sm appearance-none h-[42px] cursor-pointer">
-                  ${roles.map(r => `<option value="${r}">${r}</option>`).join('')}
-                </select>
-              </div>
-              <div class="relative mt-2">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 font-bold"><i class="fab fa-instagram"></i></span>
-                <input type="text" id="p${i}_insta" placeholder="Instagram ID" required class="w-full cyber-input pl-8 text-sm">
-              </div>
-            </div>
-          </div>
-        `;
+        container.innerHTML += `<div class="bg-[rgba(15,15,15,0.8)] p-5 rounded-xl border border-[rgba(255,255,255,0.05)] relative shadow-inner"><div class="absolute -top-3 left-4 bg-[#0a0a0a] px-3 py-1 text-[10px] font-bold text-[var(--dt-cyan)] uppercase tracking-wider rounded border border-[var(--dt-cyan-dim)] shadow-[0_0_10px_rgba(102,252,241,0.1)]"><i class="fas fa-user-ninja mr-1"></i> Operator ${i}</div><div class="space-y-4 mt-3"><input type="text" id="p${i}_name" placeholder="In-Game Name" required class="w-full cyber-input text-sm"><div class="grid grid-cols-2 gap-4 items-start"><div class="relative"><input type="text" id="p${i}_uid" oninput="validateUID(this, ${i})" placeholder="Game UID" pattern="[0-9]+" required class="w-full cyber-input text-sm"><p id="p${i}_uid_error" class="text-[10px] text-[var(--dt-red)] font-bold uppercase tracking-widest absolute top-[calc(100%+4px)] left-1 hidden"><i class="fas fa-exclamation-triangle"></i> Deployed</p></div><select id="p${i}_role" required class="cyber-input text-sm appearance-none h-[46px] cursor-pointer">${roles.map(r => `<option value="${r}">${r}</option>`).join('')}</select></div><div class="relative mt-2"><span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500 font-bold"><i class="fab fa-instagram"></i></span><input type="text" id="p${i}_insta" placeholder="Instagram ID" required class="w-full cyber-input pl-10 text-sm"></div></div></div>`;
       }
     }
 
-    // --- MAGIC AUTO FILL LOGIC ---
     function toggleAutoFill() {
-      const area = document.getElementById('autoFillArea');
-      const icon = document.getElementById('autoFillIcon');
-      if(area.classList.contains('hidden')) {
-        area.classList.remove('hidden');
-        icon.style.transform = 'rotate(180deg)';
-      } else {
-        area.classList.add('hidden');
-        icon.style.transform = 'rotate(0deg)';
-      }
+      const area = document.getElementById('autoFillArea'); const icon = document.getElementById('autoFillIcon');
+      if(area.classList.contains('hidden')) { area.classList.remove('hidden'); icon.style.transform = 'rotate(180deg)'; } 
+      else { area.classList.add('hidden'); icon.style.transform = 'rotate(0deg)'; }
     }
 
     function processJSON() {
       try {
         const rawText = document.getElementById('jsonInput').value.trim();
         if(!rawText) { alert("Please paste the JSON code first!"); return; }
-        
         const data = JSON.parse(rawText);
-        
-        // Fill Team & Comms
-        document.getElementById('f_teamName').value = data.teamName || '';
-        document.getElementById('f_whatsapp').value = data.whatsapp || '';
-
-        // Fill Players
+        document.getElementById('f_teamName').value = data.teamName || ''; document.getElementById('f_whatsapp').value = data.whatsapp || '';
         for(let i=0; i<4; i++) {
           if(data.players && data.players[i]) {
             document.getElementById(`p${i+1}_name`).value = data.players[i].name || '';
-            
-            const uidInput = document.getElementById(`p${i+1}_uid`);
-            uidInput.value = data.players[i].uid || '';
-            validateUID(uidInput, i+1); // Instantly check for duplicates on autofill!
-
+            const uidInput = document.getElementById(`p${i+1}_uid`); uidInput.value = data.players[i].uid || ''; validateUID(uidInput, i+1);
             document.getElementById(`p${i+1}_insta`).value = data.players[i].insta || '';
-            
-            const roleSelect = document.getElementById(`p${i+1}_role`);
-            const inputRole = (data.players[i].role || '').toLowerCase();
-            if(inputRole.includes('sniper') || inputRole.includes('spotter')) roleSelect.value = 'Sniper';
-            else if(inputRole.includes('igl') || inputRole.includes('leader')) roleSelect.value = 'IGL';
-            else if(inputRole.includes('assault')) roleSelect.value = 'Assaulter';
-            else roleSelect.value = 'Rusher'; 
+            const roleSelect = document.getElementById(`p${i+1}_role`); const inputRole = (data.players[i].role || '').toLowerCase();
+            if(inputRole.includes('sniper') || inputRole.includes('spotter')) roleSelect.value = 'Sniper'; else if(inputRole.includes('igl') || inputRole.includes('leader')) roleSelect.value = 'IGL'; else if(inputRole.includes('assault')) roleSelect.value = 'Assaulter'; else roleSelect.value = 'Rusher'; 
           }
         }
-        
-        showToast("Auto-Fill Completed Successfully!");
-        toggleAutoFill(); // Collapse section automatically
-        document.getElementById('jsonInput').value = ''; // Clear for next time
-
-      } catch(e) {
-        alert("Invalid JSON format. Make sure you copied EXACTLY what the AI generated (including the { } brackets).");
-      }
-    }
-
-    // DATABASE LOGIC
-    async function fetchTeams() {
-      try {
-        const response = await fetch(`${API_URL}?action=getData`);
-        state.teams = await response.json();
-        cacheRegisteredUIDs();
-        if (state.teams.length === 0) {
-          document.getElementById('mainViewContainer').innerHTML = `<div class="text-center py-20 flex flex-col items-center"><i class="fas fa-database text-6xl text-[var(--dt-cyan-dim)] mb-4"></i><p class="text-gray-500 font-bold uppercase tracking-widest text-2xl">Database Empty</p></div>`;
-          return;
-        }
-        groupTeams(); renderView();
-      } catch (error) {
-        document.getElementById('mainViewContainer').innerHTML = `<div class="text-center py-10 bg-[rgba(255,76,76,0.1)] border border-[var(--dt-red)] rounded-xl mt-10"><i class="fas fa-wifi text-4xl text-[var(--dt-red)] mb-3"></i><p class="text-[var(--dt-red)] font-bold uppercase tracking-widest text-2xl">Network Anomaly</p></div>`;
-      }
-    }
-
-    function cacheRegisteredUIDs() {
-      state.registeredUids.clear();
-      state.teams.forEach(team => {
-        [team.p1, team.p2, team.p3, team.p4].forEach(pStr => {
-          if (pStr) { const uid = pStr.split(',')[1]; if (uid) state.registeredUids.add(uid.trim()); }
-        });
-      });
+        showToast("Auto-Fill Completed!"); toggleAutoFill(); document.getElementById('jsonInput').value = '';
+      } catch(e) { alert("Invalid JSON format. Make sure you copied EXACTLY what the AI generated."); }
     }
 
     function validateUID(inputElem, playerIndex) {
-      const val = inputElem.value.trim();
-      const errorText = document.getElementById(`p${playerIndex}_uid_error`);
+      const val = inputElem.value.trim(); const errorText = document.getElementById(`p${playerIndex}_uid_error`);
       inputElem.classList.remove('input-error'); errorText.classList.add('hidden'); inputElem.setCustomValidity(''); 
       if (!val) return;
-      if (state.registeredUids.has(val)) { triggerError(inputElem, errorText, "DB DUPLICATE"); return; }
-      for (let i = 1; i <= 4; i++) {
-        if (i !== playerIndex) {
-          const otherInput = document.getElementById(`p${i}_uid`);
-          if (otherInput && otherInput.value.trim() === val) { triggerError(inputElem, errorText, "FORM DUPLICATE"); return; }
-        }
-      }
+      if (state.registeredUids.has(val)) { triggerError(inputElem, errorText, "DB DUP"); return; }
+      for (let i = 1; i <= 4; i++) { if (i !== playerIndex) { const otherInput = document.getElementById(`p${i}_uid`); if (otherInput && otherInput.value.trim() === val) { triggerError(inputElem, errorText, "FORM DUP"); return; } } }
     }
-
-    function triggerError(input, textElement, msg) {
-      input.classList.add('input-error'); textElement.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${msg}`;
-      textElement.classList.remove('hidden'); input.setCustomValidity(msg); 
-    }
-
-    function groupTeams() { state.grouped = []; for (let i = 0; i < state.teams.length; i += 12) { state.grouped.push(state.teams.slice(i, i + 12)); } }
-
-    function renderView() {
-      const container = document.getElementById('mainViewContainer');
-      container.classList.remove('fade-enter'); void container.offsetWidth; container.classList.add('fade-enter');
-      if (state.currentView === 'home') renderHomeDashboard(container); else renderGroupDetails(container);
-    }
+    function triggerError(input, textElement, msg) { input.classList.add('input-error'); textElement.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${msg}`; textElement.classList.remove('hidden'); input.setCustomValidity(msg); }
+    function formatInsta(val) { return val.replace(/^@+/, '').trim(); }
+    function showToast(msg) { const toast = document.getElementById('custom-toast'); document.getElementById('toast-msg').innerText = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
 
     function handleSearch() {
       const query = document.getElementById('globalSearch').value.toLowerCase(); const resultsContainer = document.getElementById('searchResults');
@@ -294,65 +358,11 @@
       if (filtered.length === 0) { resultsContainer.innerHTML = '<div class="p-6 text-sm text-gray-500 text-center uppercase tracking-widest font-bold"><i class="fas fa-ghost text-2xl mb-2 block"></i> No intel found</div>'; } else {
         filtered.forEach(t => {
           const groupNum = Math.floor(state.teams.findIndex(x => x.globalUid === t.globalUid) / 12) + 1;
-          resultsContainer.innerHTML += `<div onclick="openProfileFromSearch(${t.globalUid})" class="p-4 border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.05)] cursor-pointer transition flex justify-between items-center group"><div><div class="text-[var(--dt-cyan)] font-bold uppercase tracking-wide group-hover:text-white"><i class="fas fa-users text-xs mr-1"></i> ${t.teamName}</div><div class="text-[10px] text-gray-500 mt-1 uppercase tracking-wider font-bold bg-[rgba(0,0,0,0.5)] inline-block px-2 py-0.5 rounded">ID: ${t.globalUid} | Grp ${groupNum}</div></div><div class="text-gray-600 group-hover:text-[var(--dt-cyan)]"><i class="fas fa-chevron-right"></i></div></div>`;
+          resultsContainer.innerHTML += `<div onclick="location.hash='profile-${t.globalUid}'; document.getElementById('searchResults').classList.add('hidden'); document.getElementById('globalSearch').value='';" class="p-4 border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.05)] cursor-pointer transition flex justify-between items-center group"><div><div class="text-[var(--dt-cyan)] font-bold uppercase tracking-wide group-hover:text-white"><i class="fas fa-users text-xs mr-1"></i> ${t.teamName}</div><div class="text-[10px] text-gray-500 mt-1 uppercase tracking-wider font-bold bg-[rgba(0,0,0,0.5)] inline-block px-2 py-0.5 rounded">ID: ${t.globalUid} | Grp ${groupNum}</div></div><div class="text-gray-600 group-hover:text-[var(--dt-cyan)]"><i class="fas fa-chevron-right"></i></div></div>`;
         });
       }
       resultsContainer.classList.remove('hidden');
     }
-
-    function openProfileFromSearch(uid) { document.getElementById('globalSearch').value = ''; document.getElementById('searchResults').classList.add('hidden'); openProfile(uid); }
-
-    function renderHomeDashboard(container) {
-      let html = `<div class="mb-10 relative z-30 flex justify-center"><div class="relative w-full max-w-2xl"><i class="fas fa-search absolute left-[20px] top-1/2 -translate-y-1/2 text-[var(--dt-cyan)] text-lg"></i><input type="text" id="globalSearch" onkeyup="handleSearch()" placeholder="Search intel (Squad, Player, UID)..." autocomplete="off" class="live-search-bar"><div id="searchResults" class="hidden absolute top-full mt-2 left-0 w-full bg-[#0a0a0a] border border-[var(--dt-cyan-dim)] rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.9)] max-h-64 overflow-y-auto z-50"></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">`;
-      state.grouped.forEach((group, index) => {
-        const hasWinner = group.some(t => t.status && t.status.toLowerCase() === 'win'); const slotsFilled = group.length; const fillPercentage = Math.min((slotsFilled / 12) * 100, 100);
-        const themeClass = hasWinner ? 'border-[rgba(0,255,136,0.3)] bg-[rgba(0,50,25,0.4)] shadow-[0_0_15px_rgba(0,255,136,0.1)]' : 'border-[var(--dt-cyan-dim)] bg-[#0a0a0a] hover:border-[var(--dt-cyan)] hover:shadow-[0_0_20px_rgba(102,252,241,0.15)]';
-        const badgeClass = hasWinner ? 'text-[var(--dt-green)] bg-[rgba(0,255,136,0.1)] border border-[rgba(0,255,136,0.2)]' : 'text-[var(--dt-cyan)] bg-[rgba(102,252,241,0.1)] border border-[var(--dt-cyan-dim)]';
-        const barColor = hasWinner ? 'bg-[var(--dt-green)] shadow-[0_0_10px_#00ff88]' : 'bg-[var(--dt-cyan)] shadow-[0_0_10px_#66fcf1]';
-        html += `<div onclick="openGroup(${index})" class="glass-card ${themeClass} p-6 cursor-pointer transition-all duration-300 relative flex flex-col justify-between min-h-[160px] group rounded-xl"><div class="flex justify-between items-start w-full"><h3 class="text-2xl font-bold uppercase tracking-widest text-white group-hover:text-[var(--dt-cyan)] transition-colors"><i class="fas fa-folder-open text-sm mr-1 opacity-50"></i> Group ${index + 1}</h3><div class="${badgeClass} text-[9px] font-bold px-2 py-1 rounded uppercase tracking-widest flex items-center gap-1">${hasWinner ? '<i class="fas fa-trophy"></i> DONE' : '<i class="fas fa-circle text-[6px] animate-pulse"></i> LIVE'}</div></div><div class="mt-8 w-full"><div class="flex justify-between text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2"><span>Slots Filled</span><span class="${hasWinner ? 'text-[var(--dt-green)]' : 'text-[var(--dt-cyan)]'}">${slotsFilled} / 12</span></div><div class="w-full bg-black rounded-full h-1.5 border border-[rgba(255,255,255,0.1)] overflow-hidden"><div class="h-1.5 rounded-full ${barColor} bar-fill" style="width: ${fillPercentage}%"></div></div></div></div>`;
-      });
-      html += `</div>`; container.innerHTML = html;
-    }
-
-    function renderGroupDetails(container) {
-      const currentGroup = state.grouped[state.activeTabIndex]; const winner = currentGroup.find(t => t.status && t.status.toLowerCase() === 'win');
-      let html = `<div class="glass-card rounded-2xl p-6 relative overflow-hidden"><div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 relative z-10 border-b border-[rgba(255,255,255,0.05)] pb-6"><div><button onclick="goHome()" class="text-gray-400 hover:text-[var(--dt-cyan)] text-xs font-bold uppercase tracking-widest mb-4 flex items-center transition bg-[rgba(255,255,255,0.05)] px-3 py-1.5 rounded-lg w-fit"><i class="fas fa-arrow-left mr-2"></i> Dashboard</button><h2 class="text-3xl md:text-4xl font-bold uppercase tracking-widest text-white"><i class="fas fa-layer-group text-[var(--dt-cyan)] mr-2"></i> Group ${state.activeTabIndex + 1}</h2></div>${winner ? '' : `<button onclick="toggleMatchMode()" class="mt-4 md:mt-0 rule-book-btn"><i class="fas ${state.isMatchMode ? 'fa-list' : 'fa-th-large'}"></i> ${state.isMatchMode ? 'List View' : 'Match Grid'}</button>`}</div><div class="space-y-4 relative z-10">`;
-      if (winner && !state.isMatchMode) { html += generateListTile(winner, true); } else if (state.isMatchMode) {
-        html += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
-        currentGroup.forEach(team => {
-          const players = [team.p1, team.p2, team.p3, team.p4].map(p => (p ? p.split(',')[0] : 'N/A'));
-          html += `<div onclick="openProfile(${team.globalUid})" class="bg-[#0a0a0a] rounded-xl border border-[rgba(255,255,255,0.05)] p-5 cursor-pointer hover:border-[var(--dt-cyan)] hover:shadow-[0_0_20px_rgba(102,252,241,0.1)] transition-all group"><div class="flex justify-between items-center mb-4 border-b border-[rgba(255,255,255,0.05)] pb-3"><span class="text-[var(--dt-cyan)] font-bold text-[10px] uppercase tracking-widest bg-[rgba(102,252,241,0.1)] border border-[var(--dt-cyan-dim)] px-2 py-1 rounded">Slot ${team.slotNumber}</span><span class="text-white font-bold tracking-wide truncate ml-2 text-lg">${team.teamName}</span></div><div class="grid grid-cols-2 gap-3 text-[11px] font-bold uppercase tracking-wider text-gray-400">${players.map(p => `<div class="bg-[rgba(20,20,20,0.8)] p-2.5 rounded border border-[rgba(255,255,255,0.02)] text-center truncate group-hover:text-white transition"><i class="fas fa-user-alt text-[8px] mr-1 opacity-50"></i> ${p}</div>`).join('')}</div></div>`;
-        });
-        html += `</div>`;
-      } else { currentGroup.forEach(team => html += generateListTile(team, false)); }
-      html += `</div></div>`; container.innerHTML = html;
-    }
-
-    function goHome() { state.currentView = 'home'; state.isMatchMode = false; renderView(); }
-    function openGroup(index) { state.activeTabIndex = index; state.currentView = 'group'; renderView(); }
-    function toggleMatchMode() { state.isMatchMode = !state.isMatchMode; renderView(); }
-
-    function generateListTile(team, isWinner) {
-      const extraClass = isWinner ? 'winner' : ''; const badge = isWinner ? `<span class="ml-4 bg-[var(--dt-green)] text-black text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest shadow-[0_0_10px_#00ff88]"><i class="fas fa-crown"></i> Winner</span>` : '';
-      return `<div onclick="openProfile(${team.globalUid})" class="player-card ${extraClass}"><div class="flex items-center space-x-3 md:space-x-5 overflow-hidden"><div class="hidden md:flex flex-col items-center justify-center bg-black border border-[rgba(255,255,255,0.1)] text-gray-500 text-[10px] font-bold rounded p-1.5 w-14"><span class="opacity-50">ID</span><span class="text-white text-sm">${team.globalUid}</span></div><div class="bg-[rgba(102,252,241,0.1)] border border-[var(--dt-cyan-dim)] text-[var(--dt-cyan)] text-xs font-bold px-3 py-1.5 rounded uppercase tracking-widest w-16 md:w-20 text-center flex-shrink-0">Slt ${team.slotNumber}</div><div class="font-bold text-lg md:text-xl tracking-wide text-white flex items-center truncate">${team.teamName} ${badge}</div></div><div class="text-gray-600 text-xl transition transform"><i class="fas fa-chevron-right"></i></div></div>`;
-    }
-
-    function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
-
-    function openProfile(globalUid) {
-      const team = state.teams.find(t => t.globalUid === globalUid); if(!team) return;
-      document.getElementById('p_teamName').innerText = team.teamName; document.getElementById('p_slotBadge').innerHTML = `<i class="fas fa-hashtag"></i> Slot ${team.slotNumber} &nbsp;|&nbsp; ID: ${team.globalUid}`; document.getElementById('p_whatsappLink').href = `https://wa.me/91${team.whatsapp}`;
-      const listContainer = document.getElementById('p_playersList'); listContainer.innerHTML = '';
-      [team.p1, team.p2, team.p3, team.p4].forEach((pStr, i) => {
-        if(!pStr) return; const [name, uid, role, insta] = pStr.split(',');
-        listContainer.innerHTML += `<div class="bg-[#0a0a0a] rounded-xl p-5 border border-[rgba(255,255,255,0.05)] relative overflow-hidden hover:border-[var(--dt-cyan-dim)] transition"><div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-[rgba(102,252,241,0.1)] to-transparent rounded-bl-full z-0"></div><div class="relative z-10"><div class="flex justify-between items-start mb-2"><span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest"><i class="fas fa-headset mr-1"></i> Opr ${i+1}</span><span class="bg-[rgba(102,252,241,0.1)] text-[var(--dt-cyan)] border border-[var(--dt-cyan-dim)] text-[9px] px-2 py-0.5 rounded uppercase font-bold tracking-widest"><i class="fas fa-crosshairs"></i> ${role}</span></div><p class="font-bold text-2xl text-white mb-1 tracking-wide">${name}</p><p class="text-xs text-gray-400 font-medium mb-4 bg-black w-fit px-2 py-1 rounded border border-[rgba(255,255,255,0.05)]">UID: <span class="text-white">${uid}</span></p><a href="https://instagram.com/${insta}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center space-x-2 bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.1)] text-white text-[11px] font-bold px-3 py-1.5 rounded uppercase transition"><i class="fab fa-instagram text-[#e1306c] text-sm"></i> <span>${insta}</span></a></div></div>`;
-      });
-      toggleModal('teamProfileModal');
-    }
-
-    function formatInsta(val) { return val.replace(/^@+/, '').trim(); }
-    
-    function showToast(msg) { const toast = document.getElementById('custom-toast'); document.getElementById('toast-msg').innerText = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
 
     async function handleFormSubmit(e) {
       e.preventDefault(); 
@@ -367,9 +377,18 @@
       };
       try {
         await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
-        document.getElementById('addTeamForm').reset(); toggleModal('addTeamModal');
-        document.getElementById('mainViewContainer').innerHTML = '<div class="space-y-4 animate-pulse pt-10"><div class="h-20 bg-[#141414] border border-[#222] rounded-xl w-full"></div></div>';
-        await fetchTeams(); showToast(`Squad ${payload.teamName} Deployed!`);
+        document.getElementById('addTeamForm').reset(); 
+        location.hash = 'home'; // Close modal gracefully via router
+        document.getElementById('mainViewContainer').innerHTML = '<div class="space-y-4 animate-pulse pt-10"><div class="h-24 bg-[#141414] border border-[#222] rounded-xl w-full"></div></div>';
+        
+        // Force silent update from server to cache and re-render
+        const response = await fetch(`${API_URL}?action=getData`);
+        const freshData = await response.json();
+        localStorage.setItem('dt_teams', JSON.stringify(freshData));
+        state.teams = freshData;
+        cacheRegisteredUIDs(); groupTeams(); renderView();
+        
+        showToast(`Squad ${payload.teamName} Deployed!`);
       } catch(err) { alert("System Error during submission."); } finally { btn.innerHTML = originalText; btn.disabled = false; }
     }
 
