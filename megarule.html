@@ -218,18 +218,6 @@
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Instagram Embed Container */
-        .ig-embed-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid #000;
-            background: #fff;
-        }
-
     </style>
 </head>
 <body>
@@ -252,7 +240,7 @@
             <h2>E-sport Protection</h2>
             
             <div id="point-header-box" class="ph-box">
-                <h3 id="point-header">On Going Mega Tournament</h3>
+                <h3 id="point-header">Mandatory Entry Rules</h3>
             </div>
         </div>
 
@@ -304,12 +292,15 @@
         /* === RULES DATA === */
         const rulesData = {
             'star': {
-                header: "On Going Mega Tournament",
-                // Added /embed to the Instagram URL to ensure iframe playability
-                text: `<div class="ig-embed-container">
-                         <iframe src="https://www.instagram.com/reel/DXM6BmKkz3s/embed" width="100%" height="450" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
-                       </div>
-                       <p style="text-align:center; font-size: 0.8rem; margin-top:10px; color:#b91c1c; font-weight:800;">🎥 Watch the Reel above for details!</p>`
+                header: "Mandatory Entry Rules",
+                text: `<ul>
+                         <li><strong>Follow Rule:</strong> Aapki puri squad ko hume follow karna mandatory hai. Agar koi bhi player hume follow nahi karta, toh hum usko turant disqualify kar denge.</li>
+                         <li><strong>Support Rule:</strong> Aapki team ke har ek member ko hamari <strong>10 latest reels</strong> ko Like karna hoga aur 10 reels par Comment karna hoga.</li>
+                       </ul>
+                       <div class="disq-block">
+                           <span class="disq-title">VERIFICATION REQUIRED:</span>
+                           Yeh rules strictly verify kiye jayenge. Agar requirement poori nahi hui toh entry cancel ho jayegi!
+                       </div>`
             },
             1: {
                 header: "Introduction",
@@ -444,13 +435,8 @@
             setTimeout(() => {
                 ruleLoadBar.style.width = '100%';
                 setTimeout(() => {
-                    // Logic: If it's the video (star point), inject immediately to avoid glitching the iframe.
-                    // If it's a normal text rule, use the typewriter effect.
-                    if (pointId === 'star') {
-                        ruleTextDisplay.innerHTML = rulesData[pointId].text;
-                    } else {
-                        typeWriterHTML(ruleTextDisplay, rulesData[pointId].text, 10);
-                    }
+                    // Removed the iframe check, so the 'star' point now gets the smooth typewriter effect too!
+                    typeWriterHTML(ruleTextDisplay, rulesData[pointId].text, 10);
                 }, 250);
             }, 50); 
         }
@@ -459,8 +445,8 @@
             setTimeout(() => {
                 ruleLoadBar.style.width = '100%';
                 setTimeout(() => {
-                    // Load the Star video immediately on page load
-                    ruleTextDisplay.innerHTML = rulesData['star'].text;
+                    // Start the app with the Star point animated natively
+                    typeWriterHTML(ruleTextDisplay, rulesData['star'].text, 10);
                 }, 250);
             }, 50);
         };
