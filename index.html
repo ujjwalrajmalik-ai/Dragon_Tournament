@@ -20,6 +20,7 @@
                         charcoal: '#0a0a0a',
                         gold: '#d4af37',
                         goldlight: '#f3e5ab',
+                        insta: '#E1306C',
                     }
                 }
             }
@@ -77,7 +78,6 @@
             mix-blend-mode: normal;
         }
 
-        /* NEW SOLID INPUT STYLES FOR CLEAR VISIBILITY */
         .input-solid {
             background: #111111;
             border: 1px solid #333333;
@@ -92,7 +92,6 @@
             background: #1a1a1a;
         }
         
-        /* HIGHLIGHTED UNIQUE CODE BOX */
         .input-unique {
             background: rgba(212, 175, 55, 0.05);
             border: 2px solid rgba(212, 175, 55, 0.6);
@@ -134,7 +133,7 @@
 
     <canvas id="particleCanvas"></canvas>
 
-    <!-- NEW: ENTRY SPLASH SCREEN GATE -->
+    <!-- ENTRY SPLASH SCREEN GATE -->
     <div id="entryOverlay" class="fixed inset-0 z-[999] bg-obsidian/80 backdrop-blur-3xl flex flex-col items-center justify-center transition-opacity duration-700">
         <div class="text-center px-4">
             <img src="https://ik.imagekit.io/silentgamers/Picsart_26-06-08_04-23-50-721.png?updatedAt=null&ik-s=8464e92973e64b7e41173dd1c840988a63c4c1b8" 
@@ -146,7 +145,7 @@
         </div>
     </div>
 
-    <!-- MAIN WRAPPER (Starts Blurred) -->
+    <!-- MAIN WRAPPER -->
     <div id="mainWrapper" class="filter blur-xl pointer-events-none transition-all duration-1000 h-screen overflow-hidden">
         
         <!-- Header / Navigation -->
@@ -162,8 +161,14 @@
                          alt="Brand Name" class="h-8 sm:h-10 md:h-12 object-contain opacity-90 drop-shadow-lg">
                 </div>
 
-                <div class="hidden sm:block z-10">
-                    <a href="#register" class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-gold hover:text-white transition-colors duration-300">Secure Slot</a>
+                <div class="flex items-center gap-4 z-10">
+                    <!-- INSTAGRAM HEADER ICON -->
+                    <a href="https://instagram.com/dragontournament.xyz" target="_blank" class="text-gold/80 hover:text-insta hover:scale-110 transition-all duration-300" title="Follow us on Instagram">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </a>
+                    <div class="hidden sm:block">
+                        <a href="#register" class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-gold hover:text-white transition-colors duration-300">Secure Slot</a>
+                    </div>
                 </div>
             </div>
         </header>
@@ -172,7 +177,10 @@
             
             <!-- Hero Section -->
             <section class="flex flex-col items-center justify-center text-center reveal mt-4 md:mt-0">
-                <h2 class="text-gold tracking-[0.2em] md:tracking-[0.3em] uppercase text-[10px] md:text-md mb-2 md:mb-4 font-semibold">By Dragontournament.xyz</h2>
+                <!-- INSTAGRAM BRANDING LINK -->
+                <a href="https://instagram.com/dragontournament.xyz" target="_blank" class="text-gold tracking-[0.2em] md:tracking-[0.3em] uppercase text-[10px] md:text-md mb-2 md:mb-4 font-semibold hover:text-insta transition-colors duration-300 flex items-center gap-2">
+                    By @dragontournament.xyz
+                </a>
                 <h1 class="font-cinzel text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white leading-tight md:leading-none mb-4 drop-shadow-2xl">
                     THE MEGA<br>
                     <span class="text-gold-foil">TOURNAMENT</span>
@@ -235,7 +243,7 @@
                 </button>
             </section>
 
-            <!-- SECURE FORM: Book Slots (REVAMPED VISIBILITY) -->
+            <!-- SECURE FORM: Book Slots -->
             <section id="register" class="reveal pt-6 md:pt-10">
                 <div class="max-w-2xl mx-auto bg-charcoal border border-gold/40 shadow-[0_0_40px_rgba(212,175,55,0.15)] p-6 md:p-12 rounded-3xl relative">
                     
@@ -246,25 +254,21 @@
 
                     <form id="registrationForm" class="space-y-6">
                         
-                        <!-- Visible Input 1 -->
                         <div>
                             <label class="block text-gray-400 text-xs md:text-sm uppercase tracking-widest font-bold mb-2 ml-1">In-Game Name</label>
                             <input type="text" id="gameName" required class="input-solid w-full text-base md:text-lg px-4 py-4" placeholder="Enter your name">
                         </div>
 
-                        <!-- Visible Input 2 -->
                         <div>
                             <label class="block text-gray-400 text-xs md:text-sm uppercase tracking-widest font-bold mb-2 ml-1">Game UID</label>
                             <input type="text" id="gameUid" required class="input-solid w-full text-base md:text-lg px-4 py-4" placeholder="e.g. 123456789">
                         </div>
 
-                        <!-- Visible Input 3 -->
                         <div>
                             <label class="block text-gray-400 text-xs md:text-sm uppercase tracking-widest font-bold mb-2 ml-1">WhatsApp Number</label>
                             <input type="tel" id="mobileNumber" required class="input-solid w-full text-base md:text-lg px-4 py-4" placeholder="+91 00000 00000">
                         </div>
 
-                        <!-- HIGHLIGHTED UNIQUE CODE SECTION -->
                         <div class="pt-6 mt-6 border-t border-gray-800">
                             <label class="block text-gold text-xs md:text-sm uppercase tracking-widest font-bold mb-3 ml-1 text-center sm:text-left">Unique Access Code</label>
                             
@@ -280,7 +284,6 @@
                             </div>
                         </div>
 
-                        <!-- NEW: Confirm Your Slot Button -->
                         <button type="submit" id="submitBtn" class="w-full mt-10 bg-transparent border-2 border-gold text-gold font-cinzel font-bold text-lg md:text-xl uppercase tracking-[0.1em] md:tracking-[0.2em] py-5 rounded-xl hover:bg-gold hover:text-black transition-all duration-500 shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] flex justify-center items-center">
                             <span>Confirm Your Slot</span>
                         </button>
@@ -292,8 +295,15 @@
 
         </main>
 
-        <footer class="border-t border-gray-900 bg-obsidian py-6 md:py-8 text-center text-gray-600 font-light text-[10px] md:text-sm tracking-widest uppercase relative z-10">
-            <p>&copy; 2026 Dragontournament.xyz. All Rights Reserved.</p>
+        <!-- FOOTER: INSTAGRAM BRANDING (BILKUL LAST MA) -->
+        <footer class="border-t border-gray-900 bg-obsidian py-12 flex flex-col items-center justify-center relative z-10 text-center px-4">
+            
+            <a href="https://instagram.com/dragontournament.xyz" target="_blank" class="group flex items-center justify-center gap-3 mb-8 bg-charcoal border border-gray-800 px-6 py-4 rounded-full hover:border-insta transition-all duration-500 shadow-lg hover:shadow-[0_0_30px_rgba(225,48,108,0.4)]">
+                <svg class="w-6 h-6 text-gray-400 group-hover:text-insta transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                <span class="font-sans font-bold text-gray-400 group-hover:text-white tracking-widest text-sm uppercase transition-colors duration-500">@dragontournament.xyz</span>
+            </a>
+
+            <p class="text-gray-600 font-light text-[10px] md:text-sm tracking-widest uppercase">&copy; 2026 Dragontournament.xyz. All Rights Reserved.</p>
         </footer>
     </div> <!-- END MAIN WRAPPER -->
 
@@ -398,26 +408,20 @@
     </div>
 
     <script>
-        // --- GATEWAY / ENTRY SPLASH SCREEN LOGIC ---
         function enterSite() {
             const overlay = document.getElementById('entryOverlay');
             const wrapper = document.getElementById('mainWrapper');
             const mainAudio = document.getElementById('mainAudio');
             
-            // 1. Hide Overlay
             overlay.classList.add('opacity-0');
             setTimeout(() => overlay.classList.add('hidden'), 700);
             
-            // 2. Unblur & Unlock Main Content
             wrapper.classList.remove('blur-xl', 'pointer-events-none', 'h-screen', 'overflow-hidden');
             
-            // 3. Auto-Play Main Audio 
-            // (Browser security unlocked because user clicked the button)
             mainAudio.play().catch(e => console.log("Audio block:", e));
             updateMainAudioUI(true);
         }
 
-        // --- MAIN AUDIO LOGIC ---
         function updateMainAudioUI(isPlaying) {
             const icon = document.getElementById('audioIcon');
             const text = document.getElementById('audioText');
@@ -443,9 +447,7 @@
             }
         }
 
-        // --- WHATSAPP PURCHASING MODAL LOGIC (Auto-Play WA Voice) ---
         function openWhatsappModal() {
-            // Pause Main Audio
             const mainAudio = document.getElementById('mainAudio');
             if(!mainAudio.paused) {
                 mainAudio.pause();
@@ -459,7 +461,6 @@
             const price = targetSlots < 1152 ? 50 : 100;
             priceSpan.innerText = price;
             
-            // Grab entered UID if exists for smarter auto-fill
             const currentUid = document.getElementById('gameUid').value;
             let msg = `Hi bhai muza Uniqe Code buy karna hai in ₹${price}.`;
             if (currentUid.trim().length > 0) {
@@ -473,7 +474,6 @@
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
             document.body.style.overflow = 'hidden';
 
-            // Auto-Play WhatsApp Audio
             const waAudio = document.getElementById('waAudio');
             waAudio.play().catch(e => console.log("WA Audio blocked:", e));
             document.getElementById('waAudioIcon').innerText = "⏸";
@@ -512,7 +512,6 @@
             }
         }
 
-        // --- REWARDS MODAL LOGIC ---
         function openRewardsModal() {
             const modal = document.getElementById('rewardsModal');
             modal.classList.remove('hidden');
@@ -549,7 +548,6 @@
             }
         }
 
-        // --- LUXURY HTML5 CANVAS PARTICLES ---
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let width, height, particles = [], mouse = { x: null, y: null };
@@ -588,14 +586,12 @@
         window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
         initCanvas(); animateCanvas();
 
-        // --- SCROLL REVEAL ---
         const revealElements = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); revealObserver.unobserve(entry.target); } });
         }, { threshold: 0.1 });
         revealElements.forEach(el => revealObserver.observe(el));
 
-        // --- LIVE SLOT LOGIC & ROLLING ANIMATION ---
         const MAX_SLOTS = 2304;
         let targetSlots = 0;
         const currentEl = document.getElementById('slotCurrent');
@@ -671,7 +667,6 @@
             setInterval(() => { fetchLiveCount(false); }, 30000);
         });
 
-        // --- SECURE FORM SUBMISSION (With Validation) ---
         document.getElementById('registrationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
