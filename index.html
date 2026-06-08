@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth bg-black">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,23 +77,34 @@
             mix-blend-mode: normal;
         }
 
-        .input-luxury {
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 0;
+        /* NEW SOLID INPUT STYLES FOR CLEAR VISIBILITY */
+        .input-solid {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 8px;
             color: #fff;
-            padding: 12px 0;
             transition: all 0.3s ease;
         }
-        .input-luxury:focus {
+        .input-solid:focus {
             outline: none;
-            border-bottom: 1px solid #d4af37;
-            box-shadow: 0 10px 10px -10px rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            background: #1a1a1a;
         }
-        .input-luxury::placeholder {
-            color: rgba(255,255,255,0.3);
-            font-weight: 300;
+        
+        /* HIGHLIGHTED UNIQUE CODE BOX */
+        .input-unique {
+            background: rgba(212, 175, 55, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.6);
+            border-radius: 8px;
+            color: #d4af37;
+            transition: all 0.3s ease;
+        }
+        .input-unique:focus {
+            outline: none;
+            border-color: #f3e5ab;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+            background: rgba(212, 175, 55, 0.15);
         }
 
         .reveal {
@@ -123,153 +134,179 @@
 
     <canvas id="particleCanvas"></canvas>
 
-    <!-- Header / Navigation -->
-    <header class="fixed top-0 w-full z-50 transition-all duration-500" id="navbar">
-        <div class="glass-panel border-x-0 border-t-0 rounded-none px-4 py-3 md:px-6 md:py-4 flex items-center justify-between relative">
-            <div class="flex items-center z-10">
-                <img src="https://ik.imagekit.io/silentgamers/Picsart_26-06-08_04-23-50-721.png?updatedAt=null&ik-s=8464e92973e64b7e41173dd1c840988a63c4c1b8" 
-                     alt="Logo" class="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gold/50 shadow-[0_0_15px_rgba(212,175,55,0.4)]">
-            </div>
-            
-            <div class="absolute left-1/2 -translate-x-1/2 flex justify-center w-auto pointer-events-none">
-                <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-31-07-976.png?updatedAt=1774839684067" 
-                     alt="Brand Name" class="h-8 sm:h-10 md:h-12 object-contain opacity-90 drop-shadow-lg">
-            </div>
-
-            <div class="hidden sm:block z-10">
-                <a href="#register" class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-gold hover:text-white transition-colors duration-300">Secure Slot</a>
-            </div>
-        </div>
-    </header>
-
-    <main class="relative z-10 pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-6xl mx-auto space-y-20 md:space-y-32">
-        
-        <!-- Hero Section -->
-        <section class="flex flex-col items-center justify-center text-center reveal mt-4 md:mt-0">
-            <h2 class="text-gold tracking-[0.2em] md:tracking-[0.3em] uppercase text-[10px] md:text-md mb-2 md:mb-4 font-semibold">By Dragontournament.xyz</h2>
-            <h1 class="font-cinzel text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white leading-tight md:leading-none mb-4 drop-shadow-2xl">
-                THE MEGA<br>
-                <span class="text-gold-foil">TOURNAMENT</span>
-            </h1>
-            <p class="mt-4 md:mt-8 text-gray-400 font-light tracking-wide max-w-xl mx-auto text-sm md:text-lg leading-relaxed">
-                An elite battlefield forged for legends. Experience esports at the pinnacle of luxury and competition.
-            </p>
-        </section>
-
-        <!-- Live Slot Indicator Panel -->
-        <section class="reveal">
-            <div class="glass-panel p-6 md:p-12 rounded-3xl flex flex-col items-center justify-center relative overflow-hidden">
-                <div class="absolute -top-20 -right-20 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
-                <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
-                
-                <div class="flex items-center justify-center gap-3 mb-6">
-                    <div class="relative flex h-3 w-3 mt-1">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_#22c55e]"></span>
-                    </div>
-                    <h3 class="font-cinzel text-xl md:text-3xl text-gray-300 uppercase tracking-[0.1em] md:tracking-[0.15em] text-center">Live Roster Registry</h3>
-                </div>
-
-                <!-- Custom Audio Player -->
-                <audio id="mainAudio" src="lv_0_20260608052907.mp3"></audio>
-                <button onclick="toggleMainAudio()" class="flex items-center gap-3 bg-black/60 border border-gold/50 px-6 py-3 rounded-full hover:bg-gold/10 transition-all shadow-[0_0_15px_rgba(212,175,55,0.2)] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] z-20 mb-8 group">
-                    <div id="audioIcon" class="w-4 h-4 bg-gold rounded-full animate-pulse group-hover:bg-white transition-colors"></div>
-                    <span id="audioText" class="font-sans text-xs tracking-widest text-gold group-hover:text-white uppercase font-bold transition-colors">Play Announcement</span>
-                </button>
-                
-                <div class="flex flex-row items-baseline justify-center gap-2 md:gap-4 mb-6">
-                    <div class="slot-machine-container px-2">
-                        <span id="slotCurrent" class="block text-5xl sm:text-6xl md:text-8xl font-black text-gold-foil font-cinzel leading-none transition-transform duration-700 ease-in-out transform translate-y-0 pb-2">---</span>
-                        <span id="slotNext" class="absolute left-0 right-0 top-0 text-center text-5xl sm:text-6xl md:text-8xl font-black text-gold-foil font-cinzel leading-none transition-transform duration-700 ease-in-out transform translate-y-full pb-2"></span>
-                    </div>
-                    <span class="text-xl sm:text-2xl md:text-4xl text-gray-600 font-light">/ 2304</span>
-                </div>
-                
-                <div class="h-1 w-full max-w-md bg-gray-800 rounded-full overflow-hidden mb-6">
-                    <div id="slotProgressBar" class="h-full bg-gold transition-all duration-[2000ms] ease-out w-0 shadow-[0_0_10px_#d4af37]"></div>
-                </div>
-
-                <div id="discountNotice" class="hidden opacity-0 transition-opacity duration-1000 border border-gold/30 bg-gold/5 px-4 md:px-8 py-3 rounded-xl w-full max-w-md">
-                    <p class="text-goldlight font-medium tracking-wide flex items-center justify-center gap-2 text-xs md:text-sm">
-                        <svg class="w-4 h-4 md:w-5 md:h-5 text-gold animate-pulse flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1z"></path></svg>
-                        <span>Exclusive Early Access: <strong class="text-gold">50% OFF (₹50 Entry)</strong></span>
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Round Rewards CTA -->
-        <section class="flex flex-col items-center justify-center reveal">
-            <button onclick="openRewardsModal()" class="glass-panel group relative w-full max-w-md py-8 rounded-3xl cursor-pointer overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:border-gold">
-                <div class="absolute inset-0 bg-gradient-to-t from-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <h2 class="font-cinzel text-3xl md:text-4xl text-white font-bold uppercase tracking-widest relative z-10 group-hover:text-gold transition-colors duration-300">Round Rewards</h2>
-                <div class="mt-5 bg-gold text-black font-bold uppercase tracking-widest text-xs py-3 px-8 rounded-full inline-block group-hover:bg-white transition-colors shadow-[0_0_20px_rgba(212,175,55,0.6)] relative z-10">
-                    Click to Check ➔
-                </div>
+    <!-- NEW: ENTRY SPLASH SCREEN GATE -->
+    <div id="entryOverlay" class="fixed inset-0 z-[999] bg-obsidian/80 backdrop-blur-3xl flex flex-col items-center justify-center transition-opacity duration-700">
+        <div class="text-center px-4">
+            <img src="https://ik.imagekit.io/silentgamers/Picsart_26-06-08_04-23-50-721.png?updatedAt=null&ik-s=8464e92973e64b7e41173dd1c840988a63c4c1b8" 
+                 alt="Logo" class="w-24 h-24 mx-auto rounded-full border-2 border-gold/50 shadow-[0_0_30px_rgba(212,175,55,0.4)] mb-8">
+            <h1 class="font-cinzel text-3xl md:text-5xl text-white font-black mb-10 tracking-widest uppercase text-shadow-xl">Welcome to The Mega Tournament</h1>
+            <button onclick="enterSite()" class="bg-gold text-black font-black font-cinzel text-xl md:text-2xl px-12 py-5 rounded-full uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(212,175,55,0.6)] hover:bg-white hover:scale-105 transition-all duration-300 animate-bounce">
+                Enter Tournament
             </button>
-        </section>
+        </div>
+    </div>
 
-        <!-- SECURE FORM: Book Slots -->
-        <section id="register" class="reveal pt-6 md:pt-10">
-            <div class="max-w-2xl mx-auto bg-charcoal border border-gold/40 shadow-[0_0_40px_rgba(212,175,55,0.15)] p-6 md:p-12 rounded-3xl relative">
+    <!-- MAIN WRAPPER (Starts Blurred) -->
+    <div id="mainWrapper" class="filter blur-xl pointer-events-none transition-all duration-1000 h-screen overflow-hidden">
+        
+        <!-- Header / Navigation -->
+        <header class="fixed top-0 w-full z-50 transition-all duration-500" id="navbar">
+            <div class="glass-panel border-x-0 border-t-0 rounded-none px-4 py-3 md:px-6 md:py-4 flex items-center justify-between relative">
+                <div class="flex items-center z-10">
+                    <img src="https://ik.imagekit.io/silentgamers/Picsart_26-06-08_04-23-50-721.png?updatedAt=null&ik-s=8464e92973e64b7e41173dd1c840988a63c4c1b8" 
+                         alt="Logo" class="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gold/50 shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+                </div>
                 
-                <div class="text-center mb-10 border-b border-gray-800 pb-8">
-                    <h2 class="font-cinzel text-4xl md:text-5xl text-gold font-bold mb-2 tracking-wider">Book Slots</h2>
-                    <p class="text-gray-400 font-light text-xs md:text-sm tracking-widest uppercase">Enter Player Credentials</p>
+                <div class="absolute left-1/2 -translate-x-1/2 flex justify-center w-auto pointer-events-none">
+                    <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-31-07-976.png?updatedAt=1774839684067" 
+                         alt="Brand Name" class="h-8 sm:h-10 md:h-12 object-contain opacity-90 drop-shadow-lg">
                 </div>
 
-                <form id="registrationForm" class="space-y-6 md:space-y-8">
-                    <div class="relative group">
-                        <input type="text" id="gameName" required class="input-luxury w-full text-base md:text-lg peer bg-white/5 px-4 rounded-t-lg" placeholder=" ">
-                        <label class="absolute left-4 top-3 text-gray-400 text-sm md:text-lg transition-all duration-300 peer-focus:-top-4 peer-focus:left-0 peer-focus:text-xs peer-focus:text-gold peer-valid:-top-4 peer-valid:left-0 peer-valid:text-xs pointer-events-none uppercase tracking-widest">In-Game Name</label>
-                    </div>
-
-                    <div class="relative group">
-                        <input type="text" id="gameUid" required class="input-luxury w-full text-base md:text-lg peer bg-white/5 px-4 rounded-t-lg" placeholder=" ">
-                        <label class="absolute left-4 top-3 text-gray-400 text-sm md:text-lg transition-all duration-300 peer-focus:-top-4 peer-focus:left-0 peer-focus:text-xs peer-focus:text-gold peer-valid:-top-4 peer-valid:left-0 peer-valid:text-xs pointer-events-none uppercase tracking-widest">Game UID</label>
-                    </div>
-
-                    <div class="relative group">
-                        <input type="tel" id="mobileNumber" required class="input-luxury w-full text-base md:text-lg peer bg-white/5 px-4 rounded-t-lg" placeholder=" ">
-                        <label class="absolute left-4 top-3 text-gray-400 text-sm md:text-lg transition-all duration-300 peer-focus:-top-4 peer-focus:left-0 peer-focus:text-xs peer-focus:text-gold peer-valid:-top-4 peer-valid:left-0 peer-valid:text-xs pointer-events-none uppercase tracking-widest">WhatsApp Number</label>
-                    </div>
-
-                    <div class="pt-6 border-t border-gray-800 flex flex-col sm:flex-row gap-4 items-end">
-                        <div class="relative group flex-grow w-full">
-                            <input type="text" id="uniqueCode" required class="input-luxury w-full text-xl md:text-2xl peer font-cinzel text-gold text-center tracking-[0.2em] md:tracking-[0.3em] uppercase bg-black/50 px-4 rounded-t-lg border-b border-gold/50 focus:border-gold" placeholder=" ">
-                            <label class="absolute left-1/2 -translate-x-1/2 top-7 text-gold/50 text-xs md:text-sm transition-all duration-300 peer-focus:-top-4 peer-focus:text-[10px] md:peer-focus:text-xs peer-focus:text-gold peer-valid:-top-4 peer-valid:text-[10px] md:peer-valid:text-xs pointer-events-none uppercase tracking-widest font-bold w-full text-center">Unique Access Code</label>
-                        </div>
-                        
-                        <button type="button" onclick="openWhatsappModal()" class="w-full sm:w-auto bg-gradient-to-r from-gold to-yellow-600 text-black font-bold uppercase tracking-widest py-4 px-6 rounded-lg hover:from-white hover:to-gray-200 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.3)] flex-shrink-0 text-sm md:text-base">
-                            Get Unique Code
-                        </button>
-                    </div>
-
-                    <button type="submit" id="submitBtn" class="w-full mt-12 bg-transparent border-2 border-gold text-gold font-cinzel font-bold text-lg md:text-xl uppercase tracking-[0.1em] md:tracking-[0.2em] py-4 rounded hover:bg-gold hover:text-black transition-all duration-500 shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] flex justify-center items-center">
-                        <span>Initialize Entry</span>
-                    </button>
-
-                    <div id="statusMessage" class="hidden text-center mt-4 text-xs md:text-sm font-light tracking-widest p-3 rounded border"></div>
-                </form>
+                <div class="hidden sm:block z-10">
+                    <a href="#register" class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-gold hover:text-white transition-colors duration-300">Secure Slot</a>
+                </div>
             </div>
-        </section>
+        </header>
 
-    </main>
+        <main class="relative z-10 pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-6xl mx-auto space-y-20 md:space-y-32">
+            
+            <!-- Hero Section -->
+            <section class="flex flex-col items-center justify-center text-center reveal mt-4 md:mt-0">
+                <h2 class="text-gold tracking-[0.2em] md:tracking-[0.3em] uppercase text-[10px] md:text-md mb-2 md:mb-4 font-semibold">By Dragontournament.xyz</h2>
+                <h1 class="font-cinzel text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white leading-tight md:leading-none mb-4 drop-shadow-2xl">
+                    THE MEGA<br>
+                    <span class="text-gold-foil">TOURNAMENT</span>
+                </h1>
+                <p class="mt-4 md:mt-8 text-gray-400 font-light tracking-wide max-w-xl mx-auto text-sm md:text-lg leading-relaxed">
+                    An elite battlefield forged for legends. Experience esports at the pinnacle of luxury and competition.
+                </p>
+            </section>
 
-    <footer class="border-t border-gray-900 bg-obsidian py-6 md:py-8 text-center text-gray-600 font-light text-[10px] md:text-sm tracking-widest uppercase relative z-10">
-        <p>&copy; 2026 Dragontournament.xyz. All Rights Reserved.</p>
-    </footer>
+            <!-- Live Slot Indicator Panel -->
+            <section class="reveal">
+                <div class="glass-panel p-6 md:p-12 rounded-3xl flex flex-col items-center justify-center relative overflow-hidden">
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
+                    <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
+                    
+                    <div class="flex items-center justify-center gap-3 mb-6">
+                        <div class="relative flex h-3 w-3 mt-1">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_#22c55e]"></span>
+                        </div>
+                        <h3 class="font-cinzel text-xl md:text-3xl text-gray-300 uppercase tracking-[0.1em] md:tracking-[0.15em] text-center">Live Roster Registry</h3>
+                    </div>
+
+                    <!-- Custom Audio Player -->
+                    <audio id="mainAudio" src="lv_0_20260608052907.mp3" loop></audio>
+                    <button onclick="toggleMainAudio()" class="flex items-center gap-3 bg-black/60 border border-gold/50 px-6 py-3 rounded-full hover:bg-gold/10 transition-all shadow-[0_0_15px_rgba(212,175,55,0.2)] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] z-20 mb-8 group">
+                        <div id="audioIcon" class="w-4 h-4 bg-gold rounded-full animate-pulse group-hover:bg-white transition-colors"></div>
+                        <span id="audioText" class="font-sans text-xs tracking-widest text-gold group-hover:text-white uppercase font-bold transition-colors">Play Announcement</span>
+                    </button>
+                    
+                    <div class="flex flex-row items-baseline justify-center gap-2 md:gap-4 mb-6">
+                        <div class="slot-machine-container px-2">
+                            <span id="slotCurrent" class="block text-5xl sm:text-6xl md:text-8xl font-black text-gold-foil font-cinzel leading-none transition-transform duration-700 ease-in-out transform translate-y-0 pb-2">---</span>
+                            <span id="slotNext" class="absolute left-0 right-0 top-0 text-center text-5xl sm:text-6xl md:text-8xl font-black text-gold-foil font-cinzel leading-none transition-transform duration-700 ease-in-out transform translate-y-full pb-2"></span>
+                        </div>
+                        <span class="text-xl sm:text-2xl md:text-4xl text-gray-600 font-light">/ 2304</span>
+                    </div>
+                    
+                    <div class="h-1 w-full max-w-md bg-gray-800 rounded-full overflow-hidden mb-6">
+                        <div id="slotProgressBar" class="h-full bg-gold transition-all duration-[2000ms] ease-out w-0 shadow-[0_0_10px_#d4af37]"></div>
+                    </div>
+
+                    <div id="discountNotice" class="hidden opacity-0 transition-opacity duration-1000 border border-gold/30 bg-gold/5 px-4 md:px-8 py-3 rounded-xl w-full max-w-md">
+                        <p class="text-goldlight font-medium tracking-wide flex items-center justify-center gap-2 text-xs md:text-sm">
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-gold animate-pulse flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1z"></path></svg>
+                            <span>Exclusive Early Access: <strong class="text-gold">50% OFF (₹50 Entry)</strong></span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Round Rewards CTA -->
+            <section class="flex flex-col items-center justify-center reveal">
+                <button onclick="openRewardsModal()" class="glass-panel group relative w-full max-w-md py-8 rounded-3xl cursor-pointer overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:border-gold">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <h2 class="font-cinzel text-3xl md:text-4xl text-white font-bold uppercase tracking-widest relative z-10 group-hover:text-gold transition-colors duration-300">Round Rewards</h2>
+                    <div class="mt-5 bg-gold text-black font-bold uppercase tracking-widest text-xs py-3 px-8 rounded-full inline-block group-hover:bg-white transition-colors shadow-[0_0_20px_rgba(212,175,55,0.6)] relative z-10">
+                        Click to Check ➔
+                    </div>
+                </button>
+            </section>
+
+            <!-- SECURE FORM: Book Slots (REVAMPED VISIBILITY) -->
+            <section id="register" class="reveal pt-6 md:pt-10">
+                <div class="max-w-2xl mx-auto bg-charcoal border border-gold/40 shadow-[0_0_40px_rgba(212,175,55,0.15)] p-6 md:p-12 rounded-3xl relative">
+                    
+                    <div class="text-center mb-10 border-b border-gray-800 pb-8">
+                        <h2 class="font-cinzel text-4xl md:text-5xl text-gold font-bold mb-2 tracking-wider">Book Slots</h2>
+                        <p class="text-gray-400 font-light text-xs md:text-sm tracking-widest uppercase">Enter Player Credentials</p>
+                    </div>
+
+                    <form id="registrationForm" class="space-y-6">
+                        
+                        <!-- Visible Input 1 -->
+                        <div>
+                            <label class="block text-gray-400 text-xs md:text-sm uppercase tracking-widest font-bold mb-2 ml-1">In-Game Name</label>
+                            <input type="text" id="gameName" required class="input-solid w-full text-base md:text-lg px-4 py-4" placeholder="Enter your name">
+                        </div>
+
+                        <!-- Visible Input 2 -->
+                        <div>
+                            <label class="block text-gray-400 text-xs md:text-sm uppercase tracking-widest font-bold mb-2 ml-1">Game UID</label>
+                            <input type="text" id="gameUid" required class="input-solid w-full text-base md:text-lg px-4 py-4" placeholder="e.g. 123456789">
+                        </div>
+
+                        <!-- Visible Input 3 -->
+                        <div>
+                            <label class="block text-gray-400 text-xs md:text-sm uppercase tracking-widest font-bold mb-2 ml-1">WhatsApp Number</label>
+                            <input type="tel" id="mobileNumber" required class="input-solid w-full text-base md:text-lg px-4 py-4" placeholder="+91 00000 00000">
+                        </div>
+
+                        <!-- HIGHLIGHTED UNIQUE CODE SECTION -->
+                        <div class="pt-6 mt-6 border-t border-gray-800">
+                            <label class="block text-gold text-xs md:text-sm uppercase tracking-widest font-bold mb-3 ml-1 text-center sm:text-left">Unique Access Code</label>
+                            
+                            <div class="flex flex-col sm:flex-row gap-4 items-stretch">
+                                <div class="flex-grow w-full">
+                                    <input type="text" id="uniqueCode" required class="input-unique w-full text-xl md:text-2xl font-cinzel text-center tracking-[0.3em] uppercase py-4" placeholder="ENTER CODE">
+                                </div>
+                                
+                                <button type="button" onclick="openWhatsappModal()" class="w-full sm:w-auto bg-gradient-to-r from-gold to-yellow-600 text-black font-bold uppercase tracking-widest py-4 px-6 rounded-lg hover:from-white hover:to-gray-200 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.4)] flex-shrink-0 text-sm md:text-base flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                                    Get Code
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- NEW: Confirm Your Slot Button -->
+                        <button type="submit" id="submitBtn" class="w-full mt-10 bg-transparent border-2 border-gold text-gold font-cinzel font-bold text-lg md:text-xl uppercase tracking-[0.1em] md:tracking-[0.2em] py-5 rounded-xl hover:bg-gold hover:text-black transition-all duration-500 shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] flex justify-center items-center">
+                            <span>Confirm Your Slot</span>
+                        </button>
+
+                        <div id="statusMessage" class="hidden text-center mt-4 text-xs md:text-sm font-light tracking-widest p-3 rounded border"></div>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="border-t border-gray-900 bg-obsidian py-6 md:py-8 text-center text-gray-600 font-light text-[10px] md:text-sm tracking-widest uppercase relative z-10">
+            <p>&copy; 2026 Dragontournament.xyz. All Rights Reserved.</p>
+        </footer>
+    </div> <!-- END MAIN WRAPPER -->
 
     <!-- WhatsApp Voice & Purchase Modal -->
     <div id="whatsappModal" class="fixed inset-0 z-[110] hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-charcoal border border-gold/50 p-8 rounded-3xl max-w-md w-full text-center relative shadow-[0_0_50px_rgba(212,175,55,0.2)]">
             <button onclick="closeWhatsappModal()" class="absolute top-4 right-5 text-gray-500 hover:text-white text-2xl font-light">✕</button>
-            <h3 class="text-gold font-cinzel text-xl md:text-2xl font-bold mb-8 tracking-wide">Listen the Voice Before Continue</h3>
+            <h3 class="text-gold font-cinzel text-xl md:text-2xl font-bold mb-8 tracking-wide">Listen to the Voice Before Continuing</h3>
             
             <audio id="waAudio" src="Whatsapp_audio.mp3"></audio>
             <button onclick="toggleWaAudio()" class="bg-gray-900 border border-gray-700 text-white w-full py-5 rounded-xl flex items-center justify-center gap-4 mb-8 hover:bg-gray-800 transition-colors shadow-inner">
-                <div id="waAudioIcon" class="w-8 h-8 flex items-center justify-center bg-gold text-black rounded-full text-xs">▶</div>
-                <span id="waAudioText" class="tracking-widest uppercase text-sm font-bold">Play Voice Note</span>
+                <div id="waAudioIcon" class="w-8 h-8 flex items-center justify-center bg-gold text-black rounded-full text-xs">⏸</div>
+                <span id="waAudioText" class="tracking-widest uppercase text-sm font-bold">Pause Voice Note</span>
             </button>
 
             <a id="whatsappLink" href="#" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#25D366] hover:bg-[#1ebd5a] text-white font-bold py-5 rounded-xl text-lg uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(37,211,102,0.4)]">
@@ -291,7 +328,7 @@
                 <button id="tab3" onclick="showRoundCard(3)" class="flex-1 glass-panel py-5 rounded-xl font-cinzel text-xl text-white font-bold uppercase tracking-widest hover:bg-gold hover:text-black transition-all">Round 3</button>
             </div>
             <div class="w-full max-w-4xl relative">
-                <!-- Cards Logic Identical to previous -->
+                <!-- Round Cards -->
                 <article id="roundCard1" class="hidden glass-panel rounded-3xl overflow-hidden group flex flex-col md:flex-row relative">
                     <div class="md:w-2/5 relative h-56 md:h-auto overflow-hidden">
                         <img src="https://ik.imagekit.io/silentgamers/200%20(1).webp?updatedAt=1763892964406&ik-s=320aa3b072c4ee96a247e2c0bc58d76fd1fea9de" class="absolute inset-0 w-full h-full object-cover cinematic-gif" alt="Round 1">
@@ -361,30 +398,26 @@
     </div>
 
     <script>
-        // --- AUTO-PLAY AUDIO LOGIC (BYPASS) ---
-        document.addEventListener('DOMContentLoaded', () => {
+        // --- GATEWAY / ENTRY SPLASH SCREEN LOGIC ---
+        function enterSite() {
+            const overlay = document.getElementById('entryOverlay');
+            const wrapper = document.getElementById('mainWrapper');
             const mainAudio = document.getElementById('mainAudio');
             
-            // Try to autoplay immediately
-            const playPromise = mainAudio.play();
+            // 1. Hide Overlay
+            overlay.classList.add('opacity-0');
+            setTimeout(() => overlay.classList.add('hidden'), 700);
             
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    updateMainAudioUI(true); // Success
-                }).catch(error => {
-                    // Browser blocked it. Wait for the user to touch or click anywhere.
-                    const startAudioOnInteraction = () => {
-                        mainAudio.play();
-                        updateMainAudioUI(true);
-                        document.removeEventListener('click', startAudioOnInteraction);
-                        document.removeEventListener('touchstart', startAudioOnInteraction);
-                    };
-                    document.addEventListener('click', startAudioOnInteraction);
-                    document.addEventListener('touchstart', startAudioOnInteraction);
-                });
-            }
-        });
+            // 2. Unblur & Unlock Main Content
+            wrapper.classList.remove('blur-xl', 'pointer-events-none', 'h-screen', 'overflow-hidden');
+            
+            // 3. Auto-Play Main Audio 
+            // (Browser security unlocked because user clicked the button)
+            mainAudio.play().catch(e => console.log("Audio block:", e));
+            updateMainAudioUI(true);
+        }
 
+        // --- MAIN AUDIO LOGIC ---
         function updateMainAudioUI(isPlaying) {
             const icon = document.getElementById('audioIcon');
             const text = document.getElementById('audioText');
@@ -410,9 +443,9 @@
             }
         }
 
-        // --- WHATSAPP PURCHASING MODAL LOGIC (With Collision Fix) ---
+        // --- WHATSAPP PURCHASING MODAL LOGIC (Auto-Play WA Voice) ---
         function openWhatsappModal() {
-            // Idea 1: Pause main audio so they don't overlap
+            // Pause Main Audio
             const mainAudio = document.getElementById('mainAudio');
             if(!mainAudio.paused) {
                 mainAudio.pause();
@@ -426,12 +459,25 @@
             const price = targetSlots < 1152 ? 50 : 100;
             priceSpan.innerText = price;
             
-            const encodedText = encodeURIComponent(`Hi bhai muza Uniqe Code buy karna hai in ₹${price}`);
+            // Grab entered UID if exists for smarter auto-fill
+            const currentUid = document.getElementById('gameUid').value;
+            let msg = `Hi bhai muza Uniqe Code buy karna hai in ₹${price}.`;
+            if (currentUid.trim().length > 0) {
+                msg += ` Mera Game UID: ${currentUid} hai.`;
+            }
+
+            const encodedText = encodeURIComponent(msg);
             waLink.href = `https://wa.me/917078343501?text=${encodedText}`;
             
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
             document.body.style.overflow = 'hidden';
+
+            // Auto-Play WhatsApp Audio
+            const waAudio = document.getElementById('waAudio');
+            waAudio.play().catch(e => console.log("WA Audio blocked:", e));
+            document.getElementById('waAudioIcon').innerText = "⏸";
+            document.getElementById('waAudioText').innerText = "Pause Voice Note";
         }
 
         function closeWhatsappModal() {
@@ -633,7 +679,6 @@
             const statusMsg = document.getElementById('statusMessage');
             const mobileInput = document.getElementById('mobileNumber').value;
             
-            // Idea 2: Strict Frontend Mobile Validation
             const mobileRegex = /^\+?[0-9]{10,15}$/;
             if(!mobileRegex.test(mobileInput.replace(/\s+/g, ''))) {
                 statusMsg.classList.remove('hidden');
@@ -679,7 +724,7 @@
                 statusMsg.className = "text-center mt-6 text-sm font-bold tracking-widest p-4 rounded border border-red-500 text-red-500 bg-red-500/10";
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = `<span>Initialize Entry</span>`;
+                submitBtn.innerHTML = `<span>Confirm Your Slot</span>`;
             }
         });
     </script>
