@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-black">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mega Tournament | Book Slots</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        obsidian: '#050505',
+                        charcoal: '#0a0a0a',
+                        gold: '#d4af37',
+                        goldlight: '#f3e5ab',
+                        insta: '#E1306C',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at center, #111111 0%, #050505 100%);
+        }
+
+        .text-gold-foil {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0px 4px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .glass-panel {
+            background: rgba(15, 15, 15, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-panel:hover {
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(212, 175, 55, 0.1);
+        }
+
+        .cinematic-gif {
+            filter: grayscale(100%) opacity(40%) contrast(120%);
+            mix-blend-mode: luminosity;
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .glass-panel:hover .cinematic-gif {
+            filter: grayscale(0%) opacity(80%) contrast(100%);
+            mix-blend-mode: normal;
+        }
+
+        .input-solid {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .input-solid:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            background: #1a1a1a;
+        }
+        
+        .input-unique {
+            background: rgba(212, 175, 55, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.6);
+            border-radius: 8px;
+            color: #d4af37;
+            transition: all 0.3s ease;
+        }
+        .input-unique:focus {
+            outline: none;
+            border-color: #f3e5ab;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+            background: rgba(212, 175, 55, 0.15);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slot-machine-container {
+            position: relative;
+            display: inline-flex;
+            overflow: hidden;
+            padding: 0.1em 0;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold selection:text-black">
+
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- ENTRY SPLASH SCREEN GATE -->
+    <div id="entryOverlay" class="fixed inset-0 z-[999] bg-obsidian/80 backdrop-blur-3xl flex flex-col items-center justify-center transition-opacity duration-700">
+        <div class="text-center px-4">
+            <img src="https://ik.imagekit.io/silentgamers/Picsart_26-06-08_04-23-50-721.png?updatedAt=null&ik-s=8464e92973e64b7e41173dd1c840988a63c4c1b8" 
+                 alt="Logo" class="w-24 h-24 mx-auto rounded-full border-2 border-gold/50 shadow-[0_0_30px_rgba(212,175,55,0.4)] mb-8">
+            <h1 class="font-cinzel text-3xl md:text-5xl text-white font-black mb-10 tracking-widest uppercase text-shadow-xl">Welcome to The Mega Tournament</h1>
+            <button onclick="enterSite()" class="bg-gold text-black font-black font-cinzel text-xl md:text-2xl px-12 py-5 rounded-full uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(212,175,55,0.6)] hover:bg-white hover:scale-105 transition-all duration-300 animate-bounce">
+                Enter Tournament
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN WRAPPER -->
+    <div id="mainWrapper" class="filter blur-xl pointer-events-none transition-all duration-1000 h-screen overflow-hidden">
+        
+        <!-- Header / Navigation -->
+        <header class="fixed top-0 w-full z-50 transition-all duration-500" id="navbar">
+            <div class="glass-panel border-x-0 border-t-0 rounded-none px-4 py-3 md:px-6 md:py-4 flex items-center justify-between relative">
+                <div class="flex items-center z-10">
+                    <img src="https://ik.imagekit.io/silentgamers/Picsart_26-06-08_04-23-50-721.png?updatedAt=null&ik-s=8464e92973e64b7e41173dd1c840988a63c4c1b8" 
+                         alt="Logo" class="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gold/50 shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+                </div>
+                
+                <div class="absolute left-1/2 -translate-x-1/2 flex justify-center w-auto pointer-events-none">
+                    <img src="https://ik.imagekit.io/5lz94dan6e/Picsart_26-03-30_08-31-07-976.png?updatedAt=1774839684067" 
+                         alt="Brand Name" class="h-8 sm:h-10 md:h-12 object-contain opacity-90 drop-shadow-lg">
+                </div>
+
+                <div class="flex items-center gap-4 z-10">
+                    <!-- INSTAGRAM HEADER ICON -->
+                    <a href="https://instagram.com/dragontournament.xyz" target="_blank" class="text-gold/80 hover:text-insta hover:scale-110 transition-all duration-300" title="Follow us on Instagram">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </a>
+                    <div class="hidden sm:block">
+                        <a href="#register" class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-gold hover:text-white transition-colors duration-300">Secure Slot</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="relative z-10 pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-6xl mx-auto space-y-20 md:space-y-32">
+            
+            <!-- Hero Section -->
+            <section class="flex flex-col items-center justify-center text-center reveal mt-4 md:mt-0">
+                <!-- INSTAGRAM BRANDING LINK -->
+                <a href="https://instagram.com/dragontournament.xyz" target="_blank" class="text-gold tracking-[0.2em] md:tracking-[0.3em] uppercase text-[10px] md:text-md mb-2 md:mb-4 font-semibold hover:text-insta transition-colors duration-300 flex items-center gap-2">
+                    By @dragontournament.xyz
+                </a>
+                <h1 class="font-cinzel text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white leading-tight md:leading-none mb-4 drop-shadow-2xl">
+                    THE MEGA<br>
+                    <span class="text-gold-foil">TOURNAMENT</span>
+                </h1>
+                <p class="mt-4 md:mt-8 text-gray-400 font-light tracking-wide max-w-xl mx-auto text-sm md:text-lg leading-relaxed">
+                    An elite battlefield forged for legends. Experience esports at the pinnacle of luxury and competition.
+                </p>
+            </section>
+
+            <!-- Live Slot Indicator Panel -->
+            <section class="reveal">
+                <div class="glass-panel p-6 md:p-12 rounded-3xl flex flex-col items-center justify-center relative overflow-hidden">
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
+                    <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
+                    
+                    <div class="flex items-center justify-center gap-3 mb-6">
+                        <div class="relative flex h-3 w-3 mt-1">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_#22c55e]"></span>
+                        </div>
+                        <h3 class="font-cinzel text-xl md:text-3xl text-gray-300 uppercase tracking-[0.1em] md:tracking-[0.15em] text-center">Live Roster Registry</h3>
+                    </div>
+
+                    <!-- Custom Audio Player -->
+                    <audio id="mainAudio" src="lv_0_20260608052907.mp3" loop></audio>
+                    <button onclick="toggleMainAudio()" class="flex items-center gap-3 bg-black/60 border border-gold/50 px-6 py-3 rounded-full hover:bg-gold/10 transition-all shadow-[0_0_15px_rgba(212,175,55,0.2)] hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] z-20 mb-8 group">
+                        <div id="audioIcon" class="w-4 h-4 bg-gold rounded-full animate-pulse group-hover:bg-white transition-colors"></div>
+                        <span id="audioText" class="font-sans text-xs tracking-widest text-gold group-hover:text-white uppercase font-bold transition-colors">Play Announcement</span>
+                    </button>
+                    
+                    <div class="flex flex-row items-baseline justify-center gap-2 md:gap-4 mb-6">
+                        <div class="slot-machine-container px-2">
+                            <span id="slotCurrent" class="block text-5xl sm:text-6xl md:text-8xl font-black text-gold-foil font-cinzel leading-none transition-transform duration-700 ease-in-out transform translate-y-0 pb-2">---</span>
+                            <span id="slotNext" class="absolute left-0 right-0 top-0 text-center text-5xl sm:text-6xl md:text-8xl font-black text-gold-foil font-cinzel leading-none transition-transform duration-700 ease-in-out transform translate-y-full pb-2"></span>
+                        </div>
+                        <span class="text-xl sm:text-2xl md:text-4xl text-gray-600 font-light">/ 2304</span>
+                    </div>
+                    
+                    <div class="h-1 w-full max-w-md bg-gray-800 rounded-full overflow-hidden mb-6">
+                        <div id="slotProgressBar" class="h-full bg-gold transition-all duration-[2000ms] ease-out w-0 shadow-[0_0_10px_#d4af37]"></div>
+                    </div>
+
+                    <div id="discountNotice" class="hidden opacity-0 transition-opacity duration-1000 border border-gold/30 bg-gold/5 px-4 md:px-8 py-3 rounded-xl w-full max-w-md">
+                        <p class="text-goldlight font-medium tracking-wide flex items-center justify-center gap-2 text-xs md:text-sm">
+                            <svg class="w-4 h-4 md:w-5 md:h-5 text-gold animate-pulse flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1z"></path></svg>
+                            <span>Exclusive Early Access: <strong class="text-gold">50% OFF (₹50 Entry)</strong></span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Round Rewards CTA -->
+            <section class="flex flex-col items-center justify-center reveal">
+                <button onclick="openRewardsModal()" class="glass-panel group relative w-full max-w-md py-8 rounded-3xl cursor-pointer overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:border-gold">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <h2 class="font-cinzel text-3xl md:text-4xl text-white font-bold uppercase tracking-widest relative z-10 group-hover:text-gold transition-colors duration-300">Round Rewards</h2>
+                    <div class="mt-5 bg-gold text-black font-bold uppercase tracking-widest text-xs py-3 px-8 rounded-full inline-block group-hover:bg-white transition-colors shadow-[0_0_20px_rgba(212,175,55,0.6)] relative z-10">
+                        Click to Check ➔
+                    </div>
+                </button>
+            </section>
+
+            <!-- SECURE FORM: Book Slots -->
+            <section id="register" class="reveal pt-6 md:pt-10">
+                <div class="max-w-2xl mx-auto bg-charcoal border border-gold/40 shadow-[0_0_40px_rgba(212,175,55,0.15)] p-6 md:p-12 rounded-3xl relative">
+                    
+                    <div class="text-center mb-10 border-b border-gray-800 pb-8">
+                        <h2 class="font-cinzel text-4xl md:text-5xl text-gold font-bold mb-2 tracking-wider">Book Slots</h2>
+                        <p class="text-gray-400 font-light text-xs md:text-sm tracking-widest uppercase">Enter Player Credentials</p>
+                    </div>
+
+                    <form id="registrationForm" class="space-y-6">
+                        
+                        <div>
+                            <label class="block text-gray-400 text-xs md:text-sm uppercase tracking-widest font-bold mb-2 ml-1">In-Game Name</label>
+                            <input type="text" id="gameName" required class="input-solid w-full text-base md:text-lg px-4 py-4" placeholder="Enter your name">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-400 text-xs md:text-sm uppercase tracking-widest font-bold mb-2 ml-1">Game UID</label>
+                            <input type="text" id="gameUid" required class="input-solid w-full text-base md:text-lg px-4 py-4" placeholder="e.g. 123456789">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-400 text-xs md:text-sm uppercase tracking-widest font-bold mb-2 ml-1">WhatsApp Number</label>
+                            <input type="tel" id="mobileNumber" required class="input-solid w-full text-base md:text-lg px-4 py-4" placeholder="+91 00000 00000">
+                        </div>
+
+                        <div class="pt-6 mt-6 border-t border-gray-800">
+                            <label class="block text-gold text-xs md:text-sm uppercase tracking-widest font-bold mb-3 ml-1 text-center sm:text-left">Unique Access Code</label>
+                            
+                            <div class="flex flex-col sm:flex-row gap-4 items-stretch">
+                                <div class="flex-grow w-full">
+                                    <input type="text" id="uniqueCode" required class="input-unique w-full text-xl md:text-2xl font-cinzel text-center tracking-[0.3em] uppercase py-4" placeholder="ENTER CODE">
+                                </div>
+                                
+                                <button type="button" onclick="openWhatsappModal()" class="w-full sm:w-auto bg-gradient-to-r from-gold to-yellow-600 text-black font-bold uppercase tracking-widest py-4 px-6 rounded-lg hover:from-white hover:to-gray-200 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.4)] flex-shrink-0 text-sm md:text-base flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                                    Get Code
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="w-full mt-10 bg-transparent border-2 border-gold text-gold font-cinzel font-bold text-lg md:text-xl uppercase tracking-[0.1em] md:tracking-[0.2em] py-5 rounded-xl hover:bg-gold hover:text-black transition-all duration-500 shadow-[0_0_15px_rgba(212,175,55,0.1)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] flex justify-center items-center">
+                            <span>Confirm Your Slot</span>
+                        </button>
+
+                        <div id="statusMessage" class="hidden text-center mt-4 text-xs md:text-sm font-light tracking-widest p-3 rounded border"></div>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER: INSTAGRAM BRANDING (BILKUL LAST MA) -->
+        <footer class="border-t border-gray-900 bg-obsidian py-12 flex flex-col items-center justify-center relative z-10 text-center px-4">
+            
+            <a href="https://instagram.com/dragontournament.xyz" target="_blank" class="group flex items-center justify-center gap-3 mb-8 bg-charcoal border border-gray-800 px-6 py-4 rounded-full hover:border-insta transition-all duration-500 shadow-lg hover:shadow-[0_0_30px_rgba(225,48,108,0.4)]">
+                <svg class="w-6 h-6 text-gray-400 group-hover:text-insta transition-colors duration-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                <span class="font-sans font-bold text-gray-400 group-hover:text-white tracking-widest text-sm uppercase transition-colors duration-500">@dragontournament.xyz</span>
+            </a>
+
+            <p class="text-gray-600 font-light text-[10px] md:text-sm tracking-widest uppercase">&copy; 2026 Dragontournament.xyz. All Rights Reserved.</p>
+        </footer>
+    </div> <!-- END MAIN WRAPPER -->
+
+    <!-- WhatsApp Voice & Purchase Modal -->
+    <div id="whatsappModal" class="fixed inset-0 z-[110] hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-charcoal border border-gold/50 p-8 rounded-3xl max-w-md w-full text-center relative shadow-[0_0_50px_rgba(212,175,55,0.2)]">
+            <button onclick="closeWhatsappModal()" class="absolute top-4 right-5 text-gray-500 hover:text-white text-2xl font-light">✕</button>
+            <h3 class="text-gold font-cinzel text-xl md:text-2xl font-bold mb-8 tracking-wide">Listen to the Voice Before Continuing</h3>
+            
+            <audio id="waAudio" src="Whatsapp_audio.mp3"></audio>
+            <button onclick="toggleWaAudio()" class="bg-gray-900 border border-gray-700 text-white w-full py-5 rounded-xl flex items-center justify-center gap-4 mb-8 hover:bg-gray-800 transition-colors shadow-inner">
+                <div id="waAudioIcon" class="w-8 h-8 flex items-center justify-center bg-gold text-black rounded-full text-xs">⏸</div>
+                <span id="waAudioText" class="tracking-widest uppercase text-sm font-bold">Pause Voice Note</span>
+            </button>
+
+            <a id="whatsappLink" href="#" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#25D366] hover:bg-[#1ebd5a] text-white font-bold py-5 rounded-xl text-lg uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(37,211,102,0.4)]">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                <span>Buy Code in ₹<span id="dynamicPrice">100</span></span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Rewards Modal System -->
+    <div id="rewardsModal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-xl transition-opacity duration-500 opacity-0 overflow-y-auto">
+        <div class="min-h-screen flex flex-col items-center p-4 md:p-8 pt-20 md:pt-24 pb-20 relative">
+            <button onclick="closeRewardsModal()" class="absolute top-6 right-6 md:top-10 md:right-10 text-gray-500 hover:text-gold transition-colors z-50">
+                <svg class="w-10 h-10 md:w-12 md:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div id="roundTabButtons" class="flex flex-col md:flex-row gap-4 w-full max-w-3xl mb-8 mt-10 transition-all duration-500">
+                <button id="tab1" onclick="showRoundCard(1)" class="flex-1 glass-panel py-5 rounded-xl font-cinzel text-xl text-white font-bold uppercase tracking-widest hover:bg-gold hover:text-black transition-all">Round 1</button>
+                <button id="tab2" onclick="showRoundCard(2)" class="flex-1 glass-panel py-5 rounded-xl font-cinzel text-xl text-white font-bold uppercase tracking-widest hover:bg-gold hover:text-black transition-all">Round 2</button>
+                <button id="tab3" onclick="showRoundCard(3)" class="flex-1 glass-panel py-5 rounded-xl font-cinzel text-xl text-white font-bold uppercase tracking-widest hover:bg-gold hover:text-black transition-all">Round 3</button>
+            </div>
+            <div class="w-full max-w-4xl relative">
+                <!-- Round Cards -->
+                <article id="roundCard1" class="hidden glass-panel rounded-3xl overflow-hidden group flex flex-col md:flex-row relative">
+                    <div class="md:w-2/5 relative h-56 md:h-auto overflow-hidden">
+                        <img src="https://ik.imagekit.io/silentgamers/200%20(1).webp?updatedAt=1763892964406&ik-s=320aa3b072c4ee96a247e2c0bc58d76fd1fea9de" class="absolute inset-0 w-full h-full object-cover cinematic-gif" alt="Round 1">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent md:bg-gradient-to-l md:from-black/80"></div>
+                        <div class="absolute bottom-4 left-6 md:top-6 md:left-6 z-10"><span class="font-cinzel text-5xl md:text-6xl text-white font-black opacity-30">I</span></div>
+                    </div>
+                    <div class="p-6 md:p-12 md:w-3/5 z-10 flex flex-col justify-center">
+                        <h3 class="font-cinzel text-2xl md:text-4xl text-gold mb-4 md:mb-6 font-bold">Round 1: The Entry<br><span class="text-sm md:text-lg text-gray-400 font-sans tracking-widest uppercase mt-1 md:mt-2 block">Ek Match,</span></h3>
+                        <div class="space-y-4 font-light text-gray-300 text-sm md:text-base">
+                            <p class="flex items-start gap-3"><span class="text-gold">⚔️</span> <span><strong>1 Match for every player.</strong> Survive Challange.</span></p>
+                            <p class="flex items-start gap-3"><span class="text-green-500">♻️</span> <span><strong>Revival: ON.</strong> full freedom.</span></p>
+                            <div class="pt-4 mt-4 border-t border-gray-800">
+                                <h4 class="text-white uppercase tracking-widest text-xs md:text-sm mb-2">Objective</h4>
+                                <p class="text-sm md:text-lg">Secure the <strong class="text-gold">Booyah</strong> to earn <span class="text-white">₹100 Cashback Instantly</span> + <span class="text-gold">Round 2 Ticket</span>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article id="roundCard2" class="hidden glass-panel rounded-3xl overflow-hidden group flex flex-col md:flex-row-reverse relative">
+                    <div class="md:w-2/5 relative h-56 md:h-auto overflow-hidden">
+                        <img src="https://ik.imagekit.io/silentgamers/200.webp?updatedAt=1763892964695&ik-s=53d9ec8e891916a8cbf62d619dcf578c24fa9bad" class="absolute inset-0 w-full h-full object-cover cinematic-gif" alt="Round 2">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent md:bg-gradient-to-r md:from-black/80"></div>
+                        <div class="absolute bottom-4 right-6 md:top-6 md:right-6 z-10 text-right"><span class="font-cinzel text-5xl md:text-6xl text-white font-black opacity-30">II</span></div>
+                    </div>
+                    <div class="p-6 md:p-12 md:w-3/5 z-10 flex flex-col justify-center">
+                        <h3 class="font-cinzel text-2xl md:text-4xl text-gold mb-4 md:mb-6 font-bold">Round 2: The Semis<br><span class="text-sm md:text-lg text-gray-400 font-sans tracking-widest uppercase mt-1 md:mt-2 block">Kill Choro, Paisa Batoro</span></h3>
+                        <div class="space-y-4 font-light text-gray-300 text-sm md:text-base">
+                            <p class="flex items-start gap-3"><span class="text-gold">⚔️</span> <span><strong>3 Matches Total.</strong> ya 3 k 3 match sub khela ga jo round 2 ma hai back to back.</span></p>
+                            <p class="flex items-start gap-3"><span class="text-red-500">🛡️</span> <span><strong>Revival: OFF.</strong> Esports Rules applied.</span></p>
+                            <div class="pt-4 mt-4 border-t border-gray-800">
+                                <h4 class="text-white uppercase tracking-widest text-xs md:text-sm mb-3">Bounty System (₹350 / Kill)</h4>
+                                <div class="grid grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm">
+                                    <div class="bg-black/50 p-2 md:p-3 rounded border border-gray-800">1 Kill = <span class="text-gold">₹350</span></div>
+                                    <div class="bg-black/50 p-2 md:p-3 rounded border border-gray-800">2 Kills = <span class="text-gold">₹700</span></div>
+                                    <div class="bg-black/50 p-2 md:p-3 rounded border border-gray-800">5 Kills = <span class="text-gold">₹1,750</span></div>
+                                    <div class="bg-black/50 p-2 md:p-3 rounded border border-gray-800">10 Kills = <span class="text-gold">₹3,500</span></div>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-goldlight text-xs md:text-sm tracking-wide">🏆 Top 4 players on the points table Goes to Round 3.</p>
+                        </div>
+                    </div>
+                </article>
+                <article id="roundCard3" class="hidden glass-panel rounded-3xl overflow-hidden group flex flex-col md:flex-row relative">
+                    <div class="md:w-2/5 relative h-56 md:h-auto overflow-hidden">
+                        <img src="https://ik.imagekit.io/silentgamers/giphy.gif?updatedAt=1760165533861&ik-s=77653c4e5a83167cdd43926cf176edfcac3114a8" class="absolute inset-0 w-full h-full object-cover cinematic-gif" alt="Round 3">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent md:bg-gradient-to-l md:from-black/80"></div>
+                        <div class="absolute bottom-4 left-6 md:top-6 md:left-6 z-10"><span class="font-cinzel text-5xl md:text-6xl text-white font-black opacity-30">III</span></div>
+                    </div>
+                    <div class="p-6 md:p-12 md:w-3/5 z-10 flex flex-col justify-center">
+                        <h3 class="font-cinzel text-2xl md:text-4xl text-gold mb-4 md:mb-6 font-bold">Round 3: Grand Final<br><span class="text-sm md:text-lg text-gray-400 font-sans tracking-widest uppercase mt-1 md:mt-2 block">Final Fight</span></h3>
+                        <div class="space-y-4 font-light text-gray-300 text-sm md:text-base">
+                            <p class="flex items-start gap-3"><span class="text-gold">⚔️</span> <span><strong>1 Mega Final Match</strong> in a full 20-Player Elite Lobby.</span></p>
+                            <div class="pt-4 mt-4 border-t border-gray-800">
+                                <h4 class="text-white uppercase tracking-widest text-xs md:text-sm mb-4">The Grand Spoils</h4>
+                                <ul class="space-y-3">
+                                    <li class="flex items-center justify-between"><span class="text-gold-foil font-bold">1st Place</span> <span class="text-right">Iphone 17 Pro <br><span class="text-[10px] md:text-xs text-gray-500">(From Ujjwal Malik)</span></span></li>
+                                    <li class="flex items-center justify-between"><span class="text-gray-300 font-bold">2nd Place</span> <span>₹75,000 Cash</span></li>
+                                    <li class="flex items-center justify-between"><span class="text-orange-400 font-bold">3rd Place</span> <span>₹25,000 Cash</span></li>
+                                    <li class="flex items-center justify-between"><span class="text-gray-400 font-bold">4th Place</span> <span>₹15,400 Cash</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function enterSite() {
+            const overlay = document.getElementById('entryOverlay');
+            const wrapper = document.getElementById('mainWrapper');
+            const mainAudio = document.getElementById('mainAudio');
+            
+            overlay.classList.add('opacity-0');
+            setTimeout(() => overlay.classList.add('hidden'), 700);
+            
+            wrapper.classList.remove('blur-xl', 'pointer-events-none', 'h-screen', 'overflow-hidden');
+            
+            mainAudio.play().catch(e => console.log("Audio block:", e));
+            updateMainAudioUI(true);
+        }
+
+        function updateMainAudioUI(isPlaying) {
+            const icon = document.getElementById('audioIcon');
+            const text = document.getElementById('audioText');
+            if(isPlaying) {
+                icon.classList.remove('rounded-full', 'animate-pulse');
+                icon.classList.add('rounded-sm');
+                text.innerText = "Pause Announcement";
+            } else {
+                icon.classList.add('rounded-full', 'animate-pulse');
+                icon.classList.remove('rounded-sm');
+                text.innerText = "Play Announcement";
+            }
+        }
+
+        function toggleMainAudio() {
+            const audio = document.getElementById('mainAudio');
+            if(audio.paused) {
+                audio.play();
+                updateMainAudioUI(true);
+            } else {
+                audio.pause();
+                updateMainAudioUI(false);
+            }
+        }
+
+        function openWhatsappModal() {
+            const mainAudio = document.getElementById('mainAudio');
+            if(!mainAudio.paused) {
+                mainAudio.pause();
+                updateMainAudioUI(false);
+            }
+
+            const modal = document.getElementById('whatsappModal');
+            const priceSpan = document.getElementById('dynamicPrice');
+            const waLink = document.getElementById('whatsappLink');
+            
+            const price = targetSlots < 1152 ? 50 : 100;
+            priceSpan.innerText = price;
+            
+            const currentUid = document.getElementById('gameUid').value;
+            let msg = `Hi bhai muza Uniqe Code buy karna hai in ₹${price}.`;
+            if (currentUid.trim().length > 0) {
+                msg += ` Mera Game UID: ${currentUid} hai.`;
+            }
+
+            const encodedText = encodeURIComponent(msg);
+            waLink.href = `https://wa.me/917078343501?text=${encodedText}`;
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            document.body.style.overflow = 'hidden';
+
+            const waAudio = document.getElementById('waAudio');
+            waAudio.play().catch(e => console.log("WA Audio blocked:", e));
+            document.getElementById('waAudioIcon').innerText = "⏸";
+            document.getElementById('waAudioText').innerText = "Pause Voice Note";
+        }
+
+        function closeWhatsappModal() {
+            const modal = document.getElementById('whatsappModal');
+            modal.classList.add('opacity-0');
+            
+            const waAudio = document.getElementById('waAudio');
+            waAudio.pause();
+            waAudio.currentTime = 0;
+            document.getElementById('waAudioIcon').innerText = "▶";
+            document.getElementById('waAudioText').innerText = "Play Voice Note";
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        function toggleWaAudio() {
+            const audio = document.getElementById('waAudio');
+            const icon = document.getElementById('waAudioIcon');
+            const text = document.getElementById('waAudioText');
+            
+            if(audio.paused) {
+                audio.play();
+                icon.innerText = "⏸";
+                text.innerText = "Pause Voice Note";
+            } else {
+                audio.pause();
+                icon.innerText = "▶";
+                text.innerText = "Play Voice Note";
+            }
+        }
+
+        function openRewardsModal() {
+            const modal = document.getElementById('rewardsModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+            document.body.style.overflow = 'hidden';
+            showRoundCard(1);
+        }
+
+        function closeRewardsModal() {
+            const modal = document.getElementById('rewardsModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = ''; 
+            }, 500); 
+        }
+
+        function showRoundCard(roundNum) {
+            [1, 2, 3].forEach(num => {
+                document.getElementById('roundCard' + num).classList.add('hidden');
+                const btn = document.getElementById('tab' + num);
+                btn.classList.remove('bg-gold', 'text-black', 'scale-105');
+                btn.classList.add('text-white');
+            });
+            const card = document.getElementById('roundCard' + roundNum);
+            const activeBtn = document.getElementById('tab' + roundNum);
+            
+            card.classList.remove('hidden');
+            activeBtn.classList.remove('text-white');
+            activeBtn.classList.add('bg-gold', 'text-black', 'scale-105');
+            
+            if(window.innerWidth < 768) {
+                setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+            }
+        }
+
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [], mouse = { x: null, y: null };
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            const particleCount = window.innerWidth < 768 ? 40 : 100;
+            for(let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width, y: Math.random() * height,
+                    radius: Math.random() * 1.5, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+                    alpha: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
+
+        function animateCanvas() {
+            requestAnimationFrame(animateCanvas);
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if (mouse.x != null && mouse.y != null) {
+                    let dx = mouse.x - p.x, dy = mouse.y - p.y;
+                    if (Math.sqrt(dx * dx + dy * dy) < 150) { p.x -= dx * 0.01; p.y -= dy * 0.01; }
+                }
+                if (p.x < 0) p.x = width; if (p.x > width) p.x = 0;
+                if (p.y < 0) p.y = height; if (p.y > height) p.y = 0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212, 175, 55, ${p.alpha})`; ctx.shadowBlur = 10; ctx.shadowColor = '#d4af37'; ctx.fill();
+            });
+        }
+        window.addEventListener('resize', initCanvas);
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        initCanvas(); animateCanvas();
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); revealObserver.unobserve(entry.target); } });
+        }, { threshold: 0.1 });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        const MAX_SLOTS = 2304;
+        let targetSlots = 0;
+        const currentEl = document.getElementById('slotCurrent');
+        const nextEl = document.getElementById('slotNext');
+        const progressBar = document.getElementById('slotProgressBar');
+        const discountNotice = document.getElementById('discountNotice');
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx_o_i1Db0HKJIH_wjG4sJW7tL9DyRPqRUMen88i_mJMerKVjwuBjZV0S20tFCQN0bt/exec';
+
+        function animateCounterOnLoad(start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const easeProgress = 1 - Math.pow(1 - progress, 3); 
+                currentEl.innerText = Math.floor(easeProgress * (end - start) + start);
+                if (progress < 1) { window.requestAnimationFrame(step); } 
+                else { updateVisualStates(end); }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        function updateVisualStates(value) {
+            progressBar.style.width = `${(value / MAX_SLOTS) * 100}%`;
+            if (value < 1152) {
+                discountNotice.classList.remove('hidden');
+                setTimeout(() => discountNotice.classList.add('opacity-100'), 100);
+            } else {
+                discountNotice.classList.add('hidden');
+                discountNotice.classList.remove('opacity-100');
+            }
+        }
+
+        function rollToNewNumber(newNumber) {
+            if (newNumber === parseInt(currentEl.innerText)) return; 
+            nextEl.innerText = newNumber;
+            currentEl.classList.remove('translate-y-0'); currentEl.classList.add('-translate-y-full', 'opacity-0');
+            nextEl.classList.remove('translate-y-full'); nextEl.classList.add('translate-y-0');
+            setTimeout(() => {
+                currentEl.classList.remove('transition-transform', 'duration-700', 'ease-in-out');
+                nextEl.classList.remove('transition-transform', 'duration-700', 'ease-in-out');
+                currentEl.innerText = newNumber;
+                currentEl.classList.remove('-translate-y-full', 'opacity-0'); currentEl.classList.add('translate-y-0');
+                nextEl.classList.remove('translate-y-0'); nextEl.classList.add('translate-y-full');
+                setTimeout(() => {
+                    currentEl.classList.add('transition-transform', 'duration-700', 'ease-in-out');
+                    nextEl.classList.add('transition-transform', 'duration-700', 'ease-in-out');
+                }, 50);
+                updateVisualStates(newNumber);
+            }, 700); 
+        }
+
+        async function fetchLiveCount(isInitialLoad = false) {
+            try {
+                const response = await fetch(SCRIPT_URL);
+                const data = await response.json();
+                if (data.status === 'success') {
+                    const fetchedCount = data.totalCount;
+                    if (isInitialLoad) {
+                        targetSlots = fetchedCount;
+                        currentEl.classList.remove("animate-pulse");
+                        animateCounterOnLoad(0, targetSlots, 2000);
+                    } else if (fetchedCount !== targetSlots) {
+                        targetSlots = fetchedCount;
+                        rollToNewNumber(targetSlots);
+                    }
+                }
+            } catch (error) { console.error("Fetch error:", error); }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            currentEl.classList.add("animate-pulse");
+            fetchLiveCount(true); 
+            setInterval(() => { fetchLiveCount(false); }, 30000);
+        });
+
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const statusMsg = document.getElementById('statusMessage');
+            const mobileInput = document.getElementById('mobileNumber').value;
+            
+            const mobileRegex = /^\+?[0-9]{10,15}$/;
+            if(!mobileRegex.test(mobileInput.replace(/\s+/g, ''))) {
+                statusMsg.classList.remove('hidden');
+                statusMsg.innerHTML = "ACCESS DENIED: INVALID WHATSAPP NUMBER.";
+                statusMsg.className = "text-center mt-6 text-sm font-bold tracking-widest p-4 rounded border border-red-500 text-red-500 bg-red-500/10";
+                return;
+            }
+
+            const payload = {
+                gameName: document.getElementById('gameName').value,
+                gameUid: document.getElementById('gameUid').value,
+                mobileNumber: mobileInput,
+                uniqueCode: document.getElementById('uniqueCode').value.toUpperCase()
+            };
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<svg class="animate-spin h-5 w-5 text-gold" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            statusMsg.classList.add('hidden');
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+
+                const result = await response.json();
+
+                statusMsg.classList.remove('hidden');
+                if (result.status === 'success') {
+                    statusMsg.innerHTML = "ENTRY AUTHORIZED. SLOT SECURED.";
+                    statusMsg.className = "text-center mt-6 text-sm font-bold tracking-widest p-4 rounded border border-gold text-gold bg-gold/10";
+                    document.getElementById('registrationForm').reset();
+                    targetSlots += 1;
+                    rollToNewNumber(targetSlots);
+                } else {
+                    statusMsg.innerHTML = "ACCESS DENIED: " + result.message;
+                    statusMsg.className = "text-center mt-6 text-sm font-bold tracking-widest p-4 rounded border border-red-500 text-red-500 bg-red-500/10";
+                }
+            } catch (error) {
+                statusMsg.classList.remove('hidden');
+                statusMsg.innerHTML = "COMMUNICATION FAILURE. RETRY.";
+                statusMsg.className = "text-center mt-6 text-sm font-bold tracking-widest p-4 rounded border border-red-500 text-red-500 bg-red-500/10";
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>Confirm Your Slot</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
