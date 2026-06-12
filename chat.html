@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Dragon Tournaments - Dashboard</title>
     <style>
         :root {
@@ -25,6 +25,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -33,28 +34,28 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Use dvh to adapt to mobile browser address bars dynamically */
             height: 100vh;
+            height: 100dvh; 
             overflow: hidden;
+            margin: 0;
         }
 
+        /* Switched from a floating box to a full-screen native app feel */
         .window-container {
             width: 100%;
-            max-width: 480px;
-            height: 95vh;
+            height: 100%;
             background-color: var(--bg-card);
-            border-radius: 20px;
-            border: 1px solid #282834;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
             position: relative;
         }
 
         .app-header {
-            padding: 18px 20px;
+            /* Added top safe area for notch/status bar on mobiles */
+            padding: calc(18px + env(safe-area-inset-top)) 20px 18px 20px;
             background: linear-gradient(135deg, #131316 0%, #1a1a26 100%);
             border-bottom: 1px solid #282834;
-            border-radius: 20px 20px 0 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -155,10 +156,10 @@
         .whatsapp-redirect-btn:hover { opacity: 0.9; }
 
         .options-panel {
-            padding: 18px;
+            /* Dynamic padding to stay above mobile nav bars */
+            padding: 18px 18px calc(18px + env(safe-area-inset-bottom)) 18px;
             background-color: var(--bg-panel);
             border-top: 1px solid #282834;
-            border-radius: 0 0 20px 20px;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -206,7 +207,6 @@
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.88);
-            border-radius: 20px;
             display: none;
             justify-content: center;
             align-items: center;
@@ -261,7 +261,7 @@
             <div class="brand-logo"><span>D</span></div>
             <div class="brand-text">
                 <h1>Dragon Tournaments</h1>
-                <span class="tc-header-link" onclick="openModal()">Terms & Conditions</span>
+                <span class="tc-header-link" onclick="openModal(event)">Terms & Conditions</span>
             </div>
         </div>
         <div class="status-badge">Admin: Raj</div>
@@ -285,7 +285,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Official Terms & Conditions</h2>
-                <button class="close-modal" onclick="closeModal()">×</button>
+                <button class="close-modal" onclick="closeModal(event)">×</button>
             </div>
             <div class="modal-body">
                 <p>Welcome to the official legal framework and compliance document of Dragon Tournaments. By registering, paying the slot allotment fee, or participating in any segment of this platform, you automatically agree to abide by all the clauses mentioned herein. Please read this highly technical legal script carefully before initializing any asset transfer.</p>
@@ -324,8 +324,30 @@
     let filledSlots = 0;
     let availableSlots = 2304;
 
-    function openModal() { document.getElementById('tc-modal').classList.add('active'); }
-    function closeModal() { document.getElementById('tc-modal').classList.remove('active'); }
+    // Fullscreen Auto-Trigger on first interaction
+    document.body.addEventListener('click', function initFullScreen() {
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen().catch(err => console.log("Fullscreen prevented:", err));
+        }
+        // Remove listener after first trigger
+        document.body.removeEventListener('click', initFullScreen);
+    }, { once: true });
+    
+    document.body.addEventListener('touchstart', function initFullScreenTouch() {
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen().catch(err => console.log("Fullscreen prevented:", err));
+        }
+        document.body.removeEventListener('touchstart', initFullScreenTouch);
+    }, { once: true });
+
+    function openModal(e) { 
+        if(e) e.stopPropagation(); 
+        document.getElementById('tc-modal').classList.add('active'); 
+    }
+    function closeModal(e) { 
+        if(e) e.stopPropagation(); 
+        document.getElementById('tc-modal').classList.remove('active'); 
+    }
 
     async function fetchLiveSlots() {
         if(!WEB_APP_URL || WEB_APP_URL === "YOUR_WEB_APP_URL_HERE") return;
