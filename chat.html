@@ -34,14 +34,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Use dvh to adapt to mobile browser address bars dynamically */
             height: 100vh;
             height: 100dvh; 
             overflow: hidden;
             margin: 0;
         }
 
-        /* Switched from a floating box to a full-screen native app feel */
         .window-container {
             width: 100%;
             height: 100%;
@@ -52,7 +50,6 @@
         }
 
         .app-header {
-            /* Added top safe area for notch/status bar on mobiles */
             padding: calc(18px + env(safe-area-inset-top)) 20px 18px 20px;
             background: linear-gradient(135deg, #131316 0%, #1a1a26 100%);
             border-bottom: 1px solid #282834;
@@ -156,7 +153,6 @@
         .whatsapp-redirect-btn:hover { opacity: 0.9; }
 
         .options-panel {
-            /* Dynamic padding to stay above mobile nav bars */
             padding: 18px 18px calc(18px + env(safe-area-inset-bottom)) 18px;
             background-color: var(--bg-panel);
             border-top: 1px solid #282834;
@@ -317,8 +313,8 @@
 </div>
 
 <script>
-    // 🔗 APNA GOOGLE APPS SCRIPT WEB APP URL IDHAR PASTE KARO:
-    const WEB_APP_URL = "YOUR_WEB_APP_URL_HERE";
+    // 🔗 Original Web App URL Added
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx_o_i1Db0HKJIH_wjG4sJW7tL9DyRPqRUMen88i_mJMerKVjwuBjZV0S20tFCQN0bt/exec";
 
     let totalSlots = 2304;
     let filledSlots = 0;
@@ -329,7 +325,6 @@
         if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
             document.documentElement.requestFullscreen().catch(err => console.log("Fullscreen prevented:", err));
         }
-        // Remove listener after first trigger
         document.body.removeEventListener('click', initFullScreen);
     }, { once: true });
     
@@ -350,7 +345,7 @@
     }
 
     async function fetchLiveSlots() {
-        if(!WEB_APP_URL || WEB_APP_URL === "YOUR_WEB_APP_URL_HERE") return;
+        if(!WEB_APP_URL) return;
         try {
             const response = await fetch(WEB_APP_URL);
             const data = await response.json();
@@ -371,7 +366,7 @@
         
         if (filledSlots < earlyBirdLimit) {
             let earlyBirdLeft = earlyBirdLimit - filledSlots;
-            feeSummary = `Total 2304 slots hain jisme se abhi <strong>${availableSlots} slots baaki hain</strong>. Jaldi karo, abhi Early Bird discount active hai aur entry sirf ₹50 mein mil rahi hai! Aap direct niche diye gaye button se WhatsApp par instantaneous registration kar sakte hain.<br><a href='https://wa.me/917078343501?text=Hey%20Raj%20bhai,%20mujhe%20Mega%20Tournament%20mein%20slot%20book%20karwana%20hai!' target='_blank' class='whatsapp-redirect-btn'>💬 Register on WhatsApp Now</a>`;
+            feeSummary = `Total 2304 slots hain jisme se abhi <strong>${availableSlots} slots baaki hain</strong>. Jaldi karo, abhi Early Bird discount active hai aur entry sirf ₹50 mein mil rahi hai! Aap direct niche diye gaye button se WhatsApp par instantaneous registration kar sakte hain.<br><a href='https://wa.me/917078343501?text=Hey%20Raj%20bhai,%20mujhe%20Early%20Bird%20mein%20slot%20book%20karwana%20hai!' target='_blank' class='whatsapp-redirect-btn'>💬 Register on WhatsApp Now</a>`;
             
             feeDetailed = `<ul>
                 <li><strong>Tournament Capacity:</strong> 2304 Slots</li>
@@ -380,7 +375,7 @@
                 <li><strong>Discount Tracker:</strong> Pehle 1152 players ko flat half price (₹50) milega. Discount ke liye sirf <strong>${earlyBirdLeft} slots bache hain!</strong> Uske baad ₹100 standard fee lagegi.</li>
             </ul>`;
         } else {
-            feeSummary = `Total 2304 slots hain jisme se abhi <strong>${availableSlots} slots baaki hain</strong>. Standard Entry fee ₹100 active hai. Aap niche click karke WhatsApp par direct registration complete karein.<br><a href='https://wa.me/917078343501?text=Hey%20Raj%20bhai,%20mujhe%20Mega%20Tournament%20book%20karwana%20hai!' target='_blank' class='whatsapp-redirect-btn'>💬 Register on WhatsApp Now</a>`;
+            feeSummary = `Total 2304 slots hain jisme se abhi <strong>${availableSlots} slots baaki hain</strong>. Standard Entry fee ₹100 active hai. Aap niche click karke WhatsApp par direct registration complete karein.<br><a href='https://wa.me/917078343501?text=Hey%20Raj%20bhai,%20mujhe%20Standard%20Slot%20book%20karwana%20hai!' target='_blank' class='whatsapp-redirect-btn'>💬 Register on WhatsApp Now</a>`;
             
             feeDetailed = `<ul>
                 <li><strong>Tournament Capacity:</strong> 2304 Slots</li>
