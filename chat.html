@@ -171,6 +171,13 @@
             letter-spacing: 1px;
         }
 
+        /* Continuous subtle pulse animation for loading indicator */
+        @keyframes loaderPulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
         .options-grid {
             display: flex;
             flex-wrap: wrap;
@@ -273,6 +280,7 @@
 
     <div class="options-panel">
         <div class="panel-title" id="panel-title">Main Menu</div>
+        <div id="loading-status" style="color: var(--primary); font-size: 0.85rem; font-weight: 700; text-align: center; display: none; margin-bottom: 6px; letter-spacing: 0.5px; animation: loaderPulse 1.5s infinite;">⏳ Live data fetch ho raha hai...</div>
         <div class="options-grid" id="options-grid">
             </div>
     </div>
@@ -313,27 +321,20 @@
 </div>
 
 <script>
-    // 🔗 Original Web App URL Added
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx_o_i1Db0HKJIH_wjG4sJW7tL9DyRPqRUMen88i_mJMerKVjwuBjZV0S20tFCQN0bt/exec";
 
     let totalSlots = 2304;
     let filledSlots = 0;
     let availableSlots = 2304;
 
-    // Fullscreen Auto-Trigger on first interaction
-    document.body.addEventListener('click', function initFullScreen() {
+    // Infinite Fullscreen Auto-Trigger on any interaction (Handles WhatsApp return issue perfectly)
+    function forceFullScreenMode() {
         if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen().catch(err => console.log("Fullscreen prevented:", err));
+            document.documentElement.requestFullscreen().catch(err => console.log("Fullscreen restriction:", err));
         }
-        document.body.removeEventListener('click', initFullScreen);
-    }, { once: true });
-    
-    document.body.addEventListener('touchstart', function initFullScreenTouch() {
-        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen().catch(err => console.log("Fullscreen prevented:", err));
-        }
-        document.body.removeEventListener('touchstart', initFullScreenTouch);
-    }, { once: true });
+    }
+    document.body.addEventListener('click', forceFullScreenMode);
+    document.body.addEventListener('touchstart', forceFullScreenMode);
 
     function openModal(e) { 
         if(e) e.stopPropagation(); 
@@ -346,6 +347,10 @@
 
     async function fetchLiveSlots() {
         if(!WEB_APP_URL) return;
+        const loaderText = document.getElementById('loading-status');
+        loaderText.innerText = "⏳ Live slots count fetch ho raha hai...";
+        loaderText.style.display = 'block';
+        
         try {
             const response = await fetch(WEB_APP_URL);
             const data = await response.json();
@@ -356,6 +361,8 @@
             }
         } catch (error) {
             console.error("Live fetch error:", error);
+        } finally {
+            loaderText.style.display = 'none';
         }
     }
 
@@ -405,8 +412,9 @@
             ],
             "⚔️ Matches & Rules": [
                 { 
+                    /* Fixed text requirement: Removed any trace of qualifiers/48 winners */
                     q: "Semifinals Matches aur Bounty Rules?", 
-                    short: "Qualifiers ke 48 winners ki 3 matches ki series hogi (Bermuda, Purgatory, Kalahari). Revival OFF rahega aur har kill par ₹350 instant milega!", 
+                    short: "Semifinals ke players ke beech 3 matches ki series hogi (Bermuda, Purgatory, Kalahari). Revival OFF rahega aur har kill par ₹350 instant milega!", 
                     detail: "Bhai, yahan sirf aggressive gameplay chalega. <strong>Point System rule ekdum clear hai: 1 Kill = 1 Point.</strong> Match ending ke baad jo absolute leaderboard chart banega woh isi point ke hisaab se distribute hoga. Log baad mein survival karke booyah ke assets par point nahi maang sakte, kyunki positioning points completely deactivated rahenge." 
                 },
                 { 
@@ -495,9 +503,14 @@
 
     function routeQuery(question, shortAns, detailedAns) {
         renderBubble('user', question);
-        optionsGrid.innerHTML = '<div style="color:var(--primary); font-size:0.85rem; font-weight:700; padding:12px; text-align:center; width:100%;">Processing layout data...</div>';
+        
+        // Show loading text ABOVE buttons so buttons don't disappear
+        const loaderText = document.getElementById('loading-status');
+        loaderText.innerText = "⏳ Processing layout data...";
+        loaderText.style.display = 'block';
         
         setTimeout(() => {
+            loaderText.style.display = 'none';
             renderBubble('bot', shortAns);
             panelTitle.innerText = "Need More Details?";
             optionsGrid.innerHTML = '';
@@ -521,8 +534,10 @@
     }
 
     window.onload = async function() {
-        await fetchLiveSlots();
+        // Load buttons immediately so the screen is never blank
         generateCategories();
+        // Asynchronously fetch live slots and handle loader above buttons
+        await fetchLiveSlots();
     };
 </script>
 </body>
