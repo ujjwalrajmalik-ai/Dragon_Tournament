@@ -18,6 +18,8 @@
             --bot-bubble: #1c1c24;
             --user-bubble: #ff4655;
             --whatsapp-green: #25d366;
+            --telegram-blue: #0088cc;
+            --insta-pink: #E1306C;
         }
 
         * {
@@ -115,14 +117,14 @@
         .chat-layout::-webkit-scrollbar { width: 5px; }
         .chat-layout::-webkit-scrollbar-thumb { background: #282834; border-radius: 10px; }
 
-        .msg-wrapper { max-width: 85%; display: flex; flex-direction: column; animation: slideUp 0.25s ease-out; }
+        .msg-wrapper { max-width: 88%; display: flex; flex-direction: column; animation: slideUp 0.25s ease-out; }
         .msg-wrapper.user { align-self: flex-end; }
         .msg-wrapper.bot { align-self: flex-start; }
 
         .bubble {
             padding: 14px 18px;
             border-radius: 16px;
-            font-size: 0.98rem;
+            font-size: 0.95rem;
             line-height: 1.5;
             word-wrap: break-word;
         }
@@ -130,30 +132,49 @@
         .user .bubble { background-color: var(--user-bubble); color: #ffffff; border-bottom-right-radius: 2px; }
         .bot .bubble { background-color: var(--bot-bubble); color: #e4e4ed; border-bottom-left-radius: 2px; border: 1px solid #252530; }
         
-        .bot .bubble ul { padding-left: 18px; margin-top: 8px; }
-        .bot .bubble li { margin-bottom: 6px; }
-        .bot .bubble strong { color: var(--primary); }
-        .bot .bubble a.inline-link { color: var(--primary); font-weight: bold; text-decoration: underline; }
-
-        .whatsapp-redirect-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: var(--whatsapp-green);
-            color: white;
-            text-decoration: none;
-            padding: 10px 16px;
+        /* Canvas & Workflow Designing Inside Chat */
+        .workflow-box {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid #323242;
+            border-left: 4px solid var(--primary);
             border-radius: 8px;
-            font-weight: 700;
-            margin-top: 10px;
-            font-size: 0.92rem;
-            transition: opacity 0.2s;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            padding: 12px;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-        .whatsapp-redirect-btn:hover { opacity: 0.9; }
+        .step-card {
+            background: #21212b;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .step-title {
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        .highlight-text { color: #ffd700; font-weight: bold; }
+
+        .bot .bubble strong { color: var(--primary); }
+
+        /* Social Contact Grid Styles */
+        .social-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .social-btn { flex: 1 1 calc(50% - 8px); display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 14px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 0.9rem; color: #fff; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.2); text-align: center; }
+        .social-btn:hover { opacity: 0.9; }
+        .social-btn.wa { background-color: var(--whatsapp-green); }
+        .social-btn.tg { background-color: var(--telegram-blue); }
+        .social-btn.ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .social-btn.web { background-color: #333; border: 1px solid #555; }
+        .social-btn.call { background-color: var(--primary); flex: 1 1 100%; font-size: 1rem; padding: 12px; }
 
         .options-panel {
-            padding: 18px 18px calc(18px + env(safe-area-inset-bottom)) 18px;
+            padding: 18px 18px calc(35px + env(safe-area-inset-bottom)) 18px;
             background-color: var(--bg-panel);
             border-top: 1px solid #282834;
             display: flex;
@@ -171,7 +192,6 @@
             letter-spacing: 1px;
         }
 
-        /* Continuous subtle pulse animation for loading indicator */
         @keyframes loaderPulse {
             0% { opacity: 0.6; }
             50% { opacity: 1; }
@@ -200,12 +220,9 @@
         }
 
         .option-btn:hover { background-color: var(--secondary-hover); border-color: var(--primary); }
-        
-        .option-btn.deep-dive { background: linear-gradient(135deg, #ff4655 0%, #b81d29 100%); border-color: var(--primary); }
-        .option-btn.deep-dive:hover { opacity: 0.95; }
         .option-btn.reset-nav { background-color: #2c2c35; border-color: #444455; flex: 1 1 100%; }
 
-        /* Terms & Conditions Modal Box */
+        /* Terms & Conditions Modal */
         .modal-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -273,14 +290,14 @@
     <div class="chat-layout" id="chat-flow-box">
         <div class="msg-wrapper bot">
             <div class="bubble">
-                Hey, main Dragon Tournaments ka official assistant hoon. Bolo, kya poochna chahte ho abhi tournament ke baare mein?
+                Hey, main Dragon Tournaments ka official assistant hoon. Niche options me se apna sawaal select karo, main saari details structure ke saath samjha dunga!
             </div>
         </div>
     </div>
 
     <div class="options-panel">
         <div class="panel-title" id="panel-title">Main Menu</div>
-        <div id="loading-status" style="color: var(--primary); font-size: 0.85rem; font-weight: 700; text-align: center; display: none; margin-bottom: 6px; letter-spacing: 0.5px; animation: loaderPulse 1.5s infinite;">⏳ Live data fetch ho raha hai...</div>
+        <div id="loading-status" style="color: var(--primary); font-size: 0.85rem; font-weight: 700; text-align: center; display: none; margin-bottom: 6px; letter-spacing: 0.5px; animation: loaderPulse 1.5s infinite;">⏳ Processing detail...</div>
         <div class="options-grid" id="options-grid">
             </div>
     </div>
@@ -292,29 +309,16 @@
                 <button class="close-modal" onclick="closeModal(event)">×</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to the official legal framework and compliance document of Dragon Tournaments. By registering, paying the slot allotment fee, or participating in any segment of this platform, you automatically agree to abide by all the clauses mentioned herein. Please read this highly technical legal script carefully before initializing any asset transfer.</p>
-                
-                <h3>1. User Binding & Registration Compliance</h3>
-                <p>All participants must provide verified and valid in-game identifiers (UIDs) and contact tokens during registration. Multiple profile spoofing, running parallel entries under dummy identities, or utilizing outdated application instances will result in an immediate operational status termination without warning. Slot confirmation is bound to individual account parameters and cannot be bartered, re-routed, or delegated to third-party entities post-initialization.</p>
-                
-                <h3>2. Financial Disclaimers & Non-Refundability</h3>
-                <p>The processing architecture enforces a strict non-refundable policy. Once an entry transaction is completed and logged into our ledger, the user explicitly waives the right to request a rollback, dispute, or credit-back of the transaction fee. This structure remains fixed regardless of individual scheduling conflicts, connection infrastructure failures, or external account lockouts. The administrative infrastructure processes 100% of the slot collection directly back into physical asset liquidity and prize tiers, maintaining a absolute zero-profit baseline for operations.</p>
-                
-                <h3>3. Anti-Cheat Protocols & Fair Play Sandbox</h3>
-                <p>We deploy rigorous manual monitoring alongside server logs review conducted by our tracking systems. The integration of modified system scripts, network manipulation wrappers, configuration patches, or tactical emulators is strictly prohibited. Any player flagged with suspicious crosshair tracking, irregular hitbox registration, or network synchronization latency spikes will face absolute exclusion. The platform reserves the right to freeze any associated points allocation permanently under the direct authorization of Manager Vivek and Admin Raj.</p>
-                
-                <h3>4. Geographical and Regional Jurisdictions</h3>
-                <p>Compliance with local regulations requires specific geographical exclusions. Residents belonging to jurisdictions including Telangana, Assam, Odisha, Andhra Pradesh, and Nagaland are forbidden from initiating standard registrations or interacting with the incentive tiers. The technical verification infrastructure assumes zero liability for compliance oversights caused by manual VPN routing or masked location parameters executed by the user.</p>
-
-                <h3>5. Liability Safeguards and Server Latency</h3>
-                <p>The administrative cell holds zero accountability for technical disruption factors including in-game match disconnects, packet drops, device heating throttles, or custom room operational bugs. Matches will progress as scheduled in sync with standard global server time metrics, and delayed access responses from individual player interfaces will not affect room launch parameters.</p>
-
-                <h3>6. Tournament Structure & Progression Parameters</h3>
-                <p><strong>6.1 Qualifier Stage Operations:</strong> The initial platform phase incorporates a specialized structural system. All registered entities receive a guaranteed baseline allocation of exactly 5 competitive matches. During this foundational phase, standard survival indexes, positioning matrices, and Booyah milestones are completely omitted from the processing logic. Evaluation relies entirely on the gross extraction of maximum kill parameters. Only the highest-performing kill leader advances from the pool to the Semifinals cluster. Upon verified qualification progression, a transactional allocation of ₹100 Cashback is issued to the candidate's account.</p>
-                
-                <p><strong>6.2 Semifinals Point Configurations:</strong> The advanced bracket selects the top 48 qualifiers into a single combat environment spanning 3 consecutive map environments (Bermuda, Purgatory, Kalahari). In-game operational revival features are locked to a strict 'OFF' state. The scoring array runs a flat model where 1 Kill translates exactly to 1 Point. Traditional leaderboard survival weightage is completely absent from this data layout; the terminal ranking matrix is mapped exclusively to weapon engagement kills.</p>
-
-                <p><strong>6.3 Grand Final Configuration Matrix:</strong> The elite tier filters the top 4 structural kill point leaders from the Semifinals grid. These candidates advance into a highly classified Grand Final interface layout. The strategic parameters, exact engagement style, and structural profiles of the invited top-tier professionals they face remain heavily guarded under administrative protocol to eliminate pre-match alignment or predictable mapping configurations. The top tier ranking rewards are distributed strictly via performance evaluation (1st Place: iPhone 17 Pro; 2nd Place: ₹75,000 Cash; 3rd Place: ₹25,000 Cash; 4th Place: ₹15,400 Cash).</p>
+                <p>Welcome to the official legal framework and compliance document of Dragon Tournaments.</p>
+                <h3>1. User Binding</h3>
+                <p>Verified UIDs required. Multiple profile spoofing or dummy identities lead to immediate termination. Slots are non-transferable.</p>
+                <h3>2. Operations & Disclaimers</h3>
+                <p>Strictly non-refundable. Zero-profit baseline operations. Gross pool is re-routed fully into prizes.</p>
+                <h3>3. Geographical Jurisdictions</h3>
+                <p>Residents from Telangana, Assam, Odisha, Andhra Pradesh, and Nagaland cannot participate physically.</p>
+                <h3>4. Matches & Scoring Structure</h3>
+                <p><strong>Semifinals:</strong> Flat model 1 Kill = 1 Point, Revival OFF. Any player securing a Booyah will be awarded exactly 10 Extra Points.</p>
+                <p><strong>Grand Finals Stage:</strong> The top 4 structural point leaders from the Semifinals advance directly to the prize distribution stage. No further matches are played.</p>
             </div>
         </div>
     </div>
@@ -326,15 +330,6 @@
     let totalSlots = 2304;
     let filledSlots = 0;
     let availableSlots = 2304;
-
-    // Infinite Fullscreen Auto-Trigger on any interaction (Handles WhatsApp return issue perfectly)
-    function forceFullScreenMode() {
-        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen().catch(err => console.log("Fullscreen restriction:", err));
-        }
-    }
-    document.body.addEventListener('click', forceFullScreenMode);
-    document.body.addEventListener('touchstart', forceFullScreenMode);
 
     function openModal(e) { 
         if(e) e.stopPropagation(); 
@@ -367,84 +362,108 @@
     }
 
     function getDynamicDatabase() {
-        let feeSummary = "";
-        let feeDetailed = "";
         let earlyBirdLimit = 1152;
+        let feeStatusUI = "";
+        let waLink = "";
         
         if (filledSlots < earlyBirdLimit) {
             let earlyBirdLeft = earlyBirdLimit - filledSlots;
-            feeSummary = `Total 2304 slots hain jisme se abhi <strong>${availableSlots} slots baaki hain</strong>. Jaldi karo, abhi Early Bird discount active hai aur entry sirf ₹50 mein mil rahi hai! Aap direct niche diye gaye button se WhatsApp par instantaneous registration kar sakte hain.<br><a href='https://wa.me/917078343501?text=Hey%20Raj%20bhai,%20mujhe%20Early%20Bird%20mein%20slot%20book%20karwana%20hai!' target='_blank' class='whatsapp-redirect-btn'>💬 Register on WhatsApp Now</a>`;
-            
-            feeDetailed = `<ul>
-                <li><strong>Tournament Capacity:</strong> 2304 Slots</li>
-                <li><strong>Filled Slots (Live):</strong> ${filledSlots}</li>
-                <li><strong>Available Slots (Live):</strong> ${availableSlots}</li>
-                <li><strong>Discount Tracker:</strong> Pehle 1152 players ko flat half price (₹50) milega. Discount ke liye sirf <strong>${earlyBirdLeft} slots bache hain!</strong> Uske baad ₹100 standard fee lagegi.</li>
-            </ul>`;
+            feeStatusUI = `
+                <div class="step-card">
+                    <span class="step-title">🎟️ Active Status: Early Bird</span>
+                    Entry abhi flat <strong>₹50</strong> hai. (Sirf ${earlyBirdLeft} discounted slots baaki hain!)
+                </div>
+            `;
+            waLink = "https://wa.me/917078343501?text=Hey%20Raj%20bhai,%20mujhe%20Early%20Bird%20mein%20slot%20book%20karwana%20hai!";
         } else {
-            feeSummary = `Total 2304 slots hain jisme se abhi <strong>${availableSlots} slots baaki hain</strong>. Standard Entry fee ₹100 active hai. Aap niche click karke WhatsApp par direct registration complete karein.<br><a href='https://wa.me/917078343501?text=Hey%20Raj%20bhai,%20mujhe%20Standard%20Slot%20book%20karwana%20hai!' target='_blank' class='whatsapp-redirect-btn'>💬 Register on WhatsApp Now</a>`;
-            
-            feeDetailed = `<ul>
-                <li><strong>Tournament Capacity:</strong> 2304 Slots</li>
-                <li><strong>Filled Slots (Live):</strong> ${filledSlots}</li>
-                <li><strong>Available Slots (Live):</strong> ${availableSlots}</li>
-                <li><strong>Entry Cost:</strong> Early bird offer khatam ho chuka hai. Ab standard registration <strong>₹100</strong> per slot chal raha hai.</li>
-            </ul>`;
+            feeStatusUI = `
+                <div class="step-card">
+                    <span class="step-title">🎟️ Active Status: Standard</span>
+                    Early bird over. Standard entry fee <strong>₹100</strong> chal rahi hai.
+                </div>
+            `;
+            waLink = "https://wa.me/917078343501?text=Hey%20Raj%20bhai,%20mujhe%20Standard%20Slot%20book%20karwana%20hai!";
         }
 
         return {
             "🎟️ Entry & Slots": [
                 { 
-                    q: "Entry Fee aur Slots kitne hain?", 
-                    short: feeSummary, 
-                    detail: feeDetailed
-                },
-                { 
-                    q: "Direct WhatsApp Registration kaise karein?", 
-                    short: "Bhai, registration seedha WhatsApp par contact karke hoga. Niche diye gaye link se direct message send karo aur apna slot confirm karo:<br><a href='https://wa.me/917078343501?text=Hey%20Raj%20bhai,%20mujhe%20tournament%20mein%20slot%20book%20karwana%20hai!' target='_blank' class='whatsapp-redirect-btn'>💬 Chat on WhatsApp</a>", 
-                    detail: "WhatsApp button par click karte hi ek official pre-filled setup chat open ho jayega jahan humari team instant response ke sath aapka slot register karegi. Kisi external platform par jaane ki koi dikkat nahi hai!" 
-                },
-                { 
-                    q: "Paid Entry format kyun rakha hai?", 
-                    short: "Free matches mein casual aur hackers audience aati thi. Yeh format hardcore pro players ke scale ke liye banaya gaya hai.", 
-                    detail: "Competition standard ko supreme level par maintain karne ke liye ye entry module mandatory rakha gaya hai. Isme system balance zero profit par chalta hai, aur grand prize pool direct players ke competitive splits mein optimize kiya jata hai." 
+                    q: "Entry Fee aur Slots ki details do?", 
+                    ans: `Tournament ka slots data live chal raha hai. Pura structure yahan dekho:
+                          <div class="workflow-box">
+                              <div class="step-card">
+                                  <span class="step-title">📊 Capacity & Live Data</span>
+                                  Total Slots: 2304<br>
+                                  Available Now: <span class="highlight-text">${availableSlots}</span>
+                              </div>
+                              ${feeStatusUI}
+                              <div class="step-card">
+                                  <span class="step-title">✅ Direct Action</span>
+                                  Registration sirf WhatsApp ke through hoga.
+                              </div>
+                          </div>
+                          <a href='${waLink}' target='_blank' class='social-btn wa' style='width:100%; display:block; margin-top:8px;'>💬 WhatsApp Registration</a>`
                 }
             ],
             "⚔️ Matches & Rules": [
                 { 
-                    /* Fixed text requirement: Removed any trace of qualifiers/48 winners */
-                    q: "Semifinals Matches aur Bounty Rules?", 
-                    short: "Semifinals ke players ke beech 3 matches ki series hogi (Bermuda, Purgatory, Kalahari). Revival OFF rahega aur har kill par ₹350 instant milega!", 
-                    detail: "Bhai, yahan sirf aggressive gameplay chalega. <strong>Point System rule ekdum clear hai: 1 Kill = 1 Point.</strong> Match ending ke baad jo absolute leaderboard chart banega woh isi point ke hisaab se distribute hoga. Log baad mein survival karke booyah ke assets par point nahi maang sakte, kyunki positioning points completely deactivated rahenge." 
+                    q: "Semifinals Matches aur Booyah Rules samjhao?", 
+                    ans: `Bhai, rules ekdam clear aur aggressive gameplay ke liye set hain:
+                          <div class="workflow-box">
+                              <div class="step-card">
+                                  <span class="step-title">🗺️ Series Format</span>
+                                  3 Matches ki hardcore series hogi (Bermuda, Purgatory, Kalahari). In-game Revival system strictly <strong>OFF</strong> rahega.
+                              </div>
+                              <div class="step-card">
+                                  <span class="step-title">🔫 Kill = Point & Cash</span>
+                                  1 Kill = 1 Point. Sath mein har kill par ₹350 instant bounty cash milega.
+                              </div>
+                              <div class="step-card">
+                                  <span class="step-title">🔥 BOOYAH RULE (SPECIAL)</span>
+                                  Normal survival points deactivate hain. Lekin jo player <span class="highlight-text">BOOYAH</span> nikalega, usko sidha <strong>Extra 10 Points</strong> milenge!
+                              </div>
+                          </div>`
                 },
-                { 
-                    q: "Grand Finals kaise hoga?", 
-                    short: "Semifinals ke Top 4 highest kill wale players top invited pros ke samne Secret Launch Pattern mein bhidenge, jahan unhe <strong>🥇 iPhone 17 Pro, 🥈 ₹75,000, 🥉 ₹25,000, aur 🏅 ₹15,400 Cash</strong> rewards milenge!", 
-                    detail: "Semifinals stage ke highest performance kill matrix wale top 4 candidates seedha Grand Final elite room mein enter karenge. Wahan par unhe kis specific drop map par aur kis internal format ke sath top invited pros ke sath ladna hoga, woh pure mechanical fairness ke liye ek high-level Secret Launch Pattern rahega." 
+                {
+                    q: "Finals aur Winners kaise select honge?",
+                    ans: `Dhyan se samjho, humne koi extra final match nahi rakha hai. Winner selection seedha performance par hai:
+                          <div class="workflow-box">
+                              <div class="step-card">
+                                  <span class="step-title">📈 Final Evaluation</span>
+                                  Semifinals me jo player sabse zyada points (Kills + Booyah bonus) layenge, unme se <strong>Top 4 Players</strong> ko chuna jayega.
+                              </div>
+                              <div class="step-card">
+                                  <span class="step-title">🏆 Direct Prize Stage</span>
+                                  Yahi Top 4 players humare <strong>Grand Final Winners</strong> honge. Inhe aapas mein koi match nahi khelna, seedha inke Rank ke hisaab se rewards distribute honge!
+                              </div>
+                          </div>`
                 }
             ],
             "🏆 Prizes & Tiers": [
                 { 
-                    q: "Grand Final Cash aur Rewards kya hain?", 
-                    short: "1st Prize brand new iPhone 17 Pro hai aur baaki top ranks ke liye laakhon ka pure cash rewards structured hai.", 
-                    detail: "<ul><li><strong>🥇 1st Place (Winner):</strong> Brand New iPhone 17 Pro</li><li><strong>🥈 2nd Place:</strong> ₹75,000 Pure Cash</li><li><strong>🥉 3rd Place:</strong> ₹25,000 Pure Cash</li><li><strong>🏅 4th Place:</strong> ₹15,400 Cash Split</li></ul>" 
-                },
-                { 
-                    q: "Legal Rules aur Restricted States?", 
-                    short: "Poori pool equity collection (₹1,72,800) wapis active distribution mein use hogi. Kuch locations restricted hain.", 
-                    detail: "Indian Skill Gaming Compliance regulations ke tahat: <strong>Telangana, Assam, Odisha, Andhra Pradesh, aur Nagaland</strong> state domains ke candidates paid operational custom arrays mein physically interact nahi kar sakte." 
+                    q: "Top 4 Winners ko kya Prizes milenge?", 
+                    ans: `Jo Top 4 players Prize Stage par aayenge, unka cash split aur rewards yahan hain:
+                          <div class="workflow-box">
+                              <div class="step-card"><span class="step-title">🥇 Rank 1 (Grand Winner)</span>Brand New iPhone 17 Pro</div>
+                              <div class="step-card"><span class="step-title">🥈 Rank 2</span>₹75,000 Pure Cash</div>
+                              <div class="step-card"><span class="step-title">🥉 Rank 3</span>₹25,000 Pure Cash</div>
+                              <div class="step-card"><span class="step-title">🏅 Rank 4</span>₹15,400 Cash Split</div>
+                          </div>` 
                 }
             ],
             "🛡️ Trust & Contact": [
                 { 
-                    q: "Main kaise trust karun ki yeh real hai?", 
-                    short: "Bhai, apne official Instagram handle par daily competitive tournaments aur distribution transactions pinned hain. 100% open and authentic scene hai.", 
-                    detail: "Humne pehle bhi high scale high budget prize models aur device giveaways (S24 giveaway matches) monitor aur successfully host kiye hain jiske logs system check stories par transparent hain. Direct verification aur administrative interactions ke liye instant business link hamesha backup par active rehta hai." 
-                },
-                { 
-                    q: "Official Domain info kya hai?", 
-                    short: "Bhai, humari official tracking registry aur domain check tum direct website link <a href='http://www.dragontournament.xyz' target='_blank' class='inline-link'>www.dragontournament.xyz</a> par ja kar summary mein hi verify kar sakte ho.", 
-                    detail: "Website repository par system interface se real time charts, structural slots data, current leaderboards, notifications aur dynamic backend match listings track ki ja sakti hain. Baki real-time human interaction ke liye WhatsApp line processing backup hamesha optimized rehta hai." 
+                    q: "Main Official Links aur Socials batao?", 
+                    ans: `Mujhse direct judne ke liye ya daily updates/transparency check karne ke liye neeche diye buttons use karo:
+                          <div class="workflow-box" style="padding-bottom: 0; border: none; background: transparent;">
+                              <div class='social-grid'>
+                                  <a href='https://wa.me/917078343501' target='_blank' class='social-btn wa'>📱 WhatsApp</a>
+                                  <a href='https://t.me/+917078343501' target='_blank' class='social-btn tg'>✈️ Telegram</a>
+                                  <a href='https://instagram.com/dragontournament.xyz' target='_blank' class='social-btn ig'>📸 Instagram</a>
+                                  <a href='http://www.dragontournament.xyz' target='_blank' class='social-btn web'>🌐 Website</a>
+                                  <a href='tel:+917078343501' class='social-btn call'>📞 Call Now (+91 7078343501)</a>
+                              </div>
+                          </div>` 
                 }
             ]
         };
@@ -468,7 +487,7 @@
     }
 
     function generateCategories() {
-        panelTitle.innerText = "Select A Topic";
+        panelTitle.innerText = "Main Menu";
         optionsGrid.innerHTML = '';
         
         const activeDb = getDynamicDatabase();
@@ -490,7 +509,7 @@
             const btn = document.createElement('button');
             btn.className = 'option-btn';
             btn.innerText = item.q;
-            btn.onclick = () => routeQuery(item.q, item.short, item.detail);
+            btn.onclick = () => routeQuery(item.q, item.ans);
             optionsGrid.appendChild(btn);
         });
 
@@ -501,42 +520,29 @@
         optionsGrid.appendChild(returnBtn);
     }
 
-    function routeQuery(question, shortAns, detailedAns) {
+    function routeQuery(question, detailedAns) {
+        // Show User Question
         renderBubble('user', question);
         
-        // Show loading text ABOVE buttons so buttons don't disappear
         const loaderText = document.getElementById('loading-status');
-        loaderText.innerText = "⏳ Processing layout data...";
+        loaderText.innerText = "⏳ Processing detail...";
         loaderText.style.display = 'block';
         
+        // Hide UI momentarily to simulate logic fetch
+        optionsGrid.innerHTML = '';
+        panelTitle.innerText = "Fetching...";
+
         setTimeout(() => {
             loaderText.style.display = 'none';
-            renderBubble('bot', shortAns);
-            panelTitle.innerText = "Need More Details?";
-            optionsGrid.innerHTML = '';
-
-            const deepBtn = document.createElement('button');
-            deepBtn.className = 'option-btn deep-dive';
-            deepBtn.innerText = "📖 Expand Answer";
-            deepBtn.onclick = () => {
-                renderBubble('bot', detailedAns);
-                generateCategories();
-            };
-
-            const directCloseBtn = document.createElement('button');
-            directCloseBtn.className = 'option-btn';
-            directCloseBtn.innerText = "👌 Clear, Main Menu";
-            directCloseBtn.onclick = generateCategories;
-
-            optionsGrid.appendChild(deepBtn);
-            optionsGrid.appendChild(directCloseBtn);
+            // Show the detailed structure directly
+            renderBubble('bot', detailedAns);
+            // Immediately bring back the Main Menu so user can ask more
+            generateCategories();
         }, 400);
     }
 
     window.onload = async function() {
-        // Load buttons immediately so the screen is never blank
         generateCategories();
-        // Asynchronously fetch live slots and handle loader above buttons
         await fetchLiveSlots();
     };
 </script>
